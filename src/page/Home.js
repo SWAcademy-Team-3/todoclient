@@ -1,4 +1,5 @@
-// import "../style/test.scss";
+import "../style/index.scss";
+
 export default function Home() {
   return (
     <div className="test">

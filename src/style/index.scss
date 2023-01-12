@@ -7,7 +7,13 @@ $background-color: #fbf8f3;
 }
 
 .App {
+  height: 100vh;
+}
+
+.contents {
   background-color: $background-color;
+  height: 93vh;
+  position: relative;
 }
 
 .Navigation {
@@ -15,6 +21,7 @@ $background-color: #fbf8f3;
   flex-direction: row;
   position: fixed;
   bottom: 0;
+  height: 7vh;
   width: -webkit-fill-available;
   border: 1px solid $main-color;
   background-color: $main-color;
@@ -27,4 +34,48 @@ $background-color: #fbf8f3;
   flex-direction: column;
   flex: 1;
   text-align: center;
+}
+
+.container {
+  margin: 0px 8px;
+
+  .SimpleCalendar {
+    display: flex;
+    flex-direction: row;
+    width: -webkit-fill-available;
+    align-items: baseline;
+
+    & > * {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+    }
+
+    & > :nth-child(1) {
+      font-size: 36px;
+      font-weight: 600;
+      flex: 1;
+    }
+
+    & > :nth-child(2) {
+      flex: 2;
+      justify-content: space-around;
+      align-items: baseline;
+
+      & > #selectedDay {
+        background-color: $sub-color;
+        color: white;
+        font-size: 32px;
+        border-radius: 50%;
+        padding: 0px 13px;
+      }
+    }
+
+    & > :nth-child(3) {
+      font-size: 18px;
+      font-weight: 600;
+      flex: 1;
+    }
+  }
 }

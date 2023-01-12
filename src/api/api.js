@@ -1,12 +1,20 @@
 import axios from "axios";
 
-const END_POINT = "http://localhost:5000";
-const subUrl = {};
+const END_POINT = "http://10.188.191.201:8088";
+const subUrl = {
+  todo: "/api/main/todo",
+};
 
 export const axios_get = async (url, params) => {
   try {
-    const response = axios.get(`${END_POINT}${subUrl[url]}`, { params });
-    return response;
+    const response = await axios.get(`${END_POINT}${subUrl[url]}`, {
+      params,
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("API 에러");
+    }
   } catch (e) {
     alert(e.message);
   }
@@ -14,7 +22,7 @@ export const axios_get = async (url, params) => {
 
 export const axios_post = async (url, sendData) => {
   try {
-    const response = axios.post(`${END_POINT}${subUrl[url]}`, sendData, {
+    const response = await axios.post(`${END_POINT}${subUrl[url]}`, sendData, {
       headers: {
         "Content-Type": "application/json",
       },

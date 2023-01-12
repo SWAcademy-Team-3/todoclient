@@ -12,11 +12,13 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="*" element={<PageNotFound />}></Route>
-        </Routes>
+        <div className="contents">
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="*" element={<PageNotFound />}></Route>
+          </Routes>
+        </div>
         <Navigation />
       </BrowserRouter>
     </div>

@@ -1,6 +1,30 @@
-$main-color: #E5A8A6;
-$sub-color: #BB254A;
+$main-color: #e5a8a6;
+$sub-color: #bb254a;
+$background-color: #fbf8f3;
 
 .test {
-    color: $main-color;
+  color: $main-color;
+}
+
+.App {
+  background-color: $background-color;
+}
+
+.Navigation {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  bottom: 0;
+  width: -webkit-fill-available;
+  border: 1px solid $main-color;
+  background-color: $main-color;
+}
+
+.NavigatorBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1;
+  text-align: center;
 }

@@ -3,6 +3,7 @@ import { axios_get } from "../api/api";
 import TodoInput from "./HomeComponent/TodoInput";
 import TodoList from "./HomeComponent/TodoList";
 import SimpleCalendar from "./HomeComponent/SimpleCalendar";
+import CalendarToggle from "./HomeComponent/CalendarToggle";
 
 import "../style/index.scss";
 
@@ -24,6 +25,8 @@ export default function Home() {
     type: "HABIT",
     userId: "userId",
   };
+
+  // User TODO API 받기
   const getData = async () => {
     let res1 = await axios_get("todo", dummy_param1);
     let res2 = await axios_get("todo", dummy_param2);
@@ -42,6 +45,7 @@ export default function Home() {
         <TodoList category={"TODO"} data={todos} />
         <TodoList category={"HABIT"} data={habits} />
       </div>
+      <CalendarToggle />
 
       <TodoInput />
     </>

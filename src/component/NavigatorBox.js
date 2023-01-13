@@ -11,14 +11,14 @@ export default function NavigatorBox({ navName, onNavigation, selectNav }) {
       if (selectNav === navName) {
         return (
           <>
-            <HomeIcon sx={{ fontSize: 40, color: "#bb254a" }} />
+            <HomeIcon sx={{ color: "#bb254a" }} />
             <span style={{ color: "#bb254a" }}>{navName}</span>
           </>
         );
       } else {
         return (
           <>
-            <HomeIcon sx={{ fontSize: 40 }} />
+            <HomeIcon />
             <span>{navName}</span>
           </>
         );
@@ -27,14 +27,14 @@ export default function NavigatorBox({ navName, onNavigation, selectNav }) {
       if (selectNav === navName) {
         return (
           <>
-            <MailIcon sx={{ fontSize: 40, color: "#bb254a" }} />
+            <MailIcon sx={{ color: "#bb254a" }} />
             <span style={{ color: "#bb254a" }}>{navName}</span>
           </>
         );
       } else {
         return (
           <>
-            <MailIcon sx={{ fontSize: 40 }} />
+            <MailIcon />
             <span>{navName}</span>
           </>
         );
@@ -43,14 +43,14 @@ export default function NavigatorBox({ navName, onNavigation, selectNav }) {
       if (selectNav === navName) {
         return (
           <>
-            <PersonIcon sx={{ fontSize: 40, color: "#bb254a" }} />
+            <PersonIcon sx={{ color: "#bb254a" }} />
             <span style={{ color: "#bb254a" }}>{navName}</span>
           </>
         );
       } else {
         return (
           <>
-            <PersonIcon sx={{ fontSize: 40 }} />
+            <PersonIcon />
             <span>{navName}</span>
           </>
         );
@@ -59,14 +59,14 @@ export default function NavigatorBox({ navName, onNavigation, selectNav }) {
       if (selectNav === navName) {
         return (
           <>
-            <PeopleIcon sx={{ fontSize: 40, color: "#bb254a" }} />
+            <PeopleIcon sx={{ color: "#bb254a" }} />
             <span style={{ color: "#bb254a" }}>{navName}</span>
           </>
         );
       } else {
         return (
           <>
-            <PeopleIcon sx={{ fontSize: 40 }} />
+            <PeopleIcon />
             <span>{navName}</span>
           </>
         );

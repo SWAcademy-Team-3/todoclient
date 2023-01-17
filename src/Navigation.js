@@ -2,7 +2,7 @@ import { React, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./style/index.scss";
 
-import NavigatorBox from "./component/NavigatorBox";
+import NavigatorBox from "./components/NavigatorBox";
 
 function Navigation() {
   const [selectNav, setSelectNav] = useState("");

@@ -1,0 +1,55 @@
+.submitButton {
+  display: block;
+  height: 32px;
+  width: 100%;
+  background-color: black;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 8px 6px;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 16px;
+
+  &:hover {
+    background-color: #111;
+  }
+
+  &:active {
+    background-color: #222;
+  }
+
+  &:disabled {
+    background-color: #888;
+  }
+}
+
+.title {
+  font-size: 24px;
+  text-align: center;
+}
+
+.Cardform {
+  width: 400px;
+  background-color: white;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+input {
+  padding: 4px 6px;
+  font-size: 14px;
+  height: 24px;
+  background-color: white;
+  border-radius: 4px;
+  border: 2px solid #333;
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.ErrorText {
+  font-size: 12px;
+  color: red;
+}

@@ -1,7 +1,7 @@
 import useForm from "../hooks/useForm";
-import "../style/login.scss";
+import "../style/form.scss";
 
-const SignUpFrom = ({ onSubmit }) => {
+export default function SignUpForm({ onSubmit }) {
   const { errors, isLoading, handleChange, handleSubmit } = useForm({
     initialState: {
       name: "",
@@ -26,6 +26,7 @@ const SignUpFrom = ({ onSubmit }) => {
         name="name"
         placeholder="name"
         onChange={handleChange}
+        className="FormInput"
       />
       {errors.name && <span className="ErrorText">{errors.name}</span>}
       <input
@@ -33,6 +34,7 @@ const SignUpFrom = ({ onSubmit }) => {
         name="password"
         placeholder="password"
         onChange={handleChange}
+        className="FormInput"
       />
       {errors.password && <span className="ErrorText">{errors.password}</span>}
       <input
@@ -40,6 +42,7 @@ const SignUpFrom = ({ onSubmit }) => {
         name="passwordConfirm"
         placeholder="passwordConfirm"
         onChange={handleChange}
+        className="FormInput"
       />
       {errors.passwordConfirm && (
         <span className="ErrorText">{errors.passwordConfirm}</span>
@@ -49,4 +52,4 @@ const SignUpFrom = ({ onSubmit }) => {
       </button>
     </form>
   );
-};
+}

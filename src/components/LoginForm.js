@@ -1,5 +1,5 @@
 import useForm from "../hooks/useForm";
-import "../style/login.scss";
+import "../style/form.scss";
 
 export default function Loginform({ onSubmit }) {
   const { errors, isLoading, handleChange, handleSubmit } = useForm({
@@ -17,29 +17,27 @@ export default function Loginform({ onSubmit }) {
   });
 
   return (
-    <>
-      <form className="Cardform" onSubmit={handleSubmit}>
-        <h1 className="title">Login</h1>
-        <input
-          type="text"
-          name="name"
-          placeholder="name"
-          onChange={handleChange}
-        />
-        {errors.name && <span className="ErrorText">{errors.name}</span>}
-        <input
-          type="password"
-          name="password"
-          placeholder="password"
-          onChange={handleChange}
-        />
-        {errors.password && (
-          <span className="ErrorText">{errors.password}</span>
-        )}
-        <button className="submitButton" type="submit" disabled={isLoading}>
-          Login
-        </button>
-      </form>
-    </>
+    <form className="Cardform" onSubmit={handleSubmit}>
+      <h1 className="title">Login</h1>
+      <input
+        type="text"
+        name="name"
+        placeholder="name"
+        onChange={handleChange}
+        className="FormInput"
+      />
+      {errors.name && <span className="ErrorText">{errors.name}</span>}
+      <input
+        type="password"
+        name="password"
+        placeholder="password"
+        onChange={handleChange}
+        className="FormInput"
+      />
+      {errors.password && <span className="ErrorText">{errors.password}</span>}
+      <button className="submitButton" type="submit" disabled={isLoading}>
+        Login
+      </button>
+    </form>
   );
 }

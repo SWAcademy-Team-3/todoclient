@@ -19,6 +19,8 @@ $background-color: #fbf8f3;
 .contents {
   height: calc(100vh - 48px);
   position: relative;
+  display: flex;
+  flex-direction: column;
   .header {
     height: 80px;
     padding-top: 12px;

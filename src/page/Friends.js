@@ -23,6 +23,10 @@ export default function Friends() {
       <Header left={HeaderLeft} right={HeaderRight} isHr={true} />
       <div id="friendsContents">
         <FriendsToggle />
+        <FriendsToggle />
+        <FriendsToggle />
+        <FriendsToggle />
+        <FriendsToggle />
       </div>
     </>
   );

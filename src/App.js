@@ -2,7 +2,7 @@ import { React } from "react";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 
 import Home from "./page/Home";
-import Receive from "./page/Receive";
+import Post from "./page/Post";
 import My from "./page/My";
 import Friends from "./page/Friends";
 import Login from "./page/Login";
@@ -21,7 +21,7 @@ function App() {
         <div className="contents">
           <Routes>
             <Route path="/" element={<Home />}></Route>
-            <Route path="/receive" element={<Receive />}></Route>
+            <Route path="/post" element={<Post />}></Route>
             <Route path="/my" element={<My />}></Route>
             <Route path="/friends" element={<Friends />}></Route>
             <Route path="/login" element={<Login />}></Route>

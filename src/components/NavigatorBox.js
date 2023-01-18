@@ -23,7 +23,7 @@ export default function NavigatorBox({ navName, onNavigation, selectNav }) {
           </>
         );
       }
-    } else if (navName === "Receive") {
+    } else if (navName === "Post") {
       if (selectNav === navName) {
         return (
           <>

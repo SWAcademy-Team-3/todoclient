@@ -72,7 +72,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="header">
+      <div className="Mainheader">
         <SimpleCalendar date={date} changeDate={changeDate} />
         <hr />
       </div>

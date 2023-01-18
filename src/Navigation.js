@@ -11,8 +11,8 @@ function Navigation() {
   useEffect(() => {
     if (locationPath === "/") {
       setSelectNav("Home");
-    } else if (locationPath === "/receive") {
-      setSelectNav("Receive");
+    } else if (locationPath === "/post") {
+      setSelectNav("Post");
     } else if (locationPath === "/my") {
       setSelectNav("My");
     } else if (locationPath === "/friends") {
@@ -24,8 +24,8 @@ function Navigation() {
   const onNavigation = (navName) => {
     if (navName === "Home") {
       navigate("/");
-    } else if (navName === "Receive") {
-      navigate("/receive");
+    } else if (navName === "Post") {
+      navigate("/post");
     } else if (navName === "My") {
       navigate("/my");
     } else {
@@ -40,7 +40,7 @@ function Navigation() {
         selectNav={selectNav}
       />
       <NavigatorBox
-        navName="Receive"
+        navName="Post"
         onNavigation={onNavigation}
         selectNav={selectNav}
       />

@@ -285,3 +285,16 @@ $background-color: #fbf8f3;
     font-weight: 400;
   }
 }
+
+.PostHeader {
+  display: flex;
+  margin: 12px;
+}
+
+.PostDiv {
+  width: 90%;
+  align-self: center;
+  position: absolute;
+  bottom: 10%;
+  text-align: center;
+}

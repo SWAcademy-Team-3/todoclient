@@ -289,6 +289,12 @@ $background-color: #fbf8f3;
 .PostHeader {
   display: flex;
   margin: 12px;
+  justify-content: space-between;
+  align-items: center;
+
+  .linkText {
+    text-decoration: underline;
+  }
 }
 
 .PostDiv {
@@ -297,4 +303,15 @@ $background-color: #fbf8f3;
   position: absolute;
   bottom: 10%;
   text-align: center;
+}
+
+.ChipDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  border: 1px solid $sub-color;
+  border-radius: 15px;
+  padding: 2px;
+  width: 60px;
+  margin-left: 8px;
 }

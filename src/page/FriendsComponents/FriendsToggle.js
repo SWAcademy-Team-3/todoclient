@@ -1,8 +1,11 @@
 import "../../style/index.scss";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useState } from "react";
-import FriendsDetail from "./FriendsDetail";
 import FlatButton from "../../components/FlatButton";
+import ProfileDetail from "../../components/PorfileDetail";
+
+//지울 것
+import tempImg from "../../assets/images/yena.jpg";
 
 export default function FriendsToggle({ user }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +35,13 @@ export default function FriendsToggle({ user }) {
       </div>
 
       <div className={`FriendsToggleBody-${isOpen}`}>
-        <FriendsDetail />
+        <ProfileDetail
+          profileImg={tempImg}
+          sendPost={4}
+          receivePost={7}
+          dPlus={34}
+          introduce="친구가 작성 한줄 소개글을 이곳에서 확인할 수 있습니다."
+        />
       </div>
     </>
   );

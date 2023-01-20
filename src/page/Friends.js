@@ -19,7 +19,7 @@ export default function Friends() {
     </>
   );
   return (
-    <>
+    <div className="marginDiv">
       <Header left={HeaderLeft} right={HeaderRight} isHr={true} />
       <div id="friendsContents">
         <FriendsToggle />
@@ -28,6 +28,6 @@ export default function Friends() {
         <FriendsToggle />
         <FriendsToggle />
       </div>
-    </>
+    </div>
   );
 }

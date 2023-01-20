@@ -11,7 +11,7 @@ import tempImg from "../assets/images/chuu.jpg";
 export default function My() {
   const coinChip = <Chip emoji={coinEmoji} number={100} />;
   return (
-    <div className="myDiv">
+    <div className="marginDiv">
       <Header left={"chuu"} right={coinChip} />
       <ProfileDetail
         profileImg={tempImg}

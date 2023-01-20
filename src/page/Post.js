@@ -10,11 +10,13 @@ export default function Post() {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <div className="PostHeader">
-        <span className="linkText">이전 편지 읽으러 가기</span>
-        <div style={{ display: "flex" }}>
-          <Chip number={10} emoji={postEmoji} />
-          <Chip number={100} emoji={coinEmoji} />
+      <div className="marginDiv">
+        <div className="PostHeader">
+          <span className="linkText">이전 편지 읽으러 가기</span>
+          <div style={{ display: "flex" }}>
+            <Chip number={10} emoji={postEmoji} />
+            <Chip number={100} emoji={coinEmoji} />
+          </div>
         </div>
       </div>
       <div className="PostDiv" onClick={() => setOpen(!open)}>

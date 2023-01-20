@@ -13,6 +13,7 @@ $background-color: #fbf8f3;
   position: relative;
   font-family: "GowunBatang";
   background-color: $background-color;
+  overflow-x: hidden;
 }
 
 // contents와 navigation으로 구분
@@ -167,7 +168,7 @@ $background-color: #fbf8f3;
   }
 
   & > :nth-child(1) {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 600;
   }
 
@@ -179,7 +180,6 @@ $background-color: #fbf8f3;
 }
 
 #friendsContents {
-  margin: 0 16px;
   max-height: calc(100vh - 120px);
   overflow: scroll;
 }
@@ -290,7 +290,7 @@ $background-color: #fbf8f3;
 
 .PostHeader {
   display: flex;
-  margin: 12px;
+  margin: 12px 0;
   justify-content: space-between;
   align-items: center;
 
@@ -300,7 +300,7 @@ $background-color: #fbf8f3;
 }
 
 .PostDiv {
-  width: 90%;
+  width: 100%;
   align-self: center;
   position: absolute;
   bottom: 10%;
@@ -318,7 +318,7 @@ $background-color: #fbf8f3;
   margin-left: 8px;
 }
 
-.myDiv {
+.marginDiv {
   margin: 0 16px;
 }
 

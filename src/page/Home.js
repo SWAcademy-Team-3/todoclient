@@ -12,8 +12,9 @@ export default function Home() {
   const [habits, setHabits] = useState([]);
   const [date, setDate] = useState(new Date());
 
-  const changeDate = () => {
+  const changeDate = (dateVal) => {
     // TODO 사용자가 날짜를 바꿨을 때의 처리하는 곳
+    setDate(dateVal);
   };
 
   // API 통신 안정시 제거
@@ -43,6 +44,7 @@ export default function Home() {
         ...todos,
         {
           todo,
+          isClear: false,
         },
       ]);
     } else {
@@ -50,14 +52,13 @@ export default function Home() {
         ...habits,
         {
           todo,
+          isClear: false,
         },
       ]);
     }
   };
-  const [containerHeight, setContainerHeight] = useState("85vh");
-  const calHeight = () => {
-    const navHeight = document.getElementBy;
-  };
+
+  const removeTodo = () => {};
 
   // User TODO API 받기
   const getData = async () => {
@@ -77,8 +78,8 @@ export default function Home() {
         <hr />
       </div>
       <div id="homeContents">
-        <TodoList category={"TODO"} data={todos} />
-        <TodoList category={"HABIT"} data={habits} />
+        <TodoList category={"TODO"} data={todos} setData={setTodos} />
+        <TodoList category={"HABIT"} data={habits} setData={setHabits} />
       </div>
       <CalendarToggle />
       <TodoInput addTodo={addTodo} />

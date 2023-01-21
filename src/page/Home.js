@@ -6,11 +6,13 @@ import SimpleCalendar from "./HomeComponent/SimpleCalendar";
 import CalendarToggle from "./HomeComponent/CalendarToggle";
 
 import "../style/index.scss";
+import Calendar from "./HomeComponent/Calendar";
 
 export default function Home() {
   const [todos, setTodos] = useState([]);
   const [habits, setHabits] = useState([]);
   const [date, setDate] = useState(new Date());
+  const [openCalendar, setOpenCalendar] = useState(false);
 
   const changeDate = (dateVal) => {
     // TODO 사용자가 날짜를 바꿨을 때의 처리하는 곳
@@ -81,8 +83,15 @@ export default function Home() {
         <TodoList category={"TODO"} data={todos} setData={setTodos} />
         <TodoList category={"HABIT"} data={habits} setData={setHabits} />
       </div>
-      <CalendarToggle />
+      <CalendarToggle setOpenCalendar={setOpenCalendar} />
       <TodoInput addTodo={addTodo} />
+      {openCalendar && (
+        <Calendar
+          date={date}
+          setOpenCalendar={setOpenCalendar}
+          changeDate={changeDate}
+        />
+      )}
     </>
   );
 }

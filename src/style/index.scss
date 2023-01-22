@@ -124,16 +124,22 @@ $background-color: #fbf8f3;
       align-items: center;
     }
   }
+
   // Home에서 쓰이는 CalendarToggle 떠있는 영역
   .CalendarToggle {
     background-color: $main-color;
     width: fit-content;
-    border-radius: 300px 0 0 300px;
+    border-radius: 50% 0 0 50%;
     position: absolute;
     padding: 10px 0;
     top: 45%;
     right: 0;
     color: white;
+    transition: padding 0.5s;
+  }
+  .zoom {
+    padding: 10px 6px;
+    transition: padding 0.5s;
   }
 }
 
@@ -369,4 +375,16 @@ $background-color: #fbf8f3;
       flex: 1;
     }
   }
+
+  .textBtnDiv {
+    display: inline-flex;
+    margin-left: auto;
+  }
+}
+
+.TextButton {
+  width: 40px;
+  height: 20px;
+  color: $main-color;
+  cursor: pointer;
 }

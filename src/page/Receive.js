@@ -5,6 +5,7 @@ import Chip from "../components/Chip";
 import Modal from "../components/Modal";
 import PostRead from "../components/PostRead";
 import coinEmoji from "../assets/images/coinEmoji.png";
+import ToastPopUp from "../components/ToastPopUp";
 
 const dummyData = [
   {
@@ -39,9 +40,9 @@ const dummyData = [
 ];
 
 export default function Receive() {
-  const [nonreadCheck, setNonreadCheck] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [postOpen, setPostOpen] = useState(false);
+  const [toastOpen, setToastOpen] = useState("");
   const [selectedData, setSelectedData] = useState({});
   const handlePostOpen = (isOpen, title, content, sender) => {
     if (isOpen) {
@@ -60,49 +61,36 @@ export default function Receive() {
     }
   };
 
+  const handleToast = () => {
+    if (toastOpen === "") {
+      setToastOpen("toastOpen");
+    } else {
+      setToastOpen("");
+    }
+  };
+
   return (
     <>
       <div className="marginDiv">
         <div className="smallHeader">
-          <div>
-            <input
-              type="checkbox"
-              checked={nonreadCheck}
-              onChange={() => setNonreadCheck(!nonreadCheck)}
-            />
-            <label
-              onClick={() => setNonreadCheck(!nonreadCheck)}
-              style={{ fontSize: "14px" }}
-            >
-              안 읽은 편지 표시
-            </label>
+          <div onClick={handleToast}>
+            <span>1개월 - 전체 - 최신</span>
           </div>
           <Chip emoji={coinEmoji} number={100} />
         </div>
         <section>
-          {nonreadCheck
-            ? dummyData.map((data, index) => (
-                <Card
-                  key={index}
-                  isOpen={data.isOpen}
-                  title={data.title}
-                  content={data.content}
-                  sender={data.sender}
-                  onClick={handlePostOpen}
-                />
-              ))
-            : dummyData
-                .filter((data) => data.isOpen === true)
-                .map((data, index) => (
-                  <Card
-                    key={index}
-                    isOpen={data.isOpen}
-                    title={data.title}
-                    content={data.content}
-                    sender={data.sender}
-                    onClick={handlePostOpen}
-                  />
-                ))}
+          {dummyData
+            .filter((data) => data.isOpen === true)
+            .map((data, index) => (
+              <Card
+                key={index}
+                isOpen={data.isOpen}
+                title={data.title}
+                content={data.content}
+                sender={data.sender}
+                onClick={handlePostOpen}
+              />
+            ))}
         </section>
       </div>
       {modalOpen && (
@@ -118,6 +106,7 @@ export default function Receive() {
           onClose={() => setPostOpen(false)}
         />
       )}
+      <ToastPopUp openClass={toastOpen} handleToast={handleToast} />
     </>
   );
 }

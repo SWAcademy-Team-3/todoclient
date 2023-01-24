@@ -10,7 +10,6 @@ export default function Calendar({ date, setOpenCalendar, changeDate }) {
         : date.getMonth() + 1
     }-${date.getDate()}`
   );
-  console.log(selectedDate);
   const handleDate = (e) => {
     setSelectedDate(e.target.value);
   };

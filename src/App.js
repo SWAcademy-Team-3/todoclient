@@ -5,6 +5,7 @@ import Home from "./page/Home";
 import Post from "./page/Post";
 import My from "./page/My";
 import Friends from "./page/Friends";
+import Receive from "./page/Receive";
 import Login from "./page/Login";
 import Register from "./page/Register";
 import PageNotFound from "./page/PageNotFound";
@@ -24,6 +25,7 @@ function App() {
             <Route path="/post" element={<Post />}></Route>
             <Route path="/my" element={<My />}></Route>
             <Route path="/friends" element={<Friends />}></Route>
+            <Route path="/receive" element={<Receive></Receive>}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
             <Route path="*" element={<PageNotFound />}></Route>

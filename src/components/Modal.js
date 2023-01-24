@@ -11,7 +11,7 @@ export default function Modal({ type, message, handleModalClick }) {
               borderRadius="0px"
               border="none"
               value="yes"
-              onClick={handleModalClick}
+              onClick={() => handleModalClick("check")}
               name="확인"
             />
           ) : (
@@ -20,14 +20,14 @@ export default function Modal({ type, message, handleModalClick }) {
                 borderRadius="0px"
                 border="none"
                 value="yes"
-                onClick={handleModalClick}
+                onClick={() => handleModalClick("yes")}
                 name="예"
               />
               <FlatButton
                 borderRadius="0px"
                 border="none"
                 value="yes"
-                onClick={handleModalClick}
+                onClick={() => handleModalClick("no")}
                 name="아니오"
               />
             </>

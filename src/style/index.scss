@@ -185,6 +185,13 @@ $background-color: #fbf8f3;
   }
 }
 
+.smallHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px 0;
+}
+
 #friendsContents {
   max-height: calc(100vh - 120px);
   overflow: scroll;
@@ -341,7 +348,38 @@ $background-color: #fbf8f3;
   left: 0;
   bottom: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(251, 248, 243, 0.5);
+
+  .postContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    background-color: $sub-color;
+    width: 80vw;
+    height: 70vh;
+    word-break: break-all;
+    padding: 0 8px;
+
+    & > :nth-child(3) {
+      position: absolute;
+      bottom: 0;
+      margin: 8px;
+      align-self: flex-end;
+    }
+  }
+
+  .closeBtn {
+    position: absolute;
+    right: 10vw;
+    top: 12vh;
+    border: none;
+    background: none;
+    box-sizing: none;
+  }
 }
 
 .modal {
@@ -387,4 +425,47 @@ $background-color: #fbf8f3;
   height: 20px;
   color: $main-color;
   cursor: pointer;
+}
+
+.cardContainer {
+  display: flex;
+  border: 1px solid $sub-color;
+  border-radius: 10px;
+  margin-bottom: 8px;
+
+  & > :nth-child(1) {
+    flex: 1;
+  }
+
+  & > :nth-child(2) {
+    flex: 4;
+  }
+
+  .cardImgDiv {
+    border-radius: 10px;
+    background-color: #777;
+    width: 80px;
+    height: 80px;
+    max-width: 100px;
+    max-height: 100px;
+    overflow: hidden;
+
+    .cardImg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .cardContents {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .limitText {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }

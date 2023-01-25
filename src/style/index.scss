@@ -472,7 +472,7 @@ $background-color: #fbf8f3;
 
 .ToastPopUpContainer {
   background-color: white;
-  height: 70vh;
+  height: 40vh;
   width: 100vw;
   position: fixed;
   padding: 10px;
@@ -491,16 +491,31 @@ $background-color: #fbf8f3;
     align-self: flex-end;
     font-weight: 600;
   }
+  .customfieldset {
+    border: none;
+    text-align: center;
+    margin: 8px 0;
+    .none_input {
+      display: none;
+    }
+    .customRadio {
+      border: 1px solid #777;
+      padding: 4px 8px;
+      background-color: #ccc;
 
-  & > .selectBlockDiv {
-    display: flex;
-    flex-direction: row;
-    & > * {
-      flex-grow: 1;
+      &:active {
+        background-color: #777;
+        transition: all 0.2s;
+      }
+    }
+    .radioCheck {
+      background-color: white;
+      border: 1px solid black;
+      transition: all 0.3s;
     }
   }
 }
 
 .toastOpen {
-  top: 40%;
+  top: 60%;
 }

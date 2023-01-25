@@ -74,7 +74,7 @@ export default function Receive() {
       <div className="marginDiv">
         <div className="smallHeader">
           <div onClick={handleToast}>
-            <span>1개월 - 전체 - 최신</span>
+            <span>1개월 - 최신</span>
           </div>
           <Chip emoji={coinEmoji} number={100} />
         </div>

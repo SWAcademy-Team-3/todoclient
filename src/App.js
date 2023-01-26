@@ -12,6 +12,7 @@ import PageNotFound from "./page/PageNotFound";
 import Navigation from "./Navigation";
 
 import "./style/index.scss";
+import AddFriends from "./page/AddFriends";
 
 function App() {
   //Route 바깥에서 경로를 가져오는 방법이 없나
@@ -24,8 +25,9 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="/post" element={<Post />}></Route>
             <Route path="/my" element={<My />}></Route>
+            <Route path="/receive" element={<Receive />}></Route>
             <Route path="/friends" element={<Friends />}></Route>
-            <Route path="/receive" element={<Receive></Receive>}></Route>
+            <Route path="/addFriends" element={<AddFriends />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
             <Route path="*" element={<PageNotFound />}></Route>

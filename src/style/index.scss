@@ -263,21 +263,20 @@ $background-color: #fbf8f3;
   justify-content: space-around;
   padding-bottom: 16px;
   border-bottom: 1px solid #777;
+}
+.profileImgDiv {
+  border-radius: 100px;
+  background-color: #777;
+  width: 80px;
+  height: 80px;
+  max-width: 100px;
+  max-height: 100px;
+  overflow: hidden;
 
-  .profileImgDiv {
-    border-radius: 100px;
-    background-color: #777;
-    width: 80px;
-    height: 80px;
-    max-width: 100px;
-    max-height: 100px;
-    overflow: hidden;
-
-    .profileImg {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+  .profileImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 
@@ -518,4 +517,32 @@ $background-color: #fbf8f3;
 
 .toastOpen {
   top: 60%;
+}
+
+.searchBar {
+  width: -webkit-fill-available;
+  border: 1px solid black;
+  font-size: 22px;
+  margin: 16px 0;
+  border-radius: 12px;
+  background-color: white;
+  display: inline-flex;
+  padding: 4px 8px;
+
+  .blankInput {
+    border: none;
+    background: transparent;
+    flex: 6;
+    font-family: inherit;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.addTileDiv {
+  margin-top: 16px;
+  display: flex;
+  width: -webkit-fill-available;
+  align-items: center;
 }

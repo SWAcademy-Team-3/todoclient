@@ -1,10 +1,12 @@
-import { React } from "react";
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./page/Home";
 import Post from "./page/Post";
 import My from "./page/My";
 import Friends from "./page/Friends";
+import Notification from "./page/Notification";
+import AddFriends from "./page/AddFriends";
 import Receive from "./page/Receive";
 import Login from "./page/Login";
 import Register from "./page/Register";
@@ -16,6 +18,8 @@ import "./style/index.scss";
 function App() {
   //Route 바깥에서 경로를 가져오는 방법이 없나
   const pathname = window.location.pathname;
+  //Resize (모바일키보드 올라올 시 네비게이션 안보이기)
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -24,8 +28,10 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="/post" element={<Post />}></Route>
             <Route path="/my" element={<My />}></Route>
+            <Route path="/receive" element={<Receive />}></Route>
             <Route path="/friends" element={<Friends />}></Route>
-            <Route path="/receive" element={<Receive></Receive>}></Route>
+            <Route path="/notification" element={<Notification />}></Route>
+            <Route path="/addFriends" element={<AddFriends />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
             <Route path="*" element={<PageNotFound />}></Route>

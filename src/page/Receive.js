@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Card from "../components/Card";
 import Chip from "../components/Chip";
@@ -6,6 +7,8 @@ import Modal from "../components/Modal";
 import PostRead from "../components/PostRead";
 import coinEmoji from "../assets/images/coinEmoji.png";
 import ToastPopUp from "../components/ToastPopUp";
+
+import useSlideBack from "../hooks/useSlideBack";
 
 const dummyData = [
   {
@@ -44,6 +47,13 @@ export default function Receive() {
   const [postOpen, setPostOpen] = useState(false);
   const [toastOpen, setToastOpen] = useState("");
   const [selectedData, setSelectedData] = useState({});
+  const [startX, setStartX] = useState(0);
+  let navigate = useNavigate();
+
+  useSlideBack("touchmove", startX, () => {
+    navigate(-1);
+  });
+
   const handlePostOpen = (isOpen, title, content, sender) => {
     if (isOpen) {
       setPostOpen(true);
@@ -68,6 +78,16 @@ export default function Receive() {
       setToastOpen("");
     }
   };
+
+  useEffect(() => {
+    const handleTouchStart = (e) => {
+      setStartX(e.targetTouches[0].screenX);
+    };
+    window.addEventListener("touchstart", (e) => handleTouchStart(e));
+    return () => {
+      window.removeEventListener("touchstart", (e) => handleTouchStart(e));
+    };
+  }, [startX]);
 
   return (
     <>

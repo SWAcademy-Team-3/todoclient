@@ -7,15 +7,20 @@ import ProfileDetail from "../../components/PorfileDetail";
 //지울 것
 import tempImg from "../../assets/images/yena.jpg";
 
-export default function FriendsToggle({ user }) {
+export default function FriendsToggle({ user, handleModal }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handlePostRequest = () => {
-    console.log("편지 요청");
+    handleModal("check", `${user}에게 편지를 요청하시겠습니까?`);
+  };
+  const handleOpen = (e) => {
+    if (e.target.tagName !== "BUTTON") {
+      setIsOpen(!isOpen);
+    }
   };
   return (
     <>
-      <div className="FriendsToggleHead" onClick={() => setIsOpen(!isOpen)}>
+      <div className="FriendsToggleHead" onClick={(e) => handleOpen(e)}>
         <ArrowForwardIosIcon
           sx={{
             fontSize: "small",
@@ -24,14 +29,19 @@ export default function FriendsToggle({ user }) {
           }}
         />
         <div>
-          <span style={{ marginRight: "4px" }}>최예나</span>
+          <span style={{ marginRight: "4px" }}>{user}</span>
           <FlatButton
             name="편지 요청"
             color="#BECAD6"
             onClick={handlePostRequest}
           />
         </div>
-        <button className="DeleteButton">X</button>
+        <button
+          className="DeleteButton"
+          onClick={(e) => handleModal("check", `${user} 친구를 삭제할까요?`)}
+        >
+          X
+        </button>
       </div>
 
       <div className={`FriendsToggleBody-${isOpen}`}>

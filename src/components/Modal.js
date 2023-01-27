@@ -1,9 +1,15 @@
 import FlatButton from "./FlatButton";
+import useClickAway from "../hooks/useClickAway";
 
 export default function Modal({ type, message, handleModalClick }) {
+  const popRef = useClickAway((e) => {
+    if (e.target.tagName !== "BUTTON") {
+      handleModalClick("no");
+    }
+  });
   return (
     <div className="modalBackground">
-      <div className="modal">
+      <div className="modal" ref={popRef}>
         <span className="modalMessage">{message}</span>
         <div className="modalButton">
           {type === "alert" ? (

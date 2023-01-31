@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import TextButton from "../../components/TextButton";
+import ProgressRate from "../../components/ProgressRate";
 
 export default function Calendar({ date, setOpenCalendar, changeDate }) {
   let calendarRef = useRef(null);
@@ -27,6 +28,7 @@ export default function Calendar({ date, setOpenCalendar, changeDate }) {
           ref={calendarRef}
           onChange={(e) => handleDate(e)}
         />
+        <ProgressRate />
         <div className="textBtnDiv">
           <TextButton onClick={handleChangeDate} text="확인" />
           <TextButton onClick={() => setOpenCalendar(false)} text="취소" />

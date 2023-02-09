@@ -1,9 +1,97 @@
+import React, { useState, useEffect } from "react";
+import { axios_get, axios_post } from "../api/api";
+import TodoInput from "./HomeComponent/TodoInput";
+import TodoList from "./HomeComponent/TodoList";
+import SimpleCalendar from "./HomeComponent/SimpleCalendar";
+import CalendarToggle from "./HomeComponent/CalendarToggle";
+
 import "../style/index.scss";
+import Calendar from "./HomeComponent/Calendar";
 
 export default function Home() {
+  const [todos, setTodos] = useState([]);
+  const [habits, setHabits] = useState([]);
+  const [date, setDate] = useState(new Date());
+  const [openCalendar, setOpenCalendar] = useState(false);
+
+  const changeDate = (dateVal) => {
+    // TODO 사용자가 날짜를 바꿨을 때의 처리하는 곳
+    setDate(dateVal);
+  };
+
+  // API 통신 안정시 제거
+  const dummy_param1 = {
+    searchData: "2023-01-12",
+    type: "TODO",
+    userId: "userId",
+  };
+  const dummy_param2 = {
+    searchData: new Date("2023-01-12"),
+    type: "HABIT",
+    userId: "userId",
+  };
+
+  // TODO리스트에 추가
+  const addTodo = (addState, todo) => {
+    const type = addState === "TODO" ? "TODO" : "HABIT";
+    const data = {
+      memberid: "userId",
+      type,
+      todo,
+    };
+    // axios_post("todo", data);
+    // 낙관적 업데이트
+    if (type === "TODO") {
+      setTodos([
+        ...todos,
+        {
+          todo,
+          isClear: false,
+        },
+      ]);
+    } else {
+      setHabits([
+        ...habits,
+        {
+          todo,
+          isClear: false,
+        },
+      ]);
+    }
+  };
+
+  const removeTodo = () => {};
+
+  // User TODO API 받기
+  const getData = async () => {
+    let res1 = await axios_get("todo", dummy_param1);
+    let res2 = await axios_get("todo", dummy_param2);
+    setTodos(res1);
+    setHabits(res2);
+  };
+  useEffect(() => {
+    //getData();
+  }, []);
+
   return (
-    <div className="test">
-      <p>홈화면 입니다.</p>
-    </div>
+    <>
+      <div className="Mainheader">
+        <SimpleCalendar date={date} changeDate={changeDate} />
+        <hr />
+      </div>
+      <div id="homeContents">
+        <TodoList category={"TODO"} data={todos} setData={setTodos} />
+        <TodoList category={"HABIT"} data={habits} setData={setHabits} />
+      </div>
+      <CalendarToggle setOpenCalendar={setOpenCalendar} />
+      <TodoInput addTodo={addTodo} />
+      {openCalendar && (
+        <Calendar
+          date={date}
+          setOpenCalendar={setOpenCalendar}
+          changeDate={changeDate}
+        />
+      )}
+    </>
   );
 }

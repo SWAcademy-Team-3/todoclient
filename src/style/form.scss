@@ -1,0 +1,72 @@
+.FormContainer {
+  margin: auto 0;
+}
+
+.submitButton {
+  display: block;
+  height: 32px;
+  background-color: black;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 8px 6px;
+  width: 95%;
+  margin: 0 auto;
+  cursor: pointer;
+  margin-top: 16px;
+
+  &:hover {
+    background-color: #111;
+  }
+
+  &:active {
+    background-color: #222;
+  }
+
+  &:disabled {
+    background-color: #888;
+  }
+}
+
+.title {
+  font-size: 24px;
+  text-align: center;
+  margin-top: 0;
+}
+
+.Cardform {
+  width: 90%;
+  //box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
+}
+
+.FormInput {
+  padding: 4px 6px;
+  font-size: 14px;
+  height: 24px;
+  background-color: white;
+  border-radius: 4px;
+  border: 2px solid #333;
+  display: block;
+  width: 90%;
+  margin: 8px auto;
+}
+
+.ErrorText {
+  font-size: 12px;
+  color: red;
+}
+
+.LoginNav {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.LinkText {
+  text-decoration: underline;
+  cursor: pointer;
+}

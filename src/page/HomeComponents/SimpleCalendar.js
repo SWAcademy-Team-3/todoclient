@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useDate } from "../../contexts/dateProvider";
 
-export default function SimpleCalendar({ date, changeDate }) {
+export default function SimpleCalendar() {
+  const { date, changeDate } = useDate();
   const [month, setMonth] = useState();
   const [dayMinusOne, setDayMinusOne] = useState();
   const [dayPlusOne, setDayPlusOne] = useState();

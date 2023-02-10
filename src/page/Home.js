@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { axios_get, axios_post } from "../api/api";
-import TodoInput from "./HomeComponent/TodoInput";
-import TodoList from "./HomeComponent/TodoList";
-import SimpleCalendar from "./HomeComponent/SimpleCalendar";
-import CalendarToggle from "./HomeComponent/CalendarToggle";
+import TodoInput from "./HomeComponents/TodoInput";
+import TodoList from "./HomeComponents/TodoList";
+import SimpleCalendar from "./HomeComponents/SimpleCalendar";
+import CalendarToggle from "./HomeComponents/CalendarToggle";
+import DateProvider from "../contexts/dateProvider";
 
 import "../style/index.scss";
-import Calendar from "./HomeComponent/Calendar";
+import Calendar from "./HomeComponents/Calendar";
 
 export default function Home() {
   const [todos, setTodos] = useState([]);
   const [habits, setHabits] = useState([]);
-  const [date, setDate] = useState(new Date());
   const [openCalendar, setOpenCalendar] = useState(false);
-
-  const changeDate = (dateVal) => {
-    // TODO 사용자가 날짜를 바꿨을 때의 처리하는 곳
-    setDate(dateVal);
-  };
 
   // API 통신 안정시 제거
   const dummy_param1 = {
@@ -74,9 +69,9 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <DateProvider>
       <div className="Mainheader">
-        <SimpleCalendar date={date} changeDate={changeDate} />
+        <SimpleCalendar />
         <hr />
       </div>
       <div id="homeContents">
@@ -85,13 +80,7 @@ export default function Home() {
       </div>
       <CalendarToggle setOpenCalendar={setOpenCalendar} />
       <TodoInput addTodo={addTodo} />
-      {openCalendar && (
-        <Calendar
-          date={date}
-          setOpenCalendar={setOpenCalendar}
-          changeDate={changeDate}
-        />
-      )}
-    </>
+      {openCalendar && <Calendar setOpenCalendar={setOpenCalendar} />}
+    </DateProvider>
   );
 }

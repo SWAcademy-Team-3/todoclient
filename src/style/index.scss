@@ -609,3 +609,29 @@ $background-color: #fbf8f3;
   right: 15px;
   text-align: center;
 }
+
+.TabHeader {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 12px 0;
+
+  .tab {
+    margin-right: 15px;
+    font-size: 18px;
+    font-weight: 700;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.4);
+    transition: all ease-in-out 0.2s;
+    border-bottom: 2px solid transparent;
+
+    &.active {
+      border-bottom: 2px solid $sub-color;
+
+      color: black;
+    }
+  }
+}

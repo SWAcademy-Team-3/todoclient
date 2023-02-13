@@ -1,43 +1,16 @@
 import Header from "../components/Header";
-import Modal from "../components/Modal";
-import RequestTile from "./FriendsComponents/RequestTile";
 import useSlideBack from "../hooks/useSlideBack";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import FriendsRequest from "./NotificationTab/FriendsRequest";
+import PostRequest from "./NotificationTab/PostRequest";
 
 const dummyData = ["카리나", "윈터", "우기", "민니"];
 
 export default function Notification() {
   const [startX, setStartX] = useState(0);
-  const [modal, setModal] = useState(null);
+  const [activeTab, setActiveTab] = useState(0);
   let navigate = useNavigate();
-
-  const handleModalClick = (type) => {
-    if (type === "yes") {
-      //TODO 친구 요청 수락 / 거절
-    }
-    setModal(null);
-  };
-
-  const handleAccept = () => {
-    setModal(
-      <Modal
-        type="check"
-        message="친구 요청을 수락하시겠습니까?"
-        handleModalClick={handleModalClick}
-      />
-    );
-  };
-
-  const handleDelete = () => {
-    setModal(
-      <Modal
-        type="check"
-        message="친구 요청을 거절하시겠습니까?"
-        handleModalClick={handleModalClick}
-      />
-    );
-  };
 
   useSlideBack("touchmove", startX, () => {
     navigate(-1);
@@ -55,31 +28,22 @@ export default function Notification() {
 
   return (
     <div className="marginDiv">
-      <Header left="친구 요청" isHr={true} />
+      <div className="TabHeader">
+        <button
+          className={`tab ${activeTab === 0 && "active"}`}
+          onClick={() => setActiveTab(0)}
+        >
+          친구 요청 목록
+        </button>
+        <button
+          className={`tab ${activeTab === 1 && "active"}`}
+          onClick={() => setActiveTab(1)}
+        >
+          편지 요청 목록
+        </button>
+      </div>
       <div style={{ margin: "12px 0" }}></div>
-      {dummyData.map((name, index) => {
-        if (index === dummyData.length - 1) {
-          return (
-            <RequestTile
-              key={index}
-              name={name}
-              acceptClick={handleAccept}
-              deleteClick={handleDelete}
-              isHr={false}
-            />
-          );
-        }
-        return (
-          <RequestTile
-            key={index}
-            name={name}
-            acceptClick={handleAccept}
-            deleteClick={handleDelete}
-            isHr={true}
-          />
-        );
-      })}
-      {modal}
+      {activeTab === 0 ? <FriendsRequest /> : <PostRequest />}
     </div>
   );
 }

@@ -13,10 +13,12 @@ export default function Calendar({ setOpenCalendar }) {
 
   return (
     <div className="modalBackground">
-      <div className="modal">
-        <CalendarContents setSelectedDate={setSelectedDate} />
-
-        <div className="textBtnDiv">
+      <div className="modal" style={{ height: "45vh" }}>
+        <CalendarContents
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
+        <div className="textBtnDiv" style={{ marginTop: "15px" }}>
           <TextButton onClick={handleChangeDate} text="확인" />
           <TextButton onClick={() => setOpenCalendar(false)} text="취소" />
         </div>

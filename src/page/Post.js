@@ -3,6 +3,7 @@ import PostClose from "./PostComponents/PostClose";
 import PostOpen from "./PostComponents/PostOpen";
 import Chip from "../components/Chip";
 import Modal from "../components/Modal";
+import EditIcon from "@mui/icons-material/Edit";
 
 import coinEmoji from "../assets/images/coinEmoji.png";
 import postEmoji from "../assets/images/postEmoji.png";
@@ -47,6 +48,9 @@ export default function Post() {
           handleModalClick={handleModalClick}
         />
       ) : null}
+      <div className="floatingButton">
+        <EditIcon sx={{ fontSize: 40, marginTop: "15px" }} />
+      </div>
     </>
   );
 }

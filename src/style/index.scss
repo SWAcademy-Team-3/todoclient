@@ -597,3 +597,15 @@ $background-color: #fbf8f3;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
+
+.floatingButton {
+  position: absolute;
+  display: inline-block;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background-color: $sub-color;
+  bottom: 20px;
+  right: 15px;
+  text-align: center;
+}

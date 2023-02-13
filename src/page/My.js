@@ -31,7 +31,7 @@ export default function My() {
         name="프로필 수정"
         color="#e5a8a6"
         width="100%"
-        hegiht="35px"
+        height="35px"
         marginBottom="20px"
       />
       <span className="tileText">비밀번호 변경</span>

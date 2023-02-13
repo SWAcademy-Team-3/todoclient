@@ -11,6 +11,7 @@ import Receive from "./page/Receive";
 import Login from "./page/Login";
 import Register from "./page/Register";
 import PageNotFound from "./page/PageNotFound";
+import Write from "./page/Write";
 import Navigation from "./Navigation";
 
 import "./style/index.scss";
@@ -27,6 +28,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/post" element={<Post />}></Route>
+            <Route path="/write" element={<Write />}></Route>
             <Route path="/my" element={<My />}></Route>
             <Route path="/receive" element={<Receive />}></Route>
             <Route path="/friends" element={<Friends />}></Route>

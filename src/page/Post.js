@@ -7,8 +7,10 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import coinEmoji from "../assets/images/coinEmoji.png";
 import postEmoji from "../assets/images/postEmoji.png";
+import { useNavigate } from "react-router";
 
 export default function Post() {
+  let navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -48,7 +50,7 @@ export default function Post() {
           handleModalClick={handleModalClick}
         />
       ) : null}
-      <div className="floatingButton">
+      <div className="floatingButton" onClick={() => navigate("/write")}>
         <EditIcon sx={{ fontSize: 40, marginTop: "15px" }} />
       </div>
     </>

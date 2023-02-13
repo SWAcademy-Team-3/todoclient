@@ -540,15 +540,15 @@ $background-color: #fbf8f3;
   background-color: white;
   display: inline-flex;
   padding: 8px 8px;
+}
 
-  .blankInput {
-    border: none;
-    background: transparent;
-    flex: 6;
-    font-family: inherit;
-    &:focus {
-      outline: none;
-    }
+.blankInput {
+  border: none;
+  background: transparent;
+  flex: 6;
+  font-family: inherit;
+  &:focus {
+    outline: none;
   }
 }
 

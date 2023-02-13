@@ -540,15 +540,15 @@ $background-color: #fbf8f3;
   background-color: white;
   display: inline-flex;
   padding: 8px 8px;
+}
 
-  .blankInput {
-    border: none;
-    background: transparent;
-    flex: 6;
-    font-family: inherit;
-    &:focus {
-      outline: none;
-    }
+.blankInput {
+  border: none;
+  background: transparent;
+  flex: 6;
+  font-family: inherit;
+  &:focus {
+    outline: none;
   }
 }
 
@@ -596,4 +596,16 @@ $background-color: #fbf8f3;
   overflow-y: scroll;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.floatingButton {
+  position: absolute;
+  display: inline-block;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background-color: $sub-color;
+  bottom: 20px;
+  right: 15px;
+  text-align: center;
 }

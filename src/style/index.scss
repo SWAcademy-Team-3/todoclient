@@ -585,8 +585,15 @@ $background-color: #fbf8f3;
   }
 }
 
+.CalendarGridDay {
+  width: inherit;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
 .CalendarGrid {
   width: inherit;
+  overflow-y: scroll;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }

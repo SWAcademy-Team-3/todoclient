@@ -4,20 +4,13 @@ import { useDate } from "../../contexts/dateProvider";
 import TextButton from "../../components/TextButton";
 import ProgressRate from "../../components/ProgressRate";
 
-const CalendarContents = ({ setSelectedDate }) => {
+const dayNameArr = ["SUN", "MON", "TUE", "WED", "TUR", "FRI", "SAT"];
+
+const CalendarContents = ({ selectedDate, setSelectedDate }) => {
   const { date } = useDate();
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth() + 1);
-  const [dayArr, setDayArr] = useState([
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-  ]);
+  const [dayArr, setDayArr] = useState([]);
 
   const pressBack = () => {
     if (month === 1) {
@@ -41,26 +34,45 @@ const CalendarContents = ({ setSelectedDate }) => {
     setSelectedDate(new Date(`${year}-${month}-${val}`));
   };
 
-  // useEffect(() => {
-  //   setDayArr();
-  // }, [year, month]);
+  const calcDay = () => {
+    let emptyDayLength = new Date(year, month - 1, 1).getDay();
+    let monthDay = new Date(year, month, 0).getDate();
+    const emptyDayArray = Array.from({ length: emptyDayLength }, () => "");
+    const nowDayArray = Array.from({ length: monthDay }, (_, i) => i + 1);
+    setDayArr(() => [...emptyDayArray, ...nowDayArray]);
+  };
+
+  useEffect(() => {
+    calcDay();
+  }, [month]);
 
   return (
     <>
-      <div style={{ display: "inline-flex" }}>
+      <div style={{ display: "inline-flex", marginBottom: "8px" }}>
         <TextButton onClick={pressBack} text="<" />
         <span>{`${year}년 ${month}월`}</span>
         <TextButton onClick={pressAdvance} text=">" />
+      </div>
+      <div className="CalendarGridDay">
+        {dayNameArr.map((val, idx) => (
+          <span key={idx} style={{ textAlign: "center" }}>
+            {val}
+          </span>
+        ))}
       </div>
       <div className="CalendarGrid">
         {dayArr.map((val, index) => {
           return (
             <div
               key={index}
-              style={{ textAlign: "center" }}
+              style={{
+                textAlign: "center",
+                backgroundColor: selectedDate.getDate() === val && "#e5a8a6",
+                borderRadius: "50%",
+              }}
               onClick={() => handleDaySelect(val)}
             >
-              <span>{val}</span>
+              <span style={{}}>{val}</span>
               {val !== "" && <ProgressRate size={25} />}
             </div>
           );

@@ -15,9 +15,9 @@ const dummyData = [
   },
 ];
 
-export default function PostRequest() {
+export default function PostRequest({ activeTab }) {
   return (
-    <>
+    <div className="TabContent2">
       {dummyData.map((val, idx) => (
         <div key={idx}>
           <div
@@ -47,6 +47,6 @@ export default function PostRequest() {
           <hr />
         </div>
       ))}
-    </>
+    </div>
   );
 }

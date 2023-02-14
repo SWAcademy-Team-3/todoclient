@@ -4,7 +4,7 @@ import RequestTile from "../FriendsComponents/RequestTile";
 
 const dummyData = ["카리나", "윈터", "우기", "민니"];
 
-export default function FriendsRequest() {
+export default function FriendsRequest({ activeTab }) {
   const [modal, setModal] = useState(null);
 
   const handleModalClick = (type) => {
@@ -34,7 +34,7 @@ export default function FriendsRequest() {
     );
   };
   return (
-    <>
+    <div className={`TabContent1 ${activeTab === 1 && "reverse"}`}>
       {dummyData.map((name, index) => {
         if (index === dummyData.length - 1) {
           return (
@@ -58,6 +58,6 @@ export default function FriendsRequest() {
         );
       })}
       {modal}
-    </>
+    </div>
   );
 }

@@ -30,20 +30,23 @@ export default function Notification() {
     <div className="marginDiv">
       <div className="TabHeader">
         <button
-          className={`tab ${activeTab === 0 && "active"}`}
+          className={`tab ${activeTab === 0 ? "select" : undefined}`}
           onClick={() => setActiveTab(0)}
         >
           친구 요청 목록
         </button>
         <button
-          className={`tab ${activeTab === 1 && "active"}`}
+          className={`tab ${activeTab === 1 ? "select" : undefined}`}
           onClick={() => setActiveTab(1)}
         >
           편지 요청 목록
         </button>
       </div>
-      <div style={{ margin: "12px 0" }}></div>
-      {activeTab === 0 ? <FriendsRequest /> : <PostRequest />}
+      {activeTab === 0 ? (
+        <FriendsRequest activeTab={activeTab} />
+      ) : (
+        <PostRequest activeTab={activeTab} />
+      )}
     </div>
   );
 }

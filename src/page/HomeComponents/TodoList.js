@@ -2,10 +2,15 @@ export default function TodoList({ category, data, setData }) {
   // TODO 삭제버튼 커스터마이징
   // TODO TODO 완료 상태 여부 판단(update)
 
-  const handleUpdate = (e) => {
+  const handleDelete = (targetId) => {
+    const deletedData = data.filter((val) => val.tempId !== targetId);
+    setData(deletedData);
+  };
+
+  const handleUpdate = (targetId) => {
     // 추후에 id 값으로 비교해서 업데이트 하기
     const updateData = data.map((val) => {
-      if (val.todo === e.target.innerText.trim()) {
+      if (val.tempId === targetId) {
         val.isClear = !val.isClear;
       }
       return val;
@@ -20,12 +25,17 @@ export default function TodoList({ category, data, setData }) {
         <span>등록된 일이 없어요</span>
       ) : (
         <div className="list">
-          {data.map((val, index) => {
+          {data.map((val) => {
             return (
-              <div className="element" key={index}>
-                <button className="DeleteButton">X</button>
+              <div className="element" key={val.tempId}>
+                <button
+                  className="DeleteButton"
+                  onClick={() => handleDelete(val.tempId)}
+                >
+                  X
+                </button>
                 <span
-                  onClick={(e) => handleUpdate(e)}
+                  onClick={() => handleUpdate(val.tempId)}
                   style={{
                     textDecoration: val.isClear ? "line-through" : "none",
                   }}

@@ -609,3 +609,74 @@ $background-color: #fbf8f3;
   right: 15px;
   text-align: center;
 }
+
+.TabHeader {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 12px 0;
+
+  .tab {
+    margin-right: 15px;
+    font-size: 18px;
+    font-weight: 700;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.4);
+    transition: all ease-in-out 0.2s;
+
+    &.select {
+      color: black;
+    }
+
+    &.select:after {
+      margin-top: 5px;
+      transition: all ease-in-out 0.5s;
+      background: none repeat scroll 0 0 $sub-color;
+      content: "";
+      display: block;
+      height: 2px;
+      width: 100%;
+    }
+  }
+  .tab:after {
+    margin-top: 5px;
+    transition: all ease-in-out 0.5s;
+    background: none repeat scroll 0 0 $sub-color;
+    content: "";
+    display: block;
+    height: 2px;
+    width: 0;
+  }
+  .tab:hover:after {
+    width: 100%;
+  }
+}
+
+.TabContent1 {
+  animation: move-tabContent-left-to-right 0.5s ease-in-out;
+}
+
+.TabContent2 {
+  animation: move-tabContent-right-to-left 0.5s ease-in-out;
+}
+
+@keyframes move-tabContent-left-to-right {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes move-tabContent-right-to-left {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

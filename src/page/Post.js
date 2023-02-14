@@ -29,11 +29,17 @@ export default function Post() {
   const handleModalClick = () => {
     handlePostClick();
   };
+
+  const navigateToReceive = () => {
+    navigate("/receive");
+  };
   return (
     <>
       <div className="marginDiv">
         <div className="PostHeader">
-          <span className="linkText">이전 편지 읽으러 가기</span>
+          <span className="linkText" onClick={navigateToReceive}>
+            이전 편지 읽으러 가기
+          </span>
           <div style={{ display: "flex" }}>
             <Chip number={10} emoji={postEmoji} />
             <Chip number={100} emoji={coinEmoji} />
@@ -51,7 +57,7 @@ export default function Post() {
         />
       ) : null}
       <div className="floatingButton" onClick={() => navigate("/write")}>
-        <EditIcon sx={{ fontSize: 40, marginTop: "15px" }} />
+        <EditIcon sx={{ fontSize: 40, marginTop: "18px" }} />
       </div>
     </>
   );

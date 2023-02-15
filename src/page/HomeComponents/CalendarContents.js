@@ -67,12 +67,16 @@ const CalendarContents = ({ selectedDate, setSelectedDate }) => {
               key={index}
               style={{
                 textAlign: "center",
-                backgroundColor: selectedDate.getDate() === val && "#e5a8a6",
+                backgroundColor:
+                  `${selectedDate.getFullYear()}-${
+                    selectedDate.getMonth() + 1
+                  }-${selectedDate.getDate()}` === `${year}-${month}-${val}` &&
+                  "#e5a8a6",
                 borderRadius: "50%",
               }}
               onClick={() => handleDaySelect(val)}
             >
-              <span style={{}}>{val}</span>
+              <span>{val}</span>
               {val !== "" && <ProgressRate size={25} />}
             </div>
           );

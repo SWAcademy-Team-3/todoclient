@@ -502,28 +502,29 @@ $background-color: #fbf8f3;
     align-self: flex-end;
     font-weight: 600;
   }
-  .customfieldset {
-    border: none;
-    text-align: center;
-    margin: 8px 0;
-    .none_input {
-      display: none;
-    }
-    .customRadio {
-      border: 1px solid #777;
-      padding: 4px 8px;
-      background-color: #ccc;
+}
 
-      &:active {
-        background-color: #777;
-        transition: all 0.2s;
-      }
+.customfieldset {
+  border: none;
+  text-align: center;
+  margin: 8px 0;
+  .none_input {
+    display: none;
+  }
+  .customRadio {
+    border: 1px solid #777;
+    padding: 4px 8px;
+    background-color: #ccc;
+
+    &:active {
+      background-color: $main-color;
+      transition: all 0.2s;
     }
-    .radioCheck {
-      background-color: white;
-      border: 1px solid black;
-      transition: all 0.3s;
-    }
+  }
+  .radioCheck {
+    background-color: $main-color;
+    border: 1px solid black;
+    transition: all 0.3s;
   }
 }
 
@@ -679,4 +680,34 @@ $background-color: #fbf8f3;
   to {
     transform: translateX(0);
   }
+}
+
+.BorderBox {
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.DropDownContainer {
+  display: flex;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 35%;
+  height: 150px;
+  z-index: 10000;
+  position: fixed;
+}
+
+.DropDownScrollDiv {
+  height: inherit;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.none-list {
+  list-style: none;
+  padding-left: 10px;
 }

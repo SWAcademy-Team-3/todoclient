@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { axios_get, axios_post } from "../api/api";
+import { v4 as uuidv4 } from "uuid";
+
 import TodoInput from "./HomeComponents/TodoInput";
 import TodoList from "./HomeComponents/TodoList";
 import SimpleCalendar from "./HomeComponents/SimpleCalendar";
@@ -42,6 +44,7 @@ export default function Home() {
         {
           todo,
           isClear: false,
+          tempId: uuidv4(),
         },
       ]);
     } else {
@@ -50,6 +53,7 @@ export default function Home() {
         {
           todo,
           isClear: false,
+          tempId: uuidv4(),
         },
       ]);
     }

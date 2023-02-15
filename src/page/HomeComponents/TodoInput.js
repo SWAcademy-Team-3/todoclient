@@ -14,14 +14,18 @@ export default function TodoInput({ addTodo }) {
 
   const changeAddState = () => {
     if (addState === "TODO") {
-      setAddState("습관");
+      setAddState("HABIT");
     } else {
       setAddState("TODO");
     }
   };
+
+  const handleAddTodo = () => {
+    addTodo(addState, todoText);
+    setTodoText("");
+  };
   // TODO 엔터를 입력해도 추가될 수 있도록 구현
   // TODO 시간 설정할 수 있는 토스트 창 추가
-  // TODO 입력 시 todoText 초기화 시키기
 
   return (
     <div className="InputBox">
@@ -40,7 +44,7 @@ export default function TodoInput({ addTodo }) {
       ></input>
       <div>
         <AccessAlarmIcon />
-        <AddIcon onClick={() => addTodo(addState, todoText)} />
+        <AddIcon onClick={handleAddTodo} />
       </div>
     </div>
   );

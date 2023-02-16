@@ -67,17 +67,21 @@ const CalendarContents = ({ selectedDate, setSelectedDate }) => {
               key={index}
               style={{
                 textAlign: "center",
-                backgroundColor:
-                  `${selectedDate.getFullYear()}-${
-                    selectedDate.getMonth() + 1
-                  }-${selectedDate.getDate()}` === `${year}-${month}-${val}` &&
-                  "#e5a8a6",
                 borderRadius: "50%",
               }}
               onClick={() => handleDaySelect(val)}
             >
-              <span>{val}</span>
-              {val !== "" && <ProgressRate size={25} />}
+              {val !== "" && (
+                <ProgressRate
+                  size={38}
+                  innerContent={val}
+                  background={
+                    `${selectedDate.getFullYear()}-${
+                      selectedDate.getMonth() + 1
+                    }-${selectedDate.getDate()}` === `${year}-${month}-${val}`
+                  }
+                />
+              )}
             </div>
           );
         })}

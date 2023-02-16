@@ -82,6 +82,7 @@ $background-color: #fbf8f3;
         align-items: center;
 
         & > :nth-child(3) {
+          flex: none;
           margin-left: auto;
           font-size: 12px;
           color: #bbb;
@@ -605,6 +606,7 @@ $background-color: #fbf8f3;
   overflow-y: scroll;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 5px;
 }
 
 .floatingButton {

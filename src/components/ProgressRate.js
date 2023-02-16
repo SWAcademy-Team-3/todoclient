@@ -47,23 +47,31 @@ const Donut = styled.div`
     color: black;
     width: 70%;
     height: 70%;
-    background: #fff;
+    background: ${({ background }) => `
+      ${background ? "#e5a8a6" : "#fff"}
+  `};
     border-radius: 50%;
     position: absolute;
     left: 15%;
     top: 15%;
     display: block;
-    content: attr(data-percent) "";
+    content: "${(props) => props.innerContent}";
     margin: auto;
-    font-size: 1.1vw;
-    font-size: 2vw;
+    font-size: 4vw;
   }
 `;
 
-const ProgressRate = ({ rate = 50, size = 50 }) => {
+const ProgressRate = ({ rate = 50, size = 50, innerContent, background }) => {
   const [rateValue, setRateValue] = useState(rate);
 
-  return <Donut dataPercent={rateValue} size={size}></Donut>;
+  return (
+    <Donut
+      dataPercent={rateValue}
+      size={size}
+      innerContent={innerContent}
+      background={background}
+    ></Donut>
+  );
 };
 
 export default ProgressRate;

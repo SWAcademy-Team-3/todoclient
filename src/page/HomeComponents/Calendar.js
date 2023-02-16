@@ -13,7 +13,7 @@ export default function Calendar({ setOpenCalendar }) {
 
   return (
     <div className="modalBackground">
-      <div className="modal" style={{ height: "45vh" }}>
+      <div className="modal" style={{ height: "45vh", padding: "0 10px" }}>
         <CalendarContents
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}

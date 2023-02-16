@@ -40,7 +40,14 @@ export default function TodoList({ category, data, setData }) {
                     textDecoration: val.isClear ? "line-through" : "none",
                   }}
                 >
-                  {val.todo} <br />
+                  {val.todo}
+                </span>
+                <span
+                  style={{
+                    textDecoration: val.isClear ? "line-through" : "none",
+                  }}
+                >
+                  {val.limitTime}
                 </span>
               </div>
             );

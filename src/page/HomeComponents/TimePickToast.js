@@ -5,12 +5,20 @@ import TimePicker from "../../components/TimePicker";
 import RadioGroup from "../../components/RadioGroup";
 import Radio from "../../components/Radio";
 
-export default function TimePickToast({ setOpenTimePicker }) {
+export default function TimePickToast({ setOpenTimePicker, addTodo }) {
   const todoInput = useRef();
   const [todoText, setTodoText] = useState("");
   const [addState, setAddState] = useState("TODO");
+
+  const [hour, setHour] = useState("00");
+  const [minutes, setMinutes] = useState("00");
+
   const onChange = (e) => {
     setTodoText(e.target.value);
+  };
+  const handleAddBtn = () => {
+    addTodo(addState, todoText, `${hour} : ${minutes}`);
+    setOpenTimePicker(false);
   };
   return (
     <div className="modalBackground">
@@ -37,7 +45,12 @@ export default function TimePickToast({ setOpenTimePicker }) {
                 </Radio>
               </RadioGroup>
             </div>
-            <TimePicker />
+            <TimePicker
+              hour={hour}
+              setHour={setHour}
+              minutes={minutes}
+              setMinutes={setMinutes}
+            />
           </div>
           <div className="searchBar">
             <input
@@ -51,7 +64,7 @@ export default function TimePickToast({ setOpenTimePicker }) {
           </div>
         </div>
         <div className="textBtnDiv">
-          <TextButton text="추가" />
+          <TextButton text="추가" onClick={handleAddBtn} />
           <TextButton text="취소" onClick={() => setOpenTimePicker(false)} />
         </div>
       </div>

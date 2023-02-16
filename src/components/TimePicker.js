@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useClickAway from "../hooks/useClickAway";
+import TextButton from "./TextButton";
 
 const hourArray = Array.from({ length: 24 }, (_, i) =>
   `${i}`.length === 1 ? `0${i}` : `${i}`
@@ -8,9 +8,7 @@ const minutesArray = Array.from({ length: 60 }, (_, i) =>
   `${i}`.length === 1 ? `0${i}` : `${i}`
 );
 
-export default function TimePicker() {
-  const [hour, setHour] = useState("00");
-  const [minutes, setMinutes] = useState("00");
+export default function TimePicker({ hour, setHour, minutes, setMinutes }) {
   const [openDropDown, setOpenDropDown] = useState(false);
   return (
     <div>
@@ -54,6 +52,11 @@ export default function TimePicker() {
               ))}
             </ul>
           </div>
+          <TextButton
+            text="OK"
+            style={{ marginTop: "10px" }}
+            onClick={() => setOpenDropDown(false)}
+          />
         </div>
       )}
     </div>

@@ -31,7 +31,7 @@ export default function Home() {
   };
 
   // TODO리스트에 추가
-  const addTodo = (addState, todo) => {
+  const addTodo = (addState, todo, time = null) => {
     const type = addState === "TODO" ? "TODO" : "HABIT";
     const data = {
       memberid: "userId",
@@ -45,6 +45,7 @@ export default function Home() {
         ...todos,
         {
           todo,
+          limitTime: time,
           isClear: false,
           tempId: uuidv4(),
         },
@@ -54,6 +55,7 @@ export default function Home() {
         ...habits,
         {
           todo,
+          limitTime: time,
           isClear: false,
           tempId: uuidv4(),
         },
@@ -88,7 +90,10 @@ export default function Home() {
       <TodoInput addTodo={addTodo} setOpenTimePicker={setOpenTimePicker} />
       {openCalendar && <Calendar setOpenCalendar={setOpenCalendar} />}
       {openTimePicker && (
-        <TimePickToast setOpenTimePicker={setOpenTimePicker} />
+        <TimePickToast
+          setOpenTimePicker={setOpenTimePicker}
+          addTodo={addTodo}
+        />
       )}
     </DateProvider>
   );

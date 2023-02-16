@@ -15,6 +15,7 @@ import Write from "./page/Write";
 import Navigation from "./Navigation";
 
 import "./style/index.scss";
+import FindFriends from "./page/FindFriends";
 
 function App() {
   //Route 바깥에서 경로를 가져오는 방법이 없나
@@ -28,6 +29,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/post" element={<Post />}></Route>
+            <Route path="/find" element={<FindFriends />}></Route>
             <Route path="/write" element={<Write />}></Route>
             <Route path="/my" element={<My />}></Route>
             <Route path="/receive" element={<Receive />}></Route>

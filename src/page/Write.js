@@ -1,18 +1,17 @@
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useLocation } from "react-router";
 
 // 임시이미지
 import myImg from "../assets/images/chuu.jpg";
-import friendImg from "../assets/images/kim.jpg";
 import FlatButton from "../components/FlatButton";
 
-export default function Write({ initialState }) {
+export default function Write() {
   let navigate = useNavigate();
+  const { state } = useLocation();
   const titleRef = useRef();
   const contentRef = useRef();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [selectedFriend, setSelectedFriend] = useState(initialState);
 
   const handleTitle = (e) => {
     setTitle(e.target.value);
@@ -49,9 +48,13 @@ export default function Write({ initialState }) {
             className="profileImgDiv"
             style={{ width: "40px", height: "40px" }}
           >
-            <img src={friendImg} alt="profileImg" className="profileImg" />
+            <img
+              src={state.profileImg}
+              alt="profileImg"
+              className="profileImg"
+            />
           </div>
-          <span>_chaechae_1</span>
+          <span>{state.memId}</span>
         </div>
       </div>
       <div
@@ -65,8 +68,9 @@ export default function Write({ initialState }) {
           className="blankInput"
           type="text"
           placeholder="편지제목을 입력하세요"
-          style={{ fontSize: "22px", fontWeight: 700 }}
+          style={{ fontSize: "22px", fontWeight: 700, width: "98%" }}
           ref={titleRef}
+          value={title}
           onChange={(e) => handleTitle(e)}
         />
       </div>
@@ -81,7 +85,9 @@ export default function Write({ initialState }) {
           className="blankInput"
           type="text"
           placeholder="내용을 입력하세요"
+          style={{ width: "100%", height: "100%" }}
           ref={contentRef}
+          value={content}
           onChange={(e) => handleContent(e)}
         />
       </div>
@@ -91,7 +97,9 @@ export default function Write({ initialState }) {
           name="편지취소"
           width="120px"
           height="50px"
-          onClick={() => navigate(-1)}
+          onClick={() =>
+            state.location === "findFriends" ? navigate(-2) : navigate(-1)
+          }
         />
       </div>
     </div>

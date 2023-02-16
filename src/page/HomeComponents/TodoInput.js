@@ -3,7 +3,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 import React, { useState, useRef } from "react";
 
-export default function TodoInput({ addTodo }) {
+export default function TodoInput({ addTodo, setOpenTimePicker }) {
   const [todoText, setTodoText] = useState("");
   const [addState, setAddState] = useState("TODO");
   const todoInput = useRef();
@@ -43,7 +43,7 @@ export default function TodoInput({ addTodo }) {
         onChange={(e) => onChange(e)}
       ></input>
       <div>
-        <AccessAlarmIcon />
+        <AccessAlarmIcon onClick={() => setOpenTimePicker(true)} />
         <AddIcon onClick={handleAddTodo} />
       </div>
     </div>

@@ -10,11 +10,13 @@ import DateProvider from "../contexts/dateProvider";
 
 import "../style/index.scss";
 import Calendar from "./HomeComponents/Calendar";
+import TimePickToast from "./HomeComponents/TimePickToast";
 
 export default function Home() {
   const [todos, setTodos] = useState([]);
   const [habits, setHabits] = useState([]);
   const [openCalendar, setOpenCalendar] = useState(false);
+  const [openTimePicker, setOpenTimePicker] = useState(false);
 
   // API 통신 안정시 제거
   const dummy_param1 = {
@@ -29,7 +31,7 @@ export default function Home() {
   };
 
   // TODO리스트에 추가
-  const addTodo = (addState, todo) => {
+  const addTodo = (addState, todo, time = null) => {
     const type = addState === "TODO" ? "TODO" : "HABIT";
     const data = {
       memberid: "userId",
@@ -43,6 +45,7 @@ export default function Home() {
         ...todos,
         {
           todo,
+          limitTime: time,
           isClear: false,
           tempId: uuidv4(),
         },
@@ -52,6 +55,7 @@ export default function Home() {
         ...habits,
         {
           todo,
+          limitTime: time,
           isClear: false,
           tempId: uuidv4(),
         },
@@ -83,8 +87,14 @@ export default function Home() {
         <TodoList category={"HABIT"} data={habits} setData={setHabits} />
       </div>
       <CalendarToggle setOpenCalendar={setOpenCalendar} />
-      <TodoInput addTodo={addTodo} />
+      <TodoInput addTodo={addTodo} setOpenTimePicker={setOpenTimePicker} />
       {openCalendar && <Calendar setOpenCalendar={setOpenCalendar} />}
+      {openTimePicker && (
+        <TimePickToast
+          setOpenTimePicker={setOpenTimePicker}
+          addTodo={addTodo}
+        />
+      )}
     </DateProvider>
   );
 }

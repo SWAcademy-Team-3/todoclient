@@ -56,7 +56,7 @@ export default function Post() {
           handleModalClick={handleModalClick}
         />
       ) : null}
-      <div className="floatingButton" onClick={() => navigate("/write")}>
+      <div className="floatingButton" onClick={() => navigate("/find")}>
         <EditIcon sx={{ fontSize: 40, marginTop: "18px" }} />
       </div>
     </>

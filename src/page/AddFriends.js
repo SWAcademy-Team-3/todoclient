@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 
-import AddTile from "./FriendsComponents/AddTile";
+import Tile from "../components/Tile";
 // 지울 것
 import profileImg from "../assets/images/kim.jpg";
 import useSlideBack from "../hooks/useSlideBack";
@@ -15,6 +15,9 @@ export default function AddFriends() {
 
   const handleTextInput = (e) => {
     setSearchText(e.target.value);
+  };
+  const handleAddButton = () => {
+    console.log("친구를 추가하겠냐는 멘트");
   };
   //윈도우 전역에 터치가 시작될 때의 좌표를 기록함
   //윈도우 전역에서 터치가 이동할 때 x좌표가 + 쪽으로 어느정도 이동하면 navigate(-1)을 한다.
@@ -44,10 +47,12 @@ export default function AddFriends() {
         <SearchIcon />
       </div>
       <hr style={{ margin: 0 }} />
-      <AddTile
+      <Tile
         profileImg={profileImg}
         memId="_chaechae_1"
         name="김채원 (CHAEWON)"
+        type="add"
+        handleClick={handleAddButton}
       />
     </div>
   );

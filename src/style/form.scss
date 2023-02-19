@@ -1,3 +1,7 @@
+$main-color: #e5a8a6;
+$sub-color: #bb254a;
+$background-color: #fbf8f3;
+
 .FormContainer {
   margin: auto 0;
 }
@@ -5,7 +9,7 @@
 .submitButton {
   display: block;
   height: 32px;
-  background-color: black;
+  background-color: $sub-color;
   color: white;
   border: none;
   outline: none;
@@ -18,7 +22,7 @@
   margin-top: 16px;
 
   &:hover {
-    background-color: #111;
+    background-color: $sub-color;
   }
 
   &:active {
@@ -38,7 +42,6 @@
 
 .Cardform {
   width: 90%;
-  //box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
   margin: 0 auto;
 }
 

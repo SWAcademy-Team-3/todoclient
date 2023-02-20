@@ -10,7 +10,7 @@ import DateProvider from "../contexts/dateProvider";
 
 import "../style/index.scss";
 import Calendar from "./HomeComponents/Calendar";
-import TimePickToast from "./HomeComponents/TimePickToast";
+import TimePickModal from "./HomeComponents/TimePickModal";
 
 export default function Home() {
   const [todos, setTodos] = useState([]);
@@ -90,7 +90,7 @@ export default function Home() {
       <TodoInput addTodo={addTodo} setOpenTimePicker={setOpenTimePicker} />
       {openCalendar && <Calendar setOpenCalendar={setOpenCalendar} />}
       {openTimePicker && (
-        <TimePickToast
+        <TimePickModal
           setOpenTimePicker={setOpenTimePicker}
           addTodo={addTodo}
         />

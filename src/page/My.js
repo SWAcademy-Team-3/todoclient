@@ -30,9 +30,13 @@ export default function My() {
       <FlatButton
         name="프로필 수정"
         color="#e5a8a6"
-        width="100%"
-        height="35px"
-        marginBottom="20px"
+        style={{
+          width: "100%",
+          height: "35px",
+          marginBottom: "20px",
+          borderRadius: "12px",
+        }}
+        borderRadius="12px"
       />
       <span className="tileText">비밀번호 변경</span>
       <span className="tileText" onClick={() => handlePagination("/receive")}>

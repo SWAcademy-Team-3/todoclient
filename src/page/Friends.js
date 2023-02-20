@@ -19,11 +19,9 @@ export default function Friends() {
   };
   const handleModal = (type, message) => {
     setModal(
-      <Modal
-        type={type}
-        message={message}
-        handleModalClick={handleModalClick}
-      />
+      <Modal type={type} handleModalClick={handleModalClick}>
+        <span className="modalMessage">{message}</span>
+      </Modal>
     );
   };
   let navigate = useNavigate();

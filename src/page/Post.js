@@ -50,11 +50,11 @@ export default function Post() {
         {open ? <PostOpen /> : <PostClose />}
       </div>
       {modalOpen ? (
-        <Modal
-          message="읽을 편지가 존재하지 않습니다. 편지를 요청해보세요"
-          type="alert"
-          handleModalClick={handleModalClick}
-        />
+        <Modal type="alert" handleModalClick={handleModalClick}>
+          <span className="modalMessage">
+            읽을 편지가 존재하지 않습니다. 편지를 요청해보세요
+          </span>
+        </Modal>
       ) : null}
       <div className="floatingButton" onClick={() => navigate("/find")}>
         <EditIcon sx={{ fontSize: 40, marginTop: "18px" }} />

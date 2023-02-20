@@ -29,11 +29,17 @@ export default function FriendsToggle({ user, handleModal }) {
           }}
         />
         <div>
-          <span style={{ marginRight: "4px" }}>{user}</span>
+          <span style={{ marginRight: "6px" }}>{user}</span>
           <FlatButton
             name="편지 요청"
             color="#BECAD6"
+            style={{ marginRight: "6px", borderRadius: "12px" }}
             onClick={handlePostRequest}
+          />
+          <FlatButton
+            name="편지 쓰기"
+            style={{ borderRadius: "12px" }}
+            color="#bb254a"
           />
         </div>
         <button

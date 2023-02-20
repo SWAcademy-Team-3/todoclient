@@ -16,21 +16,17 @@ export default function FriendsRequest({ activeTab }) {
 
   const handleAccept = () => {
     setModal(
-      <Modal
-        type="check"
-        message="친구 요청을 수락하시겠습니까?"
-        handleModalClick={handleModalClick}
-      />
+      <Modal type="check" handleModalClick={handleModalClick}>
+        <span className="modalMessage">친구 요청을 수락하시겠습니까?</span>
+      </Modal>
     );
   };
 
   const handleDelete = () => {
     setModal(
-      <Modal
-        type="check"
-        message="친구 요청을 거절하시겠습니까?"
-        handleModalClick={handleModalClick}
-      />
+      <Modal type="check" handleModalClick={handleModalClick}>
+        <span className="modalMessage">친구 요청을 거절하시겠습니까?</span>
+      </Modal>
     );
   };
   return (

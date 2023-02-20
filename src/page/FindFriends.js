@@ -9,6 +9,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import tempImg1 from "../assets/images/kim.jpg";
 import tempImg2 from "../assets/images/yena.jpg";
 import Tile from "../components/Tile";
+import SimpleCalendar from "./HomeComponents/SimpleCalendar";
+import TodoList from "./HomeComponents/TodoList";
+import DateProvider from "../contexts/dateProvider";
+import { v4 } from "uuid";
 const dummyData = [
   {
     profileImg: tempImg1,
@@ -21,11 +25,39 @@ const dummyData = [
     name: "최예나",
   },
 ];
+const dummyToDo = [
+  {
+    todo: "TODO1",
+    limitTime: "17:00",
+    isClear: true,
+    tempId: v4(),
+  },
+  {
+    todo: "TODO2",
+    limitTime: "22:00",
+    isClear: false,
+    tempId: v4(),
+  },
+];
+
+const dummyHabit = [
+  {
+    todo: "HABIT1",
+    limitTime: null,
+    isClear: false,
+    tempId: v4(),
+  },
+];
 
 export default function FindFriends() {
   let navigate = useNavigate();
   const [typingAnimationEnd, setTypingAnimationEnd] = useState(false);
   const [fadeAnimationEnd, setFadeAnimationEnd] = useState(false);
+  const [fadeAnimationEnd2, setFadeAnimationEnd2] = useState(false);
+  const [selectedFriend, setSelectedFriend] = useState({
+    profileImg: null,
+    memId: null,
+  });
   const [startX, setStartX] = useState(0);
   const [searchText, setSearchText] = useState("");
   const inputRef = useRef();
@@ -35,6 +67,9 @@ export default function FindFriends() {
   const [fadeAnimation, fadeClear] = useTimeout(() => {
     setFadeAnimationEnd(true);
   }, 4400);
+  const [fadeAnimation2, fadeClear2] = useTimeout(() => {
+    setFadeAnimationEnd2(true);
+  }, 1000);
 
   useSlideBack("touchmove", startX, () => {
     navigate(-1);
@@ -49,12 +84,22 @@ export default function FindFriends() {
     setSearchText(e.target.value);
   };
 
-  const handleMoveWrite = (profileImg, memId) => {
+  const handleSelectFriend = (profileImg, memId) => {
+    setSelectedFriend({
+      profileImg,
+      memId,
+    });
+    fadeAnimation2();
+  };
+
+  const handleMoveWrite = (todoId, type, category, todo) => {
     navigate("/write", {
       state: {
-        profileImg,
-        memId,
+        profileImg: selectedFriend.profileImg,
+        memId: selectedFriend.memId,
         location: "findFriends",
+        todo,
+        category,
       },
     });
   };
@@ -83,8 +128,13 @@ export default function FindFriends() {
           <h3 className="typewriter">편지를 쓸 친구를 찾고 선택해보세요</h3>
         </div>
         <div
-          className="fadeInDiv"
-          style={{ display: !typingAnimationEnd ? "none" : "block" }}
+          className={`${
+            selectedFriend.memId !== null ? "clearDiv" : "fadeInDiv"
+          }`}
+          style={{
+            display:
+              !typingAnimationEnd || fadeAnimationEnd2 ? "none" : "block",
+          }}
         >
           <div className="searchBar">
             <input
@@ -105,11 +155,39 @@ export default function FindFriends() {
               memId={memId}
               name={name}
               type="check"
-              handleClick={() => handleMoveWrite(profileImg, memId)}
+              handleClick={() => handleSelectFriend(profileImg, memId)}
             />
           ))}
         </div>
       </div>
+      <DateProvider>
+        <div
+          className="fadeInDiv"
+          style={{ display: !fadeAnimationEnd2 ? "none" : "block" }}
+        >
+          <div className="Mainheader">
+            <SimpleCalendar />
+            <hr />
+          </div>
+          <div id="homeContents">
+            <span style={{ fontSize: "18px" }}>
+              <strong>{selectedFriend.memId}</strong> 님의 할일 목록
+            </span>
+            <TodoList
+              category={"TODO"}
+              data={dummyToDo}
+              handleClick={handleMoveWrite}
+              my={false}
+            />
+            <TodoList
+              category={"HABIT"}
+              data={dummyHabit}
+              handleClick={handleMoveWrite}
+              my={false}
+            />
+          </div>
+        </div>
+      </DateProvider>
     </>
   );
 }

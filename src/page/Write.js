@@ -57,6 +57,11 @@ export default function Write() {
           <span>{state.memId}</span>
         </div>
       </div>
+      <div>
+        <span>
+          응원할 {state.category} : {state.todo}
+        </span>
+      </div>
       <div
         style={{
           border: "1px solid black",
@@ -92,11 +97,13 @@ export default function Write() {
         />
       </div>
       <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <FlatButton name="편지쓰기" width="120px" height="50px" />
+        <FlatButton
+          name="편지쓰기"
+          style={{ width: "120px", height: "50px", borderRadius: "12px" }}
+        />
         <FlatButton
           name="편지취소"
-          width="120px"
-          height="50px"
+          style={{ width: "120px", height: "50px", borderRadius: "12px" }}
           onClick={() =>
             state.location === "findFriends" ? navigate(-2) : navigate(-1)
           }

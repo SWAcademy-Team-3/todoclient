@@ -11,11 +11,11 @@ import DateProvider from "../contexts/dateProvider";
 import "../style/index.scss";
 import Calendar from "./HomeComponents/Calendar";
 import TimePickModal from "./HomeComponents/TimePickModal";
-
-// 임시이미지
-import myImg from "../assets/images/chuu.jpg";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  let navigate = useNavigate();
   const [todos, setTodos] = useState([]);
   const [habits, setHabits] = useState([]);
   const [openCalendar, setOpenCalendar] = useState(false);
@@ -105,6 +105,9 @@ export default function Home() {
     setHabits(res2);
   };
   useEffect(() => {
+    if (axios.defaults.headers.common["Authorization"] === undefined) {
+      navigate("/login");
+    }
     //getData();
   }, []);
 

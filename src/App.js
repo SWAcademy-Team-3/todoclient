@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./page/Home";
@@ -18,9 +18,12 @@ import "./style/index.scss";
 import FindFriends from "./page/FindFriends";
 
 function App() {
-  //Route 바깥에서 경로를 가져오는 방법이 없나
-  const pathname = window.location.pathname;
-  //Resize (모바일키보드 올라올 시 네비게이션 안보이기)
+  // Route 바깥에서 경로를 가져오는 방법이 없나
+  const [pathname, setPathName] = useState(window.location.pathname);
+  useEffect(() => {
+    setPathName(window.location.pathname);
+  }, [window.location]);
+  // Resize (모바일키보드 올라올 시 네비게이션 안보이기)
 
   return (
     <div className="App">

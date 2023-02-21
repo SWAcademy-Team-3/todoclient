@@ -12,6 +12,9 @@ import "../style/index.scss";
 import Calendar from "./HomeComponents/Calendar";
 import TimePickModal from "./HomeComponents/TimePickModal";
 
+// 임시이미지
+import myImg from "../assets/images/chuu.jpg";
+
 export default function Home() {
   const [todos, setTodos] = useState([]);
   const [habits, setHabits] = useState([]);
@@ -63,7 +66,36 @@ export default function Home() {
     }
   };
 
-  const removeTodo = () => {};
+  const handleClick = (targetId, type, category) => {
+    switch (type) {
+      case "DELETE":
+        category === "TODO"
+          ? setTodos(todos.filter((val) => val.tempId !== targetId))
+          : setHabits(habits.filter((val) => val.tempId !== targetId));
+        break;
+      case "UPDATE":
+        category === "TODO"
+          ? setTodos(
+              todos.map((val) => {
+                if (val.tempId === targetId) {
+                  val.isClear = !val.isClear;
+                }
+                return val;
+              })
+            )
+          : setHabits(
+              habits.map((val) => {
+                if (val.tempId === targetId) {
+                  val.isClear = !val.isClear;
+                }
+                return val;
+              })
+            );
+        break;
+      default:
+        alert("오류 발생");
+    }
+  };
 
   // User TODO API 받기
   const getData = async () => {
@@ -83,8 +115,11 @@ export default function Home() {
         <hr />
       </div>
       <div id="homeContents">
-        <TodoList category={"TODO"} data={todos} setData={setTodos} />
-        <TodoList category={"HABIT"} data={habits} setData={setHabits} />
+        <span style={{ fontSize: "18px" }}>
+          <strong>chuu</strong> 님의 할일 목록
+        </span>
+        <TodoList category={"TODO"} data={todos} handleClick={handleClick} />
+        <TodoList category={"HABIT"} data={habits} handleClick={handleClick} />
       </div>
       <CalendarToggle setOpenCalendar={setOpenCalendar} />
       <TodoInput addTodo={addTodo} setOpenTimePicker={setOpenTimePicker} />

@@ -26,45 +26,45 @@ $background-color: #fbf8f3;
     height: 80px;
     padding-top: 12px;
     margin: 0px 8px;
-    //HOME 헤더
-    .SimpleCalendar {
+  }
+  //HOME 헤더
+  .SimpleCalendar {
+    display: flex;
+    flex-direction: row;
+    width: -webkit-fill-available;
+    align-items: baseline;
+
+    & > * {
       display: flex;
-      flex-direction: row;
-      width: -webkit-fill-available;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+    }
+
+    & > :nth-child(1) {
+      font-size: 36px;
+      font-weight: 600;
+      flex: 1;
+    }
+
+    & > :nth-child(2) {
+      flex: 2;
+      justify-content: space-around;
       align-items: baseline;
 
-      & > * {
-        display: flex;
-        flex-wrap: wrap;
-        align-content: center;
-        justify-content: center;
+      & > #selectedDay {
+        background-color: $sub-color;
+        color: white;
+        font-size: 32px;
+        border-radius: 50%;
+        padding: 0px 8px;
       }
+    }
 
-      & > :nth-child(1) {
-        font-size: 36px;
-        font-weight: 600;
-        flex: 1;
-      }
-
-      & > :nth-child(2) {
-        flex: 2;
-        justify-content: space-around;
-        align-items: baseline;
-
-        & > #selectedDay {
-          background-color: $sub-color;
-          color: white;
-          font-size: 32px;
-          border-radius: 50%;
-          padding: 0px 8px;
-        }
-      }
-
-      & > :nth-child(3) {
-        font-size: 18px;
-        font-weight: 600;
-        flex: 1;
-      }
+    & > :nth-child(3) {
+      font-size: 18px;
+      font-weight: 600;
+      flex: 1;
     }
   }
   #homeContents {
@@ -729,10 +729,10 @@ $background-color: #fbf8f3;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+}
 
-  &.clearDiv {
-    animation: interval-fade-out 1.5s;
-  }
+.clearDiv {
+  animation: interval-fade-out 1.5s;
 }
 
 .fadeInDiv {

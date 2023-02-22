@@ -1,10 +1,11 @@
 import axios from "axios";
+// import { getCookie } from "../service/Cookie";
 
 const END_POINT = "http://175.45.204.72:8080";
 const subUrl = {
   login: "/api/login",
   register: "api/register",
-  todo: "/api/main/todo",
+  todo: "/api/member/main/todo",
   info: "/api/user/info",
 };
 const contentType = {
@@ -16,7 +17,7 @@ export const axios_get = async (url, params, token) => {
   try {
     const response = await axios.get(`${END_POINT}${subUrl[url]}`, {
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
       },
       params,
     });
@@ -30,7 +31,7 @@ export const axios_get = async (url, params, token) => {
   }
 };
 
-export const axios_post = async (url, sendData, type) => {
+export const axios_post = async (url, sendData, type = "json") => {
   try {
     const response = await axios.post(`${END_POINT}${subUrl[url]}`, sendData, {
       headers: {

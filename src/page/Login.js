@@ -15,15 +15,17 @@ export default function Login() {
       password: values.password,
     };
     const response = await axios_post("login", JSON.stringify(data), "json");
-    console.log(response);
-    setCookie("a_token", response.access_token);
-    setCookie("r_token", response.refresh_token);
-    changeUserData({
-      memberId: response.memberId,
-      newLetterCount: response.newLetterCount,
-      coinCount: response.coinCount,
-    });
-    navigate("/");
+    if (response === undefined) {
+      alert("올바르지 않은 회원 정보 입니다.");
+    } else {
+      setCookie("userId", response.memberId);
+      changeUserData({
+        memberId: response.memberId,
+        newLetterCount: response.newLetterCount,
+        coinCount: response.coinCount,
+      });
+      navigate("/");
+    }
   };
   return (
     <div className="FormContainer">

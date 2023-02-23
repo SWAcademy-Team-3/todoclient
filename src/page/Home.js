@@ -13,6 +13,7 @@ import TimePickModal from "./HomeComponents/TimePickModal";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../contexts/userProvider";
 import { useDate } from "../contexts/dateProvider";
+import { getCookie } from "../service/Cookie";
 
 export default function Home() {
   let navigate = useNavigate();
@@ -103,11 +104,10 @@ export default function Home() {
     // setHabits(res2);
   };
   useEffect(() => {
-    // if (user.memberid === undefined) {
-    //   //TODO 알림 후 로그인으로 갈 수 있게 수정
-    //   navigate("/login");
-    // }
-    console.log(date);
+    if (getCookie("userId") === undefined) {
+      //TODO 알림 후 로그인으로 갈 수 있게 수정
+      navigate("/login");
+    }
     // getData();
   }, []);
 
@@ -119,7 +119,7 @@ export default function Home() {
       </div>
       <div id="homeContents">
         <span style={{ fontSize: "18px" }}>
-          <strong>chuu</strong> 님의 할일 목록
+          <strong>{user.memberId}</strong> 님의 할일 목록
         </span>
         <TodoList category={"TODO"} data={todos} handleClick={handleClick} />
         <TodoList category={"HABIT"} data={habits} handleClick={handleClick} />

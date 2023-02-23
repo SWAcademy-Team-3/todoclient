@@ -6,13 +6,13 @@ import TodoInput from "./HomeComponents/TodoInput";
 import TodoList from "./HomeComponents/TodoList";
 import SimpleCalendar from "./HomeComponents/SimpleCalendar";
 import CalendarToggle from "./HomeComponents/CalendarToggle";
-import DateProvider from "../contexts/dateProvider";
 
 import "../style/index.scss";
 import Calendar from "./HomeComponents/Calendar";
 import TimePickModal from "./HomeComponents/TimePickModal";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../contexts/userProvider";
+import { useDate } from "../contexts/dateProvider";
 
 export default function Home() {
   let navigate = useNavigate();
@@ -20,18 +20,8 @@ export default function Home() {
   const [habits, setHabits] = useState([]);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openTimePicker, setOpenTimePicker] = useState(false);
-
-  // API 통신 안정시 제거
-  const dummy_param1 = {
-    searchData: "2023-01-12",
-    type: "TODO",
-    userId: "userId",
-  };
-  const dummy_param2 = {
-    searchData: new Date("2023-01-12"),
-    type: "HABIT",
-    userId: "userId",
-  };
+  const { user } = useUser();
+  const { date } = useDate();
 
   // TODO리스트에 추가
   const addTodo = (addState, todo, time = null) => {
@@ -99,20 +89,30 @@ export default function Home() {
 
   // User TODO API 받기
   const getData = async () => {
-    let res1 = await axios_get("todo", dummy_param1);
-    let res2 = await axios_get("todo", dummy_param2);
+    let res1 = await axios_get(
+      "todo",
+      {
+        searchData: "2023-02-22",
+        type: "TODO",
+        userId: user.memberId,
+      },
+      user.access_token
+    );
+    // let res2 = await axios_get("todo", dummy_param2);
     setTodos(res1);
-    setHabits(res2);
+    // setHabits(res2);
   };
   useEffect(() => {
-    if (axios.defaults.headers.common["Authorization"] === undefined) {
-      navigate("/login");
-    }
-    //getData();
+    // if (user.memberid === undefined) {
+    //   //TODO 알림 후 로그인으로 갈 수 있게 수정
+    //   navigate("/login");
+    // }
+    console.log(date);
+    // getData();
   }, []);
 
   return (
-    <DateProvider>
+    <>
       <div className="Mainheader">
         <SimpleCalendar />
         <hr />
@@ -133,6 +133,6 @@ export default function Home() {
           addTodo={addTodo}
         />
       )}
-    </DateProvider>
+    </>
   );
 }

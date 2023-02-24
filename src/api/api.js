@@ -27,7 +27,7 @@ export const axios_get = async (url, params, token) => {
       throw new Error("API 에러");
     }
   } catch (e) {
-    alert(e.message);
+    console.error("GET Error : ", e);
   }
 };
 
@@ -44,7 +44,7 @@ export const axios_post = async (url, sendData, type = "json") => {
       throw new Error("API 에러");
     }
   } catch (e) {
-    alert(e.message);
+    console.error("POST Error : ", e);
   }
 };
 

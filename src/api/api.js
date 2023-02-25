@@ -6,6 +6,7 @@ const subUrl = {
   login: "/api/login",
   register: "api/register",
   todo: "/api/member/main/todo",
+  success: "api/member/main/todo/success",
   info: "/api/user/info",
 };
 const contentType = {

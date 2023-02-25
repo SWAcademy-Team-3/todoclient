@@ -13,7 +13,6 @@ import TimePickModal from "./HomeComponents/TimePickModal";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../contexts/userProvider";
 import { useDate } from "../contexts/dateProvider";
-import { getCookie } from "../service/Cookie";
 
 export default function Home() {
   let navigate = useNavigate();
@@ -21,14 +20,15 @@ export default function Home() {
   const [habits, setHabits] = useState([]);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openTimePicker, setOpenTimePicker] = useState(false);
-  const { user, changeUserData } = useUser();
-  const { date } = useDate();
+  const { user } = useUser();
+  const { date, DateToStringFormat } = useDate();
 
   // TODO리스트에 추가
   const addTodo = (addState, todo, time = null) => {
     const type = addState === "TODO" ? "TODO" : "HABIT";
+    // TODO 서버에서 올바른 API 만들어 졌을 때 추가하기
     const data = {
-      memberid: "userId",
+      userId: user.memberId,
       type,
       todo,
     };
@@ -90,28 +90,33 @@ export default function Home() {
 
   // User TODO API 받기
   const getData = async () => {
+    const data = {
+      searchData: DateToStringFormat(date),
+      type: "TODO",
+      userId: user.memberId === null ? JSON.parse(localStorage.getItem('userData')).memberId : user.memberId
+    }
     let res1 = await axios_get(
       "todo",
-      {
-        searchData: "2023-02-22",
-        type: "TODO",
-        userId: user.memberId,
-      },
-      user.access_token
+      data
     );
-    // let res2 = await axios_get("todo", dummy_param2);
+    let res2 = await axios_get("todo", { ...data, type: "HABIT"});
     setTodos(res1);
-    // setHabits(res2);
+    setHabits(res2);
   };
   useEffect(() => {
-    if (getCookie("userId") === undefined) {
+    // TODO access TOKEN 확인해서 만료시 로그인으로 갈 수 있도록 수정
+    if (user === undefined) {
       //TODO 알림 후 로그인으로 갈 수 있게 수정
       navigate("/login");
     } else {
-      changeUserData(getCookie("userId"));
       getData();
     }
   }, []);
+
+  useEffect(() => {
+    // useDebounce 적용하여 여러번 요청되는 것 방지할 것
+    getData();
+  }, [date])
 
   return (
     <>

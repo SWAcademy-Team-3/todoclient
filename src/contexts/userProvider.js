@@ -1,4 +1,5 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { getCookie } from "../service/Cookie";
 
 const UserContext = createContext();
 
@@ -14,6 +15,10 @@ const UserProvider = ({ children }) => {
   const changeUserData = useCallback((value) => {
     setUser(value);
   });
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("userData")))
+  }, [])
 
   return (
     <UserContext.Provider value={{ user, changeUserData }}>

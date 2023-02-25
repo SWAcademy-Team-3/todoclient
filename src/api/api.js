@@ -1,5 +1,5 @@
 import axios from "axios";
-// import { getCookie } from "../service/Cookie";
+import { getCookie } from "../service/Cookie";
 
 const END_POINT = "http://175.45.204.72:8080";
 const subUrl = {
@@ -13,7 +13,8 @@ const contentType = {
   form: "multipart/form-data",
 };
 
-export const axios_get = async (url, params, token) => {
+export const axios_get = async (url, params) => {
+  const token = getCookie("access_token");
   try {
     const response = await axios.get(`${END_POINT}${subUrl[url]}`, {
       headers: {

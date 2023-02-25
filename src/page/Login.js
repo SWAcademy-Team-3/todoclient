@@ -18,7 +18,19 @@ export default function Login() {
     if (response === undefined) {
       alert("올바르지 않은 회원 정보 입니다.");
     } else {
-      setCookie("userId", response.memberId);
+      setCookie("userId", response.memberId, {
+        path: "/",
+        secure: true,
+      });
+      setCookie(
+        "access_token",
+        response.access_token,
+        {
+          path: "/",
+          secure: true,
+        },
+        1
+      );
       changeUserData({
         memberId: response.memberId,
         newLetterCount: response.newLetterCount,

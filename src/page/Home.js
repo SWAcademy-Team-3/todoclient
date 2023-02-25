@@ -21,7 +21,7 @@ export default function Home() {
   const [habits, setHabits] = useState([]);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openTimePicker, setOpenTimePicker] = useState(false);
-  const { user } = useUser();
+  const { user, changeUserData } = useUser();
   const { date } = useDate();
 
   // TODO리스트에 추가
@@ -107,8 +107,10 @@ export default function Home() {
     if (getCookie("userId") === undefined) {
       //TODO 알림 후 로그인으로 갈 수 있게 수정
       navigate("/login");
+    } else {
+      changeUserData(getCookie("userId"));
+      getData();
     }
-    // getData();
   }, []);
 
   return (

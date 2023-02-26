@@ -13,6 +13,7 @@ import TimePickModal from "./HomeComponents/TimePickModal";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../contexts/userProvider";
 import { useDate } from "../contexts/dateProvider";
+import useDebounce from "../hooks/useDebounce";
 
 export default function Home() {
   let navigate = useNavigate();
@@ -93,13 +94,13 @@ export default function Home() {
     const data = {
       searchData: DateToStringFormat(date),
       type: "TODO",
-      userId: user.memberId === null ? JSON.parse(localStorage.getItem('userData')).memberId : user.memberId
-    }
-    let res1 = await axios_get(
-      "todo",
-      data
-    );
-    let res2 = await axios_get("todo", { ...data, type: "HABIT"});
+      userId:
+        user.memberId === null
+          ? JSON.parse(localStorage.getItem("userData")).memberId
+          : user.memberId,
+    };
+    let res1 = await axios_get("todo", data);
+    let res2 = await axios_get("todo", { ...data, type: "HABIT" });
     setTodos(res1);
     setHabits(res2);
   };
@@ -112,11 +113,14 @@ export default function Home() {
       getData();
     }
   }, []);
-
-  useEffect(() => {
-    // useDebounce 적용하여 여러번 요청되는 것 방지할 것
-    getData();
-  }, [date])
+  // 날짜 변경후 0.5초 뒤에 데이터를 불러오는 동작
+  useDebounce(
+    () => {
+      getData();
+    },
+    500,
+    [date]
+  );
 
   return (
     <>

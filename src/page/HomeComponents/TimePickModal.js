@@ -6,25 +6,13 @@ import RadioGroup from "../../components/RadioGroup";
 import Radio from "../../components/Radio";
 import DatePicker from "../../components/DatePicker";
 import Modal from "../../components/Modal";
-
-const DateToStringFormat = (source, delimeter = "-") => {
-  const year = source.getFullYear();
-  const month =
-    `${source.getMonth() + 1}`.length === 1
-      ? `0${source.getMonth() + 1}`
-      : `${source.getMonth() + 1}`;
-  const day =
-    `${source.getDate()}`.length === 1
-      ? `0${source.getDate()}`
-      : `${source.getDate()}`;
-
-  return [year, month, day].join(delimeter);
-};
+import { useDate } from "../../contexts/dateProvider";
 
 export default function TimePickModal({ setOpenTimePicker, addTodo }) {
   const todoInput = useRef();
   const [todoText, setTodoText] = useState("");
   const [addState, setAddState] = useState("TODO");
+  const { DateToStringFormat } = useDate();
 
   const [hour, setHour] = useState("00");
   const [minutes, setMinutes] = useState("00");

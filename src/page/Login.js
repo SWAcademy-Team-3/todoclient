@@ -18,10 +18,12 @@ export default function Login() {
     if (response === undefined) {
       alert("올바르지 않은 회원 정보 입니다.");
     } else {
-      setCookie("userId", response.memberId, {
-        path: "/",
-        secure: true,
-      });
+      // TODO 유저 정보 관리하기
+      localStorage.setItem("userData", JSON.stringify({
+        memberId: response.memberId,
+        newLetterCount: response.newLetterCount,
+        coinCount: response.coinCount
+      }))
       setCookie(
         "access_token",
         response.access_token,

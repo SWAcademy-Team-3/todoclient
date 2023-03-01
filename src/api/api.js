@@ -30,6 +30,7 @@ export const axios_get = async (url, params) => {
     }
   } catch (e) {
     console.error("GET Error : ", e);
+    return [];
   }
 };
 

@@ -106,7 +106,7 @@ export default function Home() {
   };
   useEffect(() => {
     // TODO access TOKEN 확인해서 만료시 로그인으로 갈 수 있도록 수정
-    // login check 통신 시 304라면 로그인화면으로 갈 수 있도록 변경
+    // login check 통신 시 401라면 로그인화면으로 갈 수 있도록 변경
     if (user === null) {
       //TODO 알림 후 로그인으로 갈 수 있게 수정
       navigate("/login");

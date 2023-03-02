@@ -9,12 +9,12 @@ export default function TodoList({ category, data, handleClick, my = true }) {
         <div className="list">
           {data.map((val) => {
             return (
-              <div className="element" key={val.tempId}>
+              <div className="element" key={val.todoId}>
                 {my ? (
                   <button
                     className="DeleteButton"
                     onClick={() =>
-                      handleClick(val.tempId, "DELETE", category, val.todo)
+                      handleClick(val.todoId, "DELETE", category, val.todo)
                     }
                   >
                     X
@@ -24,17 +24,17 @@ export default function TodoList({ category, data, handleClick, my = true }) {
                 )}
                 <span
                   onClick={() =>
-                    handleClick(val.tempId, "UPDATE", category, val.todo)
+                    handleClick(val.todoId, "UPDATE", category, val.todo)
                   }
                   style={{
-                    textDecoration: val.isClear ? "line-through" : "none",
+                    textDecoration: val.success ? "line-through" : "none",
                   }}
                 >
                   {val.todo}
                 </span>
                 <span
                   style={{
-                    textDecoration: val.isClear ? "line-through" : "none",
+                    textDecoration: val.success ? "line-through" : "none",
                   }}
                 >
                   {val.limitTime}

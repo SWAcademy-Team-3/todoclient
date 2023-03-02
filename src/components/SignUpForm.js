@@ -2,7 +2,7 @@ import useForm from "../hooks/useForm";
 import "../style/form.scss";
 
 export default function SignUpForm({ onSubmit }) {
-  const { values, errors, isLoading, handleChange, handleSubmit } = useForm({
+  const { errors, isLoading, handleChange, handleSubmit } = useForm({
     initialState: {
       name: "",
       memberId: "",
@@ -24,47 +24,62 @@ export default function SignUpForm({ onSubmit }) {
   return (
     <form className="Cardform" onSubmit={handleSubmit}>
       <h1 className="title">SignUp</h1>
-      <input
-        type="text"
-        name="name"
-        placeholder="name"
-        onChange={handleChange}
-        className="FormInput"
-      />
+      <div className="FormDiv">
+        <span>이름</span>
+        <input
+          type="text"
+          name="name"
+          placeholder="name"
+          onChange={handleChange}
+          className="FormInput"
+        />
+      </div>
       {errors.name && <span className="ErrorText">{errors.name}</span>}
-      <input
-        type="text"
-        name="memberId"
-        placeholder="ID"
-        onChange={handleChange}
-        className="FormInput"
-      />
+      <div className="FormDiv">
+        <span>ID</span>
+        <input
+          type="text"
+          name="memberId"
+          placeholder="ID는 8글자~12글자"
+          onChange={handleChange}
+          className="FormInput"
+        />
+      </div>
       {errors.memberId && <span className="ErrorText">{errors.memberId}</span>}
-      <input
-        type="password"
-        name="password"
-        placeholder="password"
-        onChange={handleChange}
-        className="FormInput"
-      />
+      <div className="FormDiv">
+        <span>비밀번호</span>
+        <input
+          type="password"
+          name="password"
+          placeholder="영어 대소문자,특수문자 포함 8글자 이상"
+          onChange={handleChange}
+          className="FormInput"
+        />
+      </div>
       {errors.password && <span className="ErrorText">{errors.password}</span>}
-      <input
-        type="password"
-        name="passwordConfirm"
-        placeholder="passwordConfirm"
-        onChange={handleChange}
-        className="FormInput"
-      />
+      <div className="FormDiv">
+        <span>비밀번호확인</span>
+        <input
+          type="password"
+          name="passwordConfirm"
+          placeholder="passwordConfirm"
+          onChange={handleChange}
+          className="FormInput"
+        />
+      </div>
       {errors.passwordConfirm && (
         <span className="ErrorText">{errors.passwordConfirm}</span>
       )}
-      <input
-        type="text"
-        name="bio"
-        placeholder="한줄 소개"
-        onChange={handleChange}
-        className="FormInput"
-      />
+      <div className="FormDiv">
+        <span>한줄 자기소개</span>
+        <input
+          type="text"
+          name="bio"
+          placeholder="한줄 소개"
+          onChange={handleChange}
+          className="FormInput"
+        />
+      </div>
       <button className="submitButton" type="submit" disabled={isLoading}>
         SignUp
       </button>

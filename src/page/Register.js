@@ -1,13 +1,21 @@
 import { axios_post } from "../api/api";
 import SignUpForm from "../components/SignUpForm";
-import { setCookie } from "../service/Cookie";
-import { useUser } from "../contexts/userProvider";
 import "../style/form.scss";
 import { useNavigate } from "react-router-dom";
+import Modal from "../components/Modal";
+import { useState } from "react";
 
 export default function Register() {
+  const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
-  const { changeUserData } = useUser();
+
+  const handleModalClick = (value) => {
+    if (value === "check") {
+      setOpenModal(false);
+      navigate("/login");
+    }
+  };
+
   const onSubmit = async (values) => {
     //TODO onSubmit 지정하기
     const data = {
@@ -21,34 +29,20 @@ export default function Register() {
     if (response === undefined) {
       alert(response.errorText);
     } else {
-      localStorage.setItem(
-        "userData",
-        JSON.stringify({
-          memberId: response.memberId,
-          newLetterCount: response.newLetterCount,
-          coinCount: response.coinCount,
-        })
-      );
-      setCookie(
-        "access_token",
-        response.access_token,
-        {
-          path: "/",
-          secure: true,
-        },
-        1
-      );
+      setOpenModal(true);
     }
-    changeUserData({
-      memberId: response.memberId,
-      newLetterCount: response.newLetterCount,
-      coinCount: response.coinCount,
-    });
-    navigate("/");
   };
   return (
     <div className="FormContainer">
       <SignUpForm onSubmit={onSubmit} />
+      {openModal && (
+        <Modal type="alert" handleModalClick={handleModalClick}>
+          <div style={{ textAlign: "center" }}>
+            회원 가입에 성공하였습니다. <br />
+            다시 로그인 해주세요
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

@@ -21,6 +21,7 @@ export default function Register() {
     if (response === undefined) {
       alert(response.errorText);
     } else {
+      console.log(response);
       localStorage.setItem(
         "userData",
         JSON.stringify({

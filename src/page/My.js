@@ -6,15 +6,30 @@ import coinEmoji from "../assets/images/coinEmoji.png";
 import ProfileDetail from "../components/PorfileDetail";
 
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../contexts/userProvider";
+import { removeCookie } from "../service/Cookie";
 //지울 것
 import tempImg from "../assets/images/chuu.jpg";
 
 export default function My() {
   let navigate = useNavigate();
+  const { changeUserData } = useUser();
   const coinChip = <Chip emoji={coinEmoji} number={100} />;
 
   const handlePagination = (path) => {
     navigate(path);
+  };
+
+  const handleLogout = () => {
+    //TODO 로그아웃 확인 Confirm 받고 로그아웃 시킬 것
+    localStorage.removeItem("userData");
+    removeCookie("access_token");
+    changeUserData({
+      memberId: "",
+      newLetterCount: "",
+      coinCount: "",
+    });
+    navigate("/login");
   };
   return (
     <div className="marginDiv">
@@ -45,6 +60,9 @@ export default function My() {
       <span className="tileText">알림설정</span>
       <span className="tileText">공지사항</span>
       <span className="tileText">상점</span>
+      <span className="tileText" onClick={handleLogout}>
+        로그아웃
+      </span>
     </div>
   );
 }

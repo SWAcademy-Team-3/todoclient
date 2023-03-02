@@ -4,7 +4,7 @@ import { getCookie } from "../service/Cookie";
 const END_POINT = "http://49.50.163.197:8080";
 const subUrl = {
   login: "/api/login",
-  register: "api/register",
+  register: "/api/signup",
   todo: "/api/member/main/todo",
   success: "api/member/main/todo/success",
   info: "/api/user/info",
@@ -41,7 +41,7 @@ export const axios_post = async (url, sendData, type = "json") => {
         "Content-Type": contentType[type],
       },
     });
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 201) {
       return response.data;
     } else {
       throw new Error("API 에러");

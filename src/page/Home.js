@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { axios_get, axios_post } from "../api/api";
+import { axios_delete, axios_get, axios_post, axios_put } from "../api/api";
 import { v4 as uuidv4 } from "uuid";
 
 import TodoInput from "./HomeComponents/TodoInput";
@@ -33,7 +33,7 @@ export default function Home() {
       type,
       todo,
     };
-    // axios_post("todo", data);
+    axios_post("todo", data, "json", true);
     // 낙관적 업데이트
     if (type === "TODO") {
       setTodos([
@@ -41,8 +41,8 @@ export default function Home() {
         {
           todo,
           limitTime: time,
-          isClear: false,
-          tempId: uuidv4(),
+          success: false,
+          todoId: uuidv4(),
         },
       ]);
     } else {
@@ -51,8 +51,8 @@ export default function Home() {
         {
           todo,
           limitTime: time,
-          isClear: false,
-          tempId: uuidv4(),
+          success: false,
+          todoId: uuidv4(),
         },
       ]);
     }
@@ -61,24 +61,30 @@ export default function Home() {
   const handleClick = (targetId, type, category) => {
     switch (type) {
       case "DELETE":
+        axios_delete("todo", {
+          todoId: targetId,
+        });
         category === "TODO"
-          ? setTodos(todos.filter((val) => val.tempId !== targetId))
-          : setHabits(habits.filter((val) => val.tempId !== targetId));
+          ? setTodos(todos.filter((val) => val.todoId !== targetId))
+          : setHabits(habits.filter((val) => val.todoId !== targetId));
         break;
       case "UPDATE":
+        axios_put("success", {
+          todoId: targetId,
+        });
         category === "TODO"
           ? setTodos(
               todos.map((val) => {
-                if (val.tempId === targetId) {
-                  val.isClear = !val.isClear;
+                if (val.todoId === targetId) {
+                  val.success = !val.success;
                 }
                 return val;
               })
             )
           : setHabits(
               habits.map((val) => {
-                if (val.tempId === targetId) {
-                  val.isClear = !val.isClear;
+                if (val.todoId === targetId) {
+                  val.success = !val.success;
                 }
                 return val;
               })
@@ -92,7 +98,7 @@ export default function Home() {
   // User TODO API 받기
   const getData = async () => {
     const data = {
-      searchData: DateToStringFormat(date),
+      searchDate: DateToStringFormat(date),
       type: "TODO",
       userId:
         user.memberId === null
@@ -110,8 +116,6 @@ export default function Home() {
     if (user === null) {
       //TODO 알림 후 로그인으로 갈 수 있게 수정
       navigate("/login");
-    } else {
-      getData();
     }
   }, []);
   // 날짜 변경후 0.5초 뒤에 데이터를 불러오는 동작

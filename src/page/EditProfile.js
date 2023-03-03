@@ -7,12 +7,14 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 //지울 것
 import profileImg from "../assets/images/chuu.jpg";
 import FlatButton from "../components/FlatButton";
+import ColumnText from "../components/ColumnText";
+import { display, height } from "@mui/system";
 
 const EditProfile = () => {
   let navigate = useNavigate();
   const [startX, setStartX] = useState(0);
-  const [name, setName] = useState();
-  const [bio, setBio] = useState();
+  const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
 
   const nameRef = useRef(null);
   const bioRef = useRef(null);
@@ -40,7 +42,14 @@ const EditProfile = () => {
   }, [startX]);
   return (
     <>
-      <div style={{ margin: "24px" }}>
+      <div
+        style={{
+          height: "inherit",
+          margin: "24px",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <section
           style={{
             display: "flex",
@@ -68,13 +77,44 @@ const EditProfile = () => {
           <h2>Chuu</h2>
         </section>
         <section
-          style={{ display: "flex", flexDirection: "column", fontSize: "20px" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            fontSize: "20px",
+            flexGrow: 1,
+          }}
         >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginBottom: "0.83em",
+            }}
+          >
+            <ColumnText title="보낸 편지" content="6" />
+            <ColumnText title="받은 편지" content="10" />
+            <ColumnText title="습관 진행" content="+5" />
+          </div>
           <span>사용자 이름</span>
-          <input className="underlineInput" type="text" />
+          <input
+            className="underlineInput"
+            type="text"
+            ref={nameRef}
+            value={name}
+            onChange={handleNameInput}
+          />
           <span>한줄 소개</span>
-          <input className="underlineInput" type="text" />
-          <FlatButton name="수정 완료" />
+          <input
+            className="underlineInput"
+            type="text"
+            ref={bioRef}
+            value={bio}
+            onChange={handleBioInput}
+          />
+          <FlatButton
+            name="수정 완료"
+            style={{ marginTop: "auto", height: "60px", borderRadius: "20px" }}
+          />
         </section>
         {/* <span>수정하시겠습니까 모달창</span> */}
       </div>

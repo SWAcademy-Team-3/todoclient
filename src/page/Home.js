@@ -28,34 +28,25 @@ export default function Home() {
 
   // TODO 낙관적 업데이트 후 통신시 에러발생 시 처리코드 추가
   const addTodo = (addState, todo, time = null) => {
+    if (todo === "") {
+      // 빈 값 처리
+      return;
+    }
     const type = addState === "TODO" ? "TODO" : "HABIT";
     const data = {
-      userId: user.memberId,
+      memberId: user.memberId,
       type,
       todo,
+      todoId: uuidv4(),
+      endDateTime: time,
+      date: DateToStringFormat(date),
     };
     axios_post("todo", data, "json", true);
     // 낙관적 업데이트
     if (type === "TODO") {
-      setTodos([
-        ...todos,
-        {
-          todo,
-          limitTime: time,
-          success: false,
-          todoId: uuidv4(),
-        },
-      ]);
+      setTodos([...todos, data]);
     } else {
-      setHabits([
-        ...habits,
-        {
-          todo,
-          limitTime: time,
-          success: false,
-          todoId: uuidv4(),
-        },
-      ]);
+      setHabits([...habits, data]);
     }
   };
 
@@ -102,7 +93,7 @@ export default function Home() {
     const data = {
       searchDate: DateToStringFormat(date),
       type: "TODO",
-      userId:
+      memberId:
         user.memberId === null
           ? JSON.parse(localStorage.getItem("userData")).memberId
           : user.memberId,

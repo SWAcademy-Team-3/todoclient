@@ -6,9 +6,10 @@ const END_POINT = "http://10.188.191.201:8088";
 const subUrl = {
   login: "/api/login",
   register: "/api/signup",
-  todo: "/api/member/main/todo",
-  success: "/api/member/main/todo/success",
+  todo: "/api/member/todo",
+  success: "/api/member/todo/success",
   info: "/api/user/info",
+  calendar: "/api/member/calendar",
 };
 const contentType = {
   json: "application/json",

@@ -37,7 +37,7 @@ export default function TodoList({ category, data, handleClick, my = true }) {
                     textDecoration: val.success ? "line-through" : "none",
                   }}
                 >
-                  {val.limitTime}
+                  {val.endDateTime && val.endDateTime}
                 </span>
               </div>
             );

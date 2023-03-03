@@ -3,14 +3,18 @@ import { useDate } from "../../contexts/dateProvider";
 
 import TextButton from "../../components/TextButton";
 import ProgressRate from "../../components/ProgressRate";
+import { axios_get } from "../../api/api";
+import { useUser } from "../../contexts/userProvider";
 
 const dayNameArr = ["SUN", "MON", "TUE", "WED", "TUR", "FRI", "SAT"];
 
 const CalendarContents = ({ selectedDate, setSelectedDate }) => {
+  const { user } = useUser();
   const { date } = useDate();
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth() + 1);
   const [dayArr, setDayArr] = useState([]);
+  const [dataArr, setDataArr] = useState([]);
 
   const pressBack = () => {
     if (month === 1) {
@@ -42,7 +46,17 @@ const CalendarContents = ({ selectedDate, setSelectedDate }) => {
     setDayArr(() => [...emptyDayArray, ...nowDayArray]);
   };
 
+  const getRateData = async () => {
+    const response = axios_get("calendar", {
+      year,
+      month,
+      memberId: user.memberId,
+    });
+    setDataArr(response);
+  };
+
   useEffect(() => {
+    // getRateData()
     calcDay();
   }, [month]);
 

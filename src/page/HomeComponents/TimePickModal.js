@@ -14,8 +14,8 @@ export default function TimePickModal({ setOpenTimePicker, addTodo }) {
   const [addState, setAddState] = useState("TODO");
   const { DateToStringFormat } = useDate();
 
-  const [hour, setHour] = useState("00");
-  const [minutes, setMinutes] = useState("00");
+  const [hour, setHour] = useState("09");
+  const [minutes, setMinutes] = useState("30");
 
   const [startDate, setStartDate] = useState(DateToStringFormat(new Date()));
   const [endDate, setEndDate] = useState(DateToStringFormat(new Date()));
@@ -25,7 +25,7 @@ export default function TimePickModal({ setOpenTimePicker, addTodo }) {
   };
   const handleAddBtn = () => {
     if (addState === "TODO") {
-      addTodo(addState, todoText, `${hour} : ${minutes}`);
+      addTodo(addState, todoText, `${hour}:${minutes}`);
     } else {
       addTodo(addState, todoText);
     }

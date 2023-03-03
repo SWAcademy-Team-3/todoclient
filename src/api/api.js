@@ -9,7 +9,7 @@ const subUrl = {
   todo: "/api/member/todo",
   success: "/api/member/todo/success",
   info: "/api/user/info",
-  calendar: "/api/member/calendar",
+  calendar: "/api/member/calender",
 };
 const contentType = {
   json: "application/json",
@@ -19,6 +19,7 @@ const contentType = {
 const token = getCookie("access_token");
 
 export const axios_get = async (url, params) => {
+  // TODO 로그인 후에 데이터를 잘 못불러오는 버그가 있음
   axios.defaults.headers.get["Authorization"] = `Bearer ${token}`;
   try {
     const response = await axios.get(`${END_POINT}${subUrl[url]}`, {
@@ -31,7 +32,7 @@ export const axios_get = async (url, params) => {
     }
   } catch (e) {
     console.error("GET Error : ", e);
-    return [];
+    return e.response.data;
   }
 };
 

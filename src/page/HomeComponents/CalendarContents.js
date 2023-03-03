@@ -14,7 +14,9 @@ const CalendarContents = ({ selectedDate, setSelectedDate }) => {
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth() + 1);
   const [dayArr, setDayArr] = useState([]);
-  const [dataArr, setDataArr] = useState([]);
+
+  const [hasDay, setHasDay] = useState([]);
+  const [getRate, setGetRate] = useState([]);
 
   const pressBack = () => {
     if (month === 1) {
@@ -47,16 +49,22 @@ const CalendarContents = ({ selectedDate, setSelectedDate }) => {
   };
 
   const getRateData = async () => {
-    const response = axios_get("calendar", {
-      year,
-      month,
+    const response = await axios_get("calendar", {
+      searchYearMonth: `${year}-${month}`,
       memberId: user.memberId,
     });
-    setDataArr(response);
+    const dateArr = [];
+    const rateArr = [];
+    response.map((val) => {
+      dateArr.push(val.date[2]);
+      rateArr.push(val.successRate);
+    });
+    setHasDay(dateArr);
+    setGetRate(rateArr);
   };
 
   useEffect(() => {
-    // getRateData()
+    getRateData();
     calcDay();
   }, [month]);
 
@@ -82,20 +90,38 @@ const CalendarContents = ({ selectedDate, setSelectedDate }) => {
               style={{
                 textAlign: "center",
                 borderRadius: "50%",
+                margin: "auto 0",
               }}
               onClick={() => handleDaySelect(val)}
             >
-              {val !== "" && (
-                <ProgressRate
-                  size={38}
-                  innerContent={val}
-                  background={
-                    `${selectedDate.getFullYear()}-${
-                      selectedDate.getMonth() + 1
-                    }-${selectedDate.getDate()}` === `${year}-${month}-${val}`
-                  }
-                />
-              )}
+              {val !== "" &&
+                (hasDay.includes(parseInt(val)) ? (
+                  <ProgressRate
+                    rate={getRate[hasDay.indexOf(parseInt(val))]}
+                    size={38}
+                    innerContent={val}
+                    background={
+                      `${selectedDate.getFullYear()}-${
+                        selectedDate.getMonth() + 1
+                      }-${selectedDate.getDate()}` === `${year}-${month}-${val}`
+                    }
+                  />
+                ) : (
+                  <span
+                    style={{
+                      borderRadius: "50%",
+                      background:
+                        `${selectedDate.getFullYear()}-${
+                          selectedDate.getMonth() + 1
+                        }-${selectedDate.getDate()}` ===
+                        `${year}-${month}-${val}`
+                          ? "#e5a8a6"
+                          : "white",
+                    }}
+                  >
+                    {val}
+                  </span>
+                ))}
             </div>
           );
         })}

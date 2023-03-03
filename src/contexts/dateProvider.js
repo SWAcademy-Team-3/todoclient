@@ -21,8 +21,9 @@ const DateProvider = ({ children }) => {
       `${date.getDate()}`.length === 1
         ? `0${date.getDate()}`
         : `${date.getDate()}`;
-  
-    return [year, month, day].join('-');}
+
+    return [year, month, day].join("-");
+  };
 
   return (
     <DateContext.Provider value={{ date, changeDate, DateToStringFormat }}>

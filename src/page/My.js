@@ -52,6 +52,7 @@ export default function My() {
           borderRadius: "12px",
         }}
         borderRadius="12px"
+        onClick={() => navigate("/edit")}
       />
       <span className="tileText">비밀번호 변경</span>
       <span className="tileText" onClick={() => handlePagination("/receive")}>

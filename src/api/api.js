@@ -7,7 +7,7 @@ const subUrl = {
   login: "/api/login",
   register: "/api/signup",
   todo: "/api/member/main/todo",
-  success: "api/member/main/todo/success",
+  success: "/api/member/main/todo/success",
   info: "/api/user/info",
 };
 const contentType = {
@@ -15,16 +15,15 @@ const contentType = {
   form: "multipart/form-data",
 };
 
+const token = getCookie("access_token");
+
 export const axios_get = async (url, params) => {
-  const token = getCookie("access_token");
+  axios.defaults.headers.get["Authorization"] = `Bearer ${token}`;
   try {
     const response = await axios.get(`${END_POINT}${subUrl[url]}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
       params,
     });
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 201) {
       return response.data;
     } else {
       throw new Error("API 에러");
@@ -35,12 +34,18 @@ export const axios_get = async (url, params) => {
   }
 };
 
-export const axios_post = async (url, sendData, type = "json") => {
+export const axios_post = async (url, sendData, type = "json", auth) => {
+  const headers = auth
+    ? {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": contentType[type],
+      }
+    : {
+        "Content-Type": contentType[type],
+      };
   try {
     const response = await axios.post(`${END_POINT}${subUrl[url]}`, sendData, {
-      headers: {
-        "Content-Type": contentType[type],
-      },
+      headers,
     });
     if (response.status === 200 || response.status === 201) {
       return response.data;
@@ -53,6 +58,36 @@ export const axios_post = async (url, sendData, type = "json") => {
   }
 };
 
-export const axios_put = async (url, sendData) => {};
+export const axios_put = async (url, params, sendData = null) => {
+  axios.defaults.headers.put["Authorization"] = `Bearer ${token}`;
+  try {
+    const response = await axios.put(`${END_POINT}${subUrl[url]}`, sendData, {
+      params,
+    });
+    if (response.status === 200 || response.status === 201) {
+      return response.data;
+    } else {
+      throw new Error("API 에러");
+    }
+  } catch (e) {
+    console.error("PUT Error : ", e);
+    return null;
+  }
+};
 
-export const axios_delete = async (url) => {};
+export const axios_delete = async (url, params) => {
+  axios.defaults.headers.delete["Authorization"] = `Bearer ${token}`;
+  try {
+    const response = await axios.delete(`${END_POINT}${subUrl[url]}`, {
+      params,
+    });
+    if (response.status === 200 || response.status === 201) {
+      return response.data;
+    } else {
+      throw new Error("API 에러");
+    }
+  } catch (e) {
+    console.error("Delete Error : ", e);
+    return null;
+  }
+};

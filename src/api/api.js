@@ -54,7 +54,7 @@ export const axios_post = async (url, sendData, type = "json", auth) => {
     }
   } catch (e) {
     console.error("POST Error : ", e);
-    return null;
+    return e.response.data;
   }
 };
 

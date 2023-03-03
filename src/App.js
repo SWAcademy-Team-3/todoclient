@@ -13,6 +13,7 @@ import Register from "./page/Register";
 import PageNotFound from "./page/PageNotFound";
 import Write from "./page/Write";
 import Navigation from "./Navigation";
+import EditProfile from "./page/EditProfile";
 
 import "./style/index.scss";
 import FindFriends from "./page/FindFriends";
@@ -30,6 +31,7 @@ function App() {
           <Route path="/find" element={<FindFriends />}></Route>
           <Route path="/write" element={<Write />}></Route>
           <Route path="/my" element={<My />}></Route>
+          <Route path="/edit" element={<EditProfile />}></Route>
           <Route path="/receive" element={<Receive />}></Route>
           <Route path="/friends" element={<Friends />}></Route>
           <Route path="/notification" element={<Notification />}></Route>

@@ -10,8 +10,8 @@ export default function Register() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleModalClick = (value) => {
-    if (message === "회원 가입에 성공하였습니다. <br />다시 로그인 해주세요") {
+  const handleModalClick = () => {
+    if (message === "회원 가입에 성공하였습니다. 다시 로그인 해주세요") {
       setOpenModal(false);
       navigate("/login");
     } else {

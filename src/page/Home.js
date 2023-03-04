@@ -33,19 +33,28 @@ export default function Home() {
       return;
     }
     const type = addState === "TODO" ? "TODO" : "HABIT";
-    const data = {
-      memberId: user.memberId,
-      type,
-      todo,
-      todoId: uuidv4(),
-      endDateTime: time,
-      date: DateToStringFormat(date),
-    };
-    axios_post("todo", data, "json", true);
-    // 낙관적 업데이트
     if (type === "TODO") {
+      const data = {
+        memberId: user.memberId,
+        type,
+        todo,
+        todoId: uuidv4(),
+        endDateTime: time,
+        date: DateToStringFormat(date),
+      };
+      axios_post("todo", data, "json", true);
+      // 낙관적 업데이트
       setTodos([...todos, data]);
     } else {
+      // Habit은 낙관적 업데이트를 못한다.
+      // 따라서 Habit 추가시에 데이터를 받아와야 한다.
+      const data = {
+        memberId: user.memberId,
+        type,
+        todo,
+        startDate: null,
+        endDate: null,
+      };
       setHabits([...habits, data]);
     }
   };
@@ -100,8 +109,13 @@ export default function Home() {
     };
     let res1 = await axios_get("todo", data);
     let res2 = await axios_get("todo", { ...data, type: "HABIT" });
-    setTodos(res1);
-    setHabits(res2);
+    if (res1.message !== undefined || res2.message !== undefined) {
+      // TODO 불러오기 실패시 오류 처리
+      console.error(res1.message);
+    } else {
+      setTodos(res1);
+      setHabits(res2);
+    }
     setLoading(false);
   };
   useEffect(() => {

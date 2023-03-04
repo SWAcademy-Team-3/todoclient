@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
 
 const Donut = styled.div`
   @keyframes move {
@@ -42,7 +41,7 @@ const Donut = styled.div`
   background: ${({ dataPercent }) => `
         conic-gradient(#bb254a 0% ${dataPercent}%, #f2f2f2 ${dataPercent}% 100%)
       `};
-  animation: move 1000ms linear;
+  animation: move 0ms linear;
   ::before {
     color: black;
     width: 70%;
@@ -62,11 +61,10 @@ const Donut = styled.div`
 `;
 
 const ProgressRate = ({ rate = 50, size = 50, innerContent, background }) => {
-  const [rateValue, setRateValue] = useState(rate);
-
+  // TODO 가장 후순위의 컴포넌트의 rate에 대해 전체 animation 적용되는 버그가 있음
   return (
     <Donut
-      dataPercent={rateValue}
+      dataPercent={rate}
       size={size}
       innerContent={innerContent}
       background={background}

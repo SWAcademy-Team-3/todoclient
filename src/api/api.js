@@ -1,8 +1,8 @@
 import axios from "axios";
 import { getCookie } from "../service/Cookie";
 
-// const END_POINT = "http://49.50.163.197:8080";
-const END_POINT = "http://10.188.191.201:8088";
+const END_POINT = "http://49.50.163.197:8080";
+// const END_POINT = "http://10.188.191.201:8088";
 const subUrl = {
   login: "/api/login",
   register: "/api/signup",

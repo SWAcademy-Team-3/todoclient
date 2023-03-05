@@ -109,7 +109,7 @@ export default function Home() {
     };
     let res1 = await axios_get("todo", data);
     let res2 = await axios_get("todo", { ...data, type: "HABIT" });
-    if (res1.message !== undefined || res2.message !== undefined) {
+    if (res1.error !== undefined || res2.error !== undefined) {
       // TODO 불러오기 실패시 오류 처리
       console.error(res1.message);
     } else {

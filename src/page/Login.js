@@ -15,15 +15,19 @@ export default function Login() {
       password: values.password,
     };
     const response = await axios_post("login", JSON.stringify(data), "json");
-    if (response === undefined) {
+    if (response === undefined || response === "") {
       alert("올바르지 않은 회원 정보 입니다.");
     } else {
-      // TODO 유저 정보 관리하기
-      localStorage.setItem("userData", JSON.stringify({
-        memberId: response.memberId,
-        newLetterCount: response.newLetterCount,
-        coinCount: response.coinCount
-      }))
+      // TODO username도 넣어두기
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          memberName: response.memberName,
+          memberId: response.memberId,
+          newLetterCount: response.newLetterCount,
+          coinCount: response.coinCount,
+        })
+      );
       setCookie(
         "access_token",
         response.access_token,
@@ -34,6 +38,7 @@ export default function Login() {
         1
       );
       changeUserData({
+        memberName: response.memberName,
         memberId: response.memberId,
         newLetterCount: response.newLetterCount,
         coinCount: response.coinCount,

@@ -29,8 +29,8 @@ export default function Register() {
       bio: values.bio,
     };
     const response = await axios_post("register", JSON.stringify(data), "json");
-    if (response.message !== undefined) {
-      setMessage(response.message);
+    if (response.message !== undefined || response.status === 500) {
+      setMessage(response.message !== undefined ? response.message : "error");
       setOpenModal(true);
     } else {
       setMessage("회원 가입에 성공하였습니다. 다시 로그인 해주세요");

@@ -9,12 +9,16 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../contexts/userProvider";
 import { removeCookie } from "../service/Cookie";
 //지울 것
-import tempImg from "../assets/images/chuu.jpg";
+import basicImage from "../assets/images/basic_profile.jpeg";
+import { useEffect, useState } from "react";
+import { axios_get } from "../api/api";
 
 export default function My() {
   let navigate = useNavigate();
-  const { changeUserData } = useUser();
-  const coinChip = <Chip emoji={coinEmoji} number={100} />;
+  const { user, changeUserData } = useUser();
+  const [dPlus, setDPlus] = useState(0);
+  const [bio, setBio] = useState("한 줄 소개를 입력해주세요.");
+  const coinChip = <Chip emoji={coinEmoji} number={user.coinCount} />;
 
   const handlePagination = (path) => {
     navigate(path);
@@ -31,15 +35,28 @@ export default function My() {
     });
     navigate("/login");
   };
+
+  const getUserData = async () => {
+    const response = await axios_get("info", {
+      memberId: user.memberId,
+    });
+    setBio(response.bio);
+    setDPlus(response.dplusCount);
+  };
+
+  useEffect(() => {
+    //TODO user 정보를 토대로 bio, 주고받은 편지 등 정보 받아오기
+    getUserData();
+  }, []);
   return (
     <div className="marginDiv">
-      <Header left={"chuu"} right={coinChip} />
+      <Header left={user.memberName} right={coinChip} />
       <ProfileDetail
-        profileImg={tempImg}
+        profileImg={basicImage}
         sendPost={5}
         receivePost={8}
-        dPlus={78}
-        introduce="한 줄 소개를 입력해주세요"
+        dPlus={`+${dPlus}`}
+        introduce={bio}
         style={{ margin: "16px 0" }}
       />
       <FlatButton
@@ -52,7 +69,17 @@ export default function My() {
           borderRadius: "12px",
         }}
         borderRadius="12px"
-        onClick={() => navigate("/edit")}
+        onClick={() =>
+          navigate("/edit", {
+            state: {
+              name: "임동윤",
+              memberId: user.memberId,
+              bio,
+              profileImg: basicImage,
+              dPlus,
+            },
+          })
+        }
       />
       <span className="tileText">비밀번호 변경</span>
       <span className="tileText" onClick={() => handlePagination("/receive")}>

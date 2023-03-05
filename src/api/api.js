@@ -8,7 +8,7 @@ const subUrl = {
   register: "/api/signup",
   todo: "/api/member/todo",
   success: "/api/member/todo/success",
-  info: "/api/user/info",
+  info: "/api/member/info",
   calendar: "/api/member/calender",
 };
 const contentType = {

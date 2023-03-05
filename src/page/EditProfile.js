@@ -5,6 +5,7 @@ import useSlideBack from "../hooks/useSlideBack";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import FlatButton from "../components/FlatButton";
 import ColumnText from "../components/ColumnText";
+import Modal from "../components/Modal";
 
 const EditProfile = () => {
   let navigate = useNavigate();
@@ -13,9 +14,26 @@ const EditProfile = () => {
   const [name, setName] = useState(state.name);
   const [bio, setBio] = useState(state.bio);
   const [profileImg, setProfileImg] = useState(state.profileImg);
+  const [openModal, setOpenModal] = useState(false);
+  const [modalText, setModalText] = useState("");
 
   const nameRef = useRef(null);
   const bioRef = useRef(null);
+  const imgRef = useRef(null);
+
+  const handleChooseFile = () => {
+    imgRef.current.click();
+  };
+
+  const handleImgInput = (e) => {
+    // TODO 이미지 아닌 파일 예외처리
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setProfileImg(reader.result);
+    };
+  };
 
   const handleNameInput = (e) => {
     setName(e.target.value);
@@ -25,8 +43,36 @@ const EditProfile = () => {
     setBio(e.target.value);
   };
 
+  const handleModalOpen = (text) => {
+    setModalText(text);
+    setOpenModal(true);
+  };
+
+  const handleModalClick = (value) => {
+    if (value === "yes") {
+      if (
+        modalText === "나가면 변경사항이 수정되지 않습니다. 나가시겠습니까?"
+      ) {
+        navigate(-1);
+      } else {
+        // TODO 프로필 업데이트
+      }
+    } else {
+      setOpenModal(false);
+    }
+  };
+
   useSlideBack("touchmove", startX, () => {
-    navigate(-1);
+    if (
+      state.name !== name ||
+      state.bio !== bio ||
+      state.profileImg !== profileImg
+    ) {
+      // TODO 모달로 경고창 나가시겠습니까?
+      handleModalOpen("나가면 변경사항이 수정되지 않습니다. 나가시겠습니까?");
+    } else {
+      navigate(-1);
+    }
   });
 
   useEffect(() => {
@@ -58,6 +104,13 @@ const EditProfile = () => {
           <div>
             <div className="profileBadge">
               <img src={profileImg} alt="profileImg" className="profileImg" />
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                ref={imgRef}
+                onChange={handleImgInput}
+              />
               <CameraAltIcon
                 sx={{
                   position: "absolute",
@@ -69,6 +122,7 @@ const EditProfile = () => {
                   borderRadius: "50%",
                   padding: "8px",
                 }}
+                onClick={handleChooseFile}
               />
             </div>
           </div>
@@ -112,9 +166,14 @@ const EditProfile = () => {
           <FlatButton
             name="수정 완료"
             style={{ marginTop: "auto", height: "60px", borderRadius: "20px" }}
+            onClick={() => handleModalOpen("프로필을 수정하시겠습니까?")}
           />
         </section>
-        {/* <span>수정하시겠습니까 모달창</span> */}
+        {openModal && (
+          <Modal type="check" handleModalClick={handleModalClick}>
+            <span>{modalText}</span>
+          </Modal>
+        )}
       </div>
     </>
   );

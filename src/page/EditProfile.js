@@ -1,20 +1,18 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import useSlideBack from "../hooks/useSlideBack";
 
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-
-//지울 것
-import profileImg from "../assets/images/chuu.jpg";
 import FlatButton from "../components/FlatButton";
 import ColumnText from "../components/ColumnText";
-import { display, height } from "@mui/system";
 
 const EditProfile = () => {
   let navigate = useNavigate();
+  const { state } = useLocation();
   const [startX, setStartX] = useState(0);
-  const [name, setName] = useState("");
-  const [bio, setBio] = useState("");
+  const [name, setName] = useState(state.name);
+  const [bio, setBio] = useState(state.bio);
+  const [profileImg, setProfileImg] = useState(state.profileImg);
 
   const nameRef = useRef(null);
   const bioRef = useRef(null);
@@ -74,7 +72,7 @@ const EditProfile = () => {
               />
             </div>
           </div>
-          <h2>Chuu</h2>
+          <h2>{state.memberId}</h2>
         </section>
         <section
           style={{
@@ -93,7 +91,7 @@ const EditProfile = () => {
           >
             <ColumnText title="보낸 편지" content="6" />
             <ColumnText title="받은 편지" content="10" />
-            <ColumnText title="습관 진행" content="+5" />
+            <ColumnText title="습관 진행" content={`+${state.dPlus}`} />
           </div>
           <span>사용자 이름</span>
           <input

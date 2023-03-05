@@ -143,7 +143,7 @@ export default function Home() {
       </div>
       <div id="homeContents">
         <span style={{ fontSize: "18px" }}>
-          <strong>{user.memberId}</strong> 님의 할일 목록
+          <strong>{user.memberName}</strong> 님의 할일 목록
         </span>
         <TodoList category={"TODO"} data={todos} handleClick={handleClick} />
         <TodoList category={"HABIT"} data={habits} handleClick={handleClick} />

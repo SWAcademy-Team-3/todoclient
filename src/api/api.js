@@ -11,6 +11,9 @@ const subUrl = {
   success: "/api/member/todo/success",
   info: "/api/member/info",
   calendar: "/api/member/calender",
+  frined_request: "/api/member/friend/requests",
+  friend_request_control: "/api/member/friend/requests/control",
+  post_request: "/api/member/friend/requests",
 };
 const contentType = {
   json: "application/json",

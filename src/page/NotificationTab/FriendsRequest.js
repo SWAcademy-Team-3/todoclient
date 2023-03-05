@@ -1,33 +1,60 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 import Modal from "../../components/Modal";
+import { useUser } from "../../contexts/userProvider";
 import RequestTile from "../FriendsComponents/RequestTile";
+import { axios_post } from "../../api/api";
 
 const dummyData = ["카리나", "윈터", "우기", "민니"];
 
 export default function FriendsRequest({ activeTab }) {
-  const [modal, setModal] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [modalText, setModalText] = useState("");
+  const [relationId, setRelationId] = useState(0);
+  const { user } = useUser();
 
-  const handleModalClick = (type) => {
+  const handleModalClick = async (type) => {
     if (type === "yes") {
-      //TODO 친구 요청 수락 / 거절
+      //TODO requestId 받아서 넣기
+      const data = {
+        accept: modalText === "친구 요청을 수락하시겠습니까?",
+        relationId,
+      };
+      await axios_post("friend_request_control", data);
+      getRequestData();
     }
-    setModal(null);
+    setOpenModal(false);
   };
 
-  const handleAccept = () => {
-    setModal(
-      <Modal type="check" handleModalClick={handleModalClick}>
-        <span className="modalMessage">친구 요청을 수락하시겠습니까?</span>
-      </Modal>
-    );
+  const getRequestData = async () => {
+    try {
+      const response = await axios.get(
+        `http://49.50.163.197:8080/api/member/friend/requests/${user.memberId}/receive`,
+        {
+          memberId: user.memberId,
+        }
+      );
+      // TODO Tile에 데이터 집어 넣기
+      console.log(response.data);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
-  const handleDelete = () => {
-    setModal(
-      <Modal type="check" handleModalClick={handleModalClick}>
-        <span className="modalMessage">친구 요청을 거절하시겠습니까?</span>
-      </Modal>
-    );
+  useEffect(() => {
+    getRequestData();
+  }, []);
+
+  const handleButton = (value, id) => {
+    setRelationId(id);
+    if (value === "yes") {
+      setModalText("친구 요청을 수락하시겠습니까?");
+      setOpenModal(true);
+    } else {
+      setModalText("친구 요청을 거절하시겠습니까?");
+      setOpenModal(true);
+    }
   };
   return (
     <div className={`TabContent1 ${activeTab === 1 && "reverse"}`}>
@@ -37,8 +64,8 @@ export default function FriendsRequest({ activeTab }) {
             <RequestTile
               key={index}
               name={name}
-              acceptClick={handleAccept}
-              deleteClick={handleDelete}
+              acceptClick={() => handleButton("yes", index)}
+              deleteClick={() => handleButton("no", index)}
               isHr={false}
             />
           );
@@ -47,13 +74,17 @@ export default function FriendsRequest({ activeTab }) {
           <RequestTile
             key={index}
             name={name}
-            acceptClick={handleAccept}
-            deleteClick={handleDelete}
+            acceptClick={() => handleButton("yes", index)}
+            deleteClick={() => handleButton("no", index)}
             isHr={true}
           />
         );
       })}
-      {modal}
+      {openModal && (
+        <Modal type="check" handleModalClick={handleModalClick}>
+          <span className="modalMessage">{modalText}</span>
+        </Modal>
+      )}
     </div>
   );
 }

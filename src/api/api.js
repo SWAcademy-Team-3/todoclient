@@ -7,6 +7,7 @@ const subUrl = {
   login: "/api/login",
   register: "/api/signup",
   todo: "/api/member/todo",
+  habit: "/api/member/habit",
   success: "/api/member/todo/success",
   info: "/api/member/info",
   calendar: "/api/member/calender",

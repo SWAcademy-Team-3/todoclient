@@ -1,7 +1,7 @@
 export default function TextButton({ text, onClick, ...props }) {
   return (
-    <div className="TextButton" onClick={onClick} {...props}>
+    <button className="TextButton" onClick={onClick} {...props}>
       {text}
-    </div>
+    </button>
   );
 }

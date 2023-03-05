@@ -5,19 +5,11 @@ import React, { useState, useRef } from "react";
 
 export default function TodoInput({ addTodo, setOpenTimePicker }) {
   const [todoText, setTodoText] = useState("");
-  const [addState, setAddState] = useState("TODO");
+  const addState = "TODO";
   const todoInput = useRef();
 
   const onChange = (e) => {
     setTodoText(e.target.value);
-  };
-
-  const changeAddState = () => {
-    if (addState === "TODO") {
-      setAddState("HABIT");
-    } else {
-      setAddState("TODO");
-    }
   };
 
   const handleAddTodo = () => {
@@ -29,10 +21,7 @@ export default function TodoInput({ addTodo, setOpenTimePicker }) {
 
   return (
     <div className="InputBox">
-      <div
-        style={{ backgroundColor: addState === "TODO" ? "#e5a8a6" : "#BECAD6" }}
-        onClick={changeAddState}
-      >
+      <div style={{ backgroundColor: "#e5a8a6" }}>
         <span>{addState}</span>
       </div>
       <input

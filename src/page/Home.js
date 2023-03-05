@@ -15,6 +15,7 @@ import { useUser } from "../contexts/userProvider";
 import { useDate } from "../contexts/dateProvider";
 import useDebounce from "../hooks/useDebounce";
 import useLoading from "../hooks/useLoading";
+import Modal from "../components/Modal";
 
 export default function Home() {
   let navigate = useNavigate();
@@ -25,9 +26,10 @@ export default function Home() {
   const { user } = useUser();
   const { date, DateToStringFormat } = useDate();
   const [loading, setLoading, loadingComponent] = useLoading();
+  const [openModal, setOpenModal] = useState(false);
 
   // TODO 낙관적 업데이트 후 통신시 에러발생 시 처리코드 추가
-  const addTodo = (addState, todo, time = null) => {
+  const addTodo = async (addState, todo, time = null) => {
     if (todo === "") {
       // 빈 값 처리
       return;
@@ -50,26 +52,30 @@ export default function Home() {
       // 따라서 Habit 추가시에 데이터를 받아와야 한다.
       const data = {
         memberId: user.memberId,
-        type,
-        todo,
-        startDate: null,
-        endDate: null,
+        content: todo,
+        startDate: time.startDate,
+        endDate: time.endDate,
       };
-      setHabits([...habits, data]);
+      await axios_post("habit", data, "json", true);
+      getData();
     }
   };
 
-  const handleClick = (targetId, type, category) => {
+  const handleClick = async (targetId, type, category) => {
     switch (type) {
       case "DELETE":
-        axios_delete("todo", {
-          todoId: targetId,
-        });
-        category === "TODO"
-          ? setTodos(todos.filter((val) => val.todoId !== targetId))
-          : setHabits(habits.filter((val) => val.todoId !== targetId));
+        if (category === "TODO") {
+          axios_delete("todo", {
+            todoId: targetId,
+          });
+          setTodos(todos.filter((val) => val.todoId !== targetId));
+        } else {
+          // TODO HABIT 이라서 삭제확인 모달 띄우기
+          setOpenModal(true);
+        }
         break;
       case "UPDATE":
+        // 업데이트는 모두 낙관적 업데이트로 처리
         axios_put("success", {
           todoId: targetId,
         });
@@ -96,6 +102,17 @@ export default function Home() {
     }
   };
 
+  const handleHabitDelete = (value) => {
+    if (value === "yes") {
+      axios_delete("habit", {
+        habitId: null,
+      });
+      getData();
+    } else {
+      setOpenModal(false);
+    }
+  };
+
   // User TODO API 받기
   const getData = async () => {
     setLoading(true);
@@ -108,7 +125,7 @@ export default function Home() {
           : user.memberId,
     };
     let res1 = await axios_get("todo", data);
-    let res2 = await axios_get("todo", { ...data, type: "HABIT" });
+    let res2 = await axios_get("habit", { ...data, type: "HABIT" });
     if (res1.error !== undefined || res2.error !== undefined) {
       // TODO 불러오기 실패시 오류 처리
       console.error(res1.message);
@@ -158,6 +175,15 @@ export default function Home() {
         />
       )}
       {loading && loadingComponent()}
+      {openModal && (
+        <Modal type="check" handleModalClick={handleHabitDelete}>
+          <span>습관을 삭제하시겠습니까?</span>
+          <br />
+          <span style={{ color: "red" }}>
+            HABIT의 설정된 기간 전부가 삭제됩니다
+          </span>
+        </Modal>
+      )}
     </>
   );
 }

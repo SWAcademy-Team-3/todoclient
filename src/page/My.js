@@ -72,7 +72,7 @@ export default function My() {
         onClick={() =>
           navigate("/edit", {
             state: {
-              name: "임동윤",
+              name: user.memberName,
               memberId: user.memberId,
               bio,
               profileImg: basicImage,

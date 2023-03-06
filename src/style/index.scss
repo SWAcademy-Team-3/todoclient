@@ -801,3 +801,26 @@ $background-color: #fbf8f3;
   outline: none;
   margin: 16px 0;
 }
+
+.ToastDiv {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  bottom: 10%;
+  right: 50%;
+  transform: translate(50%, 0);
+  border: 1px solid transparent;
+  width: 80%;
+  height: 32px;
+  border-radius: 20px;
+  background-color: lightgreen;
+  padding: 8px;
+
+  & > :nth-child(1) {
+    flex: 1;
+  }
+
+  & > :nth-child(2) {
+    flex: 6;
+  }
+}

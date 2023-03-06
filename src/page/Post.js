@@ -8,6 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import coinEmoji from "../assets/images/coinEmoji.png";
 import postEmoji from "../assets/images/postEmoji.png";
 import { useNavigate } from "react-router";
+import { axios_get } from "../api/api";
 
 export default function Post() {
   let navigate = useNavigate();
@@ -33,6 +34,12 @@ export default function Post() {
   const navigateToReceive = () => {
     navigate("/receive");
   };
+
+  // const getUnreadPost = async () => {
+  //   const data =
+  //   const response = axios_get("post", )
+  // }
+
   return (
     <>
       <div className="marginDiv">

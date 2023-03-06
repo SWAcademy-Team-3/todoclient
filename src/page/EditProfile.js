@@ -6,6 +6,7 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import FlatButton from "../components/FlatButton";
 import ColumnText from "../components/ColumnText";
 import Modal from "../components/Modal";
+import { axios_post } from "../api/api";
 
 const EditProfile = () => {
   let navigate = useNavigate();
@@ -48,7 +49,7 @@ const EditProfile = () => {
     setOpenModal(true);
   };
 
-  const handleModalClick = (value) => {
+  const handleModalClick = async (value) => {
     if (value === "yes") {
       if (
         modalText === "나가면 변경사항이 수정되지 않습니다. 나가시겠습니까?"
@@ -56,6 +57,24 @@ const EditProfile = () => {
         navigate(-1);
       } else {
         // TODO 프로필 업데이트
+        try {
+          const data = {
+            memberId: state.memberId,
+            updateBio: bio,
+            updateName: name,
+            uploadImage: profileImg,
+          };
+          console.log(data);
+          await axios_post("info", data, "json", true);
+          setModalText("프로필 업데이트에 성공하였습니다.");
+        } catch (e) {
+          console.error(e);
+          setModalText("프로필 업데이트에 실패하였습니다.");
+        } finally {
+          setTimeout(() => {
+            setOpenModal(false);
+          }, 1500);
+        }
       }
     } else {
       setOpenModal(false);

@@ -10,11 +10,14 @@ const subUrl = {
   habit: "/api/member/habit",
   success: "/api/member/todo/success",
   myInfo: "/api/member/my-info",
+  info: "/api/member/info",
   calendar: "/api/member/calender",
   friendInfo: "/api/member/friend-info",
-  frined_request: "/api/member/friend/requests",
+  friend_request: "/api/member/friend/requests",
   friend_request_control: "/api/member/friend/requests/control",
-  post_request: "/api/member/friend/requests",
+  post_request: "/api/member/friend/post-requests",
+  letter: "/api/member/post/letter",
+  post: "/api/member/post/posts",
 };
 const contentType = {
   json: "application/json",

@@ -21,6 +21,7 @@ export default function Home() {
   let navigate = useNavigate();
   const [todos, setTodos] = useState([]);
   const [habits, setHabits] = useState([]);
+  const [habitId, setHabitId] = useState(0);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openTimePicker, setOpenTimePicker] = useState(false);
   const { user } = useUser();
@@ -56,6 +57,7 @@ export default function Home() {
         startDate: time.startDate,
         endDate: time.endDate,
       };
+      console.log(data);
       await axios_post("habit", data, "json", true);
       getData();
     }
@@ -71,6 +73,7 @@ export default function Home() {
           setTodos(todos.filter((val) => val.todoId !== targetId));
         } else {
           // TODO HABIT 이라서 삭제확인 모달 띄우기
+          setHabitId(targetId);
           setOpenModal(true);
         }
         break;
@@ -102,11 +105,12 @@ export default function Home() {
     }
   };
 
-  const handleHabitDelete = (value) => {
+  const handleHabitDelete = async (value) => {
     if (value === "yes") {
-      axios_delete("habit", {
-        habitId: null,
+      await axios_delete("habit", {
+        habitId,
       });
+      setOpenModal();
       getData();
     } else {
       setOpenModal(false);

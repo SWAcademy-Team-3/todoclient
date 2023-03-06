@@ -37,7 +37,7 @@ export default function My() {
   };
 
   const getUserData = async () => {
-    const response = await axios_get("info", {
+    const response = await axios_get("myInfo", {
       memberId: user.memberId,
     });
     setBio(response.bio);

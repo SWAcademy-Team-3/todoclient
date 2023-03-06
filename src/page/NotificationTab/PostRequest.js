@@ -2,6 +2,10 @@
 import YenaImg from "../../assets/images/yena.jpg";
 import kimImg from "../../assets/images/kim.jpg";
 
+import { useEffect } from "react";
+import axios from "axios";
+import { useUser } from "../../contexts/userProvider";
+
 const dummyData = [
   {
     sender: "yena",
@@ -16,6 +20,27 @@ const dummyData = [
 ];
 
 export default function PostRequest({ activeTab }) {
+  const { user } = useUser();
+
+  const getPostRequestData = async () => {
+    try {
+      const response = await axios.get(
+        `http://49.50.163.197:8080/api/member/friend/post-requests/${user.memberId}/receive`,
+        {
+          memberId: user.memberId,
+        }
+      );
+      // TODO 데이터 화면에 뿌리기
+      console.log(response.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    getPostRequestData();
+  }, []);
+
   return (
     <div className="TabContent2">
       {dummyData.map((val, idx) => (

@@ -1,11 +1,8 @@
-import Header from "../components/Header";
 import useSlideBack from "../hooks/useSlideBack";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import FriendsRequest from "./NotificationTab/FriendsRequest";
 import PostRequest from "./NotificationTab/PostRequest";
-
-const dummyData = ["카리나", "윈터", "우기", "민니"];
 
 export default function Notification() {
   const [startX, setStartX] = useState(0);

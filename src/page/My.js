@@ -18,6 +18,9 @@ export default function My() {
   const { user, changeUserData } = useUser();
   const [dPlus, setDPlus] = useState(0);
   const [bio, setBio] = useState("한 줄 소개를 입력해주세요.");
+  const [receivePost, setReceivePost] = useState(0);
+  const [sendPost, setSendPost] = useState(0);
+  const [profileImg, setProfileImg] = useState(basicImage);
   const coinChip = <Chip emoji={coinEmoji} number={user.coinCount} />;
 
   const handlePagination = (path) => {
@@ -42,6 +45,9 @@ export default function My() {
     });
     setBio(response.bio);
     setDPlus(response.dplusCount);
+    setReceivePost(response.receivePostCount);
+    setSendPost(response.sendPostCount);
+    response.image && setProfileImg(`data:image/;base64,${response.image}`);
   };
 
   useEffect(() => {
@@ -52,9 +58,9 @@ export default function My() {
     <div className="marginDiv">
       <Header left={user.memberName} right={coinChip} />
       <ProfileDetail
-        profileImg={basicImage}
-        sendPost={5}
-        receivePost={8}
+        profileImg={profileImg}
+        sendPost={sendPost}
+        receivePost={receivePost}
         dPlus={`+${dPlus}`}
         introduce={bio}
         style={{ margin: "16px 0" }}
@@ -75,8 +81,10 @@ export default function My() {
               name: user.memberName,
               memberId: user.memberId,
               bio,
-              profileImg: basicImage,
+              profileImg,
               dPlus,
+              receivePost,
+              sendPost,
             },
           })
         }

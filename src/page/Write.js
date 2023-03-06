@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router";
+import { useUser } from "../contexts/userProvider";
 
-// 임시이미지
+// 지울 것
 import myImg from "../assets/images/chuu.jpg";
 import FlatButton from "../components/FlatButton";
 
 export default function Write() {
   let navigate = useNavigate();
+  const { user } = useUser();
+  // TODO 내 프로필 이미지 또 받아와야함...
   const { state } = useLocation();
   const titleRef = useRef();
   const contentRef = useRef();
@@ -40,7 +43,7 @@ export default function Write() {
           >
             <img src={myImg} alt="profileImg" className="profileImg" />
           </div>
-          <span>chuu</span>
+          <span>{user.memberId}</span>
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
           <span>받는이 : </span>

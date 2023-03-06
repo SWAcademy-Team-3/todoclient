@@ -9,6 +9,7 @@ import coinEmoji from "../assets/images/coinEmoji.png";
 import ToastPopUp from "../components/ToastPopUp";
 
 import useSlideBack from "../hooks/useSlideBack";
+import { useUser } from "../contexts/userProvider";
 
 const dummyData = [
   {
@@ -47,7 +48,14 @@ export default function Receive() {
   const [postOpen, setPostOpen] = useState(false);
   const [toastOpen, setToastOpen] = useState("");
   const [selectedData, setSelectedData] = useState({});
+  const [period, setPeriod] = useState({
+    startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+    endDate: new Date(),
+  });
+  const [periodText, setPeriodText] = useState("1개월");
+  const [sort, setSort] = useState(true);
   const [startX, setStartX] = useState(0);
+  const { user } = useUser();
   let navigate = useNavigate();
 
   useSlideBack("touchmove", startX, () => {
@@ -71,13 +79,47 @@ export default function Receive() {
     }
   };
 
-  const handleToast = () => {
+  const handleToast = (periodValue, sortValue, customDate) => {
     if (toastOpen === "") {
       setToastOpen("toastOpen");
     } else {
+      if (periodValue === "1") {
+        setPeriod({
+          startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+          endDate: new Date(),
+        });
+        setPeriodText("1개월");
+      } else if (periodValue === "3") {
+        setPeriod({
+          startDate: new Date(new Date().setMonth(new Date().getMonth() - 3)),
+          endDate: new Date(),
+        });
+        setPeriodText("3개월");
+      } else if (periodValue === "-1") {
+        setPeriod({
+          startDate: new Date(new Date().setMonth(new Date().getMonth() - 2)),
+          endDate: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+        });
+        setPeriodText("지난달");
+      } else if (periodValue === "custom") {
+        setPeriod({
+          startDate: customDate.startDate,
+          endDate: customDate.endDate,
+        });
+        setPeriodText("직접설정");
+      }
+      if (sortValue === "lastest") {
+        setSort(true);
+      } else if (sortValue === "oldest") {
+        setSort(false);
+      }
       setToastOpen("");
     }
   };
+
+  const handlePeriod = (value) => {};
+
+  const getAllPosts = async () => {};
 
   useEffect(() => {
     const handleTouchStart = (e) => {
@@ -89,14 +131,18 @@ export default function Receive() {
     };
   }, [startX]);
 
+  useEffect(() => {}, []);
+
   return (
     <>
       <div className="marginDiv">
         <div className="smallHeader">
           <div onClick={handleToast}>
-            <span>1개월 - 최신</span>
+            <span>
+              {periodText} - {sort ? "최신" : "오래된 순"}
+            </span>
           </div>
-          <Chip emoji={coinEmoji} number={100} />
+          <Chip emoji={coinEmoji} number={user.coinCount} />
         </div>
         <section>
           {dummyData
@@ -126,7 +172,11 @@ export default function Receive() {
           onClose={() => setPostOpen(false)}
         />
       )}
-      <ToastPopUp openClass={toastOpen} handleToast={handleToast} />
+      <ToastPopUp
+        openClass={toastOpen}
+        handleToast={handleToast}
+        handlePeriod={handlePeriod}
+      />
     </>
   );
 }

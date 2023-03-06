@@ -15,6 +15,7 @@ const EditProfile = () => {
   const [name, setName] = useState(state.name);
   const [bio, setBio] = useState(state.bio);
   const [profileImg, setProfileImg] = useState(state.profileImg);
+  const [uploadImg, setUploadImg] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [modalText, setModalText] = useState("");
 
@@ -29,6 +30,7 @@ const EditProfile = () => {
   const handleImgInput = (e) => {
     // TODO 이미지 아닌 파일 예외처리
     const file = e.target.files[0];
+    setUploadImg(file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
@@ -57,22 +59,25 @@ const EditProfile = () => {
         navigate(-1);
       } else {
         // TODO 프로필 업데이트
+        let flag = false;
         try {
           const data = {
             memberId: state.memberId,
             updateBio: bio,
             updateName: name,
-            uploadImage: profileImg,
+            uploadImage: uploadImg,
           };
           console.log(data);
-          await axios_post("info", data, "json", true);
+          await axios_post("info", data, "form", true);
           setModalText("프로필 업데이트에 성공하였습니다.");
+          flag = true;
         } catch (e) {
           console.error(e);
           setModalText("프로필 업데이트에 실패하였습니다.");
         } finally {
           setTimeout(() => {
             setOpenModal(false);
+            flag && navigate(-1);
           }, 1500);
         }
       }
@@ -162,8 +167,8 @@ const EditProfile = () => {
               marginBottom: "0.83em",
             }}
           >
-            <ColumnText title="보낸 편지" content="6" />
-            <ColumnText title="받은 편지" content="10" />
+            <ColumnText title="보낸 편지" content={state.sendPost} />
+            <ColumnText title="받은 편지" content={state.receivePost} />
             <ColumnText title="습관 진행" content={`+${state.dPlus}`} />
           </div>
           <span>사용자 이름</span>

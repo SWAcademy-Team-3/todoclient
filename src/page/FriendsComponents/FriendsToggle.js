@@ -35,7 +35,10 @@ export default function FriendsToggle({ user, handleModal, relationId }) {
       receivePost: response.getLetterCount,
       dPlus: response.dplusCount,
       bio: response.bio,
-      img: response.img !== null ? basicProfile : response.img,
+      img:
+        response.image === undefined || response.image === null
+          ? basicProfile
+          : `data:image/;base64,${response.image}`,
     });
   };
 

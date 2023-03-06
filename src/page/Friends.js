@@ -12,6 +12,7 @@ import { useUser } from "../contexts/userProvider";
 import { axios_post } from "../api/api";
 import Toast from "../components/Toast";
 import useTimeout from "../hooks/useTimeout";
+import { getCookie } from "../service/Cookie";
 
 export default function Friends() {
   const { user } = useUser();
@@ -26,7 +27,6 @@ export default function Friends() {
   }, 2000);
   const handleModalClick = async (type) => {
     if (type === "yes") {
-      //TODO 편지요청
       if (modalText.slice(9).trim() === "요청하시겠습니까?") {
         try {
           await axios_post(
@@ -47,6 +47,24 @@ export default function Friends() {
         }
       } else {
         // TODO 친구삭제
+        try {
+          axios.defaults.headers.delete["Authorization"] = `Bearer ${getCookie(
+            "access_token"
+          )}`;
+          await axios.delete(
+            `http://49.50.163.197:8080/api/member/friend/relation/${relationId}`,
+            {
+              relationId,
+            }
+          );
+          setToastMessage("친구를 삭제했습니다.");
+          getFriendList();
+        } catch (e) {
+          setToastMessage("친구 삭제 중 오류 발생");
+        } finally {
+          setOpenToast(true);
+          toastClose();
+        }
       }
     }
     setOpenModal(false);
@@ -66,7 +84,6 @@ export default function Friends() {
           memberId: user.memberId,
         }
       );
-      // TODO 친구 목록 데이터 뿌리기
       setFriendsList(response.data);
     } catch (e) {
       console.error(e);
@@ -90,14 +107,18 @@ export default function Friends() {
     <div className="marginDiv">
       <Header left={HeaderLeft} right={HeaderRight} isHr={true} />
       <div id="friendsContents">
-        {friendsList.map((friend) => (
-          <FriendsToggle
-            key={friend.memberId}
-            user={friend.name}
-            relationId={friend.relationId}
-            handleModal={handleModal}
-          />
-        ))}
+        {friendsList.length === 0 ? (
+          <span>아직은 친구가 없어요, 친구를 찾아보세요!</span>
+        ) : (
+          friendsList.map((friend) => (
+            <FriendsToggle
+              key={friend.memberId}
+              user={friend.name}
+              relationId={friend.relationId}
+              handleModal={handleModal}
+            />
+          ))
+        )}
       </div>
       {openModal && (
         <Modal type="check" handleModalClick={handleModalClick}>
@@ -107,7 +128,12 @@ export default function Friends() {
       {openToast && (
         <Toast
           message={toastMessage}
-          type={toastMessage !== "편지 요청에 실패하였습니다."}
+          type={
+            !(
+              toastMessage === "편지 요청에 실패하였습니다." ||
+              toastMessage === "친구 삭제 중 오류 발생"
+            )
+          }
         />
       )}
     </div>

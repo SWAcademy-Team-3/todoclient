@@ -46,9 +46,8 @@ export default function AddFriends() {
         friendId: selectedFriend,
         memberId: user.memberId,
       };
-      console.log(data);
       const response = await axios_post("friend_request", data, "json", true);
-      if (response.state === "OK") {
+      if (response === "") {
         setToastMessage(`${selectedFriend}님에게 친구 요청을 보냈어요`);
       } else {
         setToastMessage(`친구 요청에 실패했어요 다시보내보세요`);
@@ -131,7 +130,9 @@ export default function AddFriends() {
         {searchResult.map((friend) => (
           <Tile
             key={friend.memberId}
-            profileImg={friend.image ? user.image : basicImg}
+            profileImg={
+              friend.image ? `data:image/;base64,${friend.image}` : basicImg
+            }
             memId={friend.memberId}
             name={friend.name}
             type="add"

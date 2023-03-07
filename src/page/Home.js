@@ -57,7 +57,6 @@ export default function Home() {
         startDate: time.startDate,
         endDate: time.endDate,
       };
-      console.log(data);
       await axios_post("habit", data, "json", true);
       getData();
     }
@@ -180,7 +179,11 @@ export default function Home() {
       )}
       {loading && loadingComponent()}
       {openModal && (
-        <Modal type="check" handleModalClick={handleHabitDelete}>
+        <Modal
+          type="check"
+          handleModalClick={handleHabitDelete}
+          banClickAway={true}
+        >
           <span>습관을 삭제하시겠습니까?</span>
           <br />
           <span style={{ color: "red" }}>

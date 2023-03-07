@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import Card from "../components/Card";
 import Chip from "../components/Chip";
@@ -14,6 +14,7 @@ import { axios_get } from "../api/api";
 import { useDate } from "../contexts/dateProvider";
 
 export default function Receive() {
+  const { state } = useLocation();
   const [modalOpen, setModalOpen] = useState(false);
   const [postOpen, setPostOpen] = useState(false);
   const [toastOpen, setToastOpen] = useState("");
@@ -30,6 +31,7 @@ export default function Receive() {
   const [startX, setStartX] = useState(0);
   const { user, changeUserData } = useUser();
   const { DateToStringFormat } = useDate();
+  const [count, setCount] = useState(0);
   let navigate = useNavigate();
 
   useSlideBack("touchmove", startX, () => {
@@ -121,6 +123,9 @@ export default function Receive() {
   };
 
   const getAllPosts = async () => {
+    if (count === 0) {
+      state && setIsOpen(false);
+    }
     const data = {
       startDate:
         typeof period.startDate === "string"
@@ -131,11 +136,12 @@ export default function Receive() {
           ? period.endDate
           : DateToStringFormat(period.endDate),
       memberId: user.memberId,
-      open: isOpen,
+      open: count === 0 && state ? false : isOpen,
       sortType: sort ? "ASC" : "DESC",
     };
     const response = await axios_get("post", data, "json", true);
     setPostData(response);
+    setCount(count + 1);
   };
 
   useEffect(() => {
@@ -199,7 +205,11 @@ export default function Receive() {
           onClose={() => setPostOpen(false)}
         />
       )}
-      <ToastPopUp openClass={toastOpen} handleToast={handleToast} />
+      <ToastPopUp
+        openClass={toastOpen}
+        handleToast={handleToast}
+        open={!(count === 0 && state)}
+      />
     </>
   );
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import axios from "axios";
 import { axios_get } from "../api/api";
 
@@ -13,12 +13,13 @@ import basicProfile from "../assets/images/basic_profile.jpeg";
 import Tile from "../components/Tile";
 import SimpleCalendar from "./HomeComponents/SimpleCalendar";
 import TodoList from "./HomeComponents/TodoList";
-import DateProvider from "../contexts/dateProvider";
 import { useUser } from "../contexts/userProvider";
 import { useDate } from "../contexts/dateProvider";
 
 export default function FindFriends() {
   let navigate = useNavigate();
+  //TODO relationID가 들어오면 바로 TODO를 볼 수 있게 넘김
+  const { state } = useLocation();
   const { user } = useUser();
   const { date, DateToStringFormat } = useDate();
 

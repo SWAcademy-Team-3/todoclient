@@ -2,9 +2,21 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useUser } from "../../contexts/userProvider";
 
+import basicImage from "../../assets/images/basic_profile.jpeg";
+import { useNavigate } from "react-router-dom";
+
 export default function PostRequest({ activeTab }) {
+  let navigate = useNavigate();
   const [data, setData] = useState([]);
   const { user } = useUser();
+
+  const handleGoWrite = (relationId) => {
+    navigate("/", {
+      state: {
+        relationId,
+      },
+    });
+  };
 
   const getPostRequestData = async () => {
     try {
@@ -30,7 +42,10 @@ export default function PostRequest({ activeTab }) {
         <span>편지 요청 목록이 없어요</span>
       ) : (
         data.map((req) => (
-          <div key={req.sendDateTime.join("")}>
+          <div
+            key={req.sendDateTime.join("")}
+            onClick={() => handleGoWrite(req.relationId)}
+          >
             <div
               style={{
                 display: "flex",
@@ -42,7 +57,11 @@ export default function PostRequest({ activeTab }) {
                 style={{ flex: "none", marginRight: "8px" }}
               >
                 <img
-                  src={`data:image/;base64,${req.memberImage}`}
+                  src={
+                    req.memberImage === null
+                      ? basicImage
+                      : `data:image/;base64,${req.memberImage}`
+                  }
                   alt="profileImg"
                   className="profileImg"
                 />

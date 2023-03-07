@@ -1,25 +1,9 @@
-// 더미 이미지
-import YenaImg from "../../assets/images/yena.jpg";
-import kimImg from "../../assets/images/kim.jpg";
-
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useUser } from "../../contexts/userProvider";
 
-const dummyData = [
-  {
-    sender: "yena",
-    date: "2023-02-13",
-    profileImg: YenaImg,
-  },
-  {
-    sender: "_chaechae_1",
-    date: "2023-02-12",
-    profileImg: kimImg,
-  },
-];
-
 export default function PostRequest({ activeTab }) {
+  const [data, setData] = useState([]);
   const { user } = useUser();
 
   const getPostRequestData = async () => {
@@ -30,8 +14,7 @@ export default function PostRequest({ activeTab }) {
           memberId: user.memberId,
         }
       );
-      // TODO 데이터 화면에 뿌리기
-      console.log(response.data);
+      setData(response.data);
     } catch (e) {
       console.error(e);
     }
@@ -43,35 +26,39 @@ export default function PostRequest({ activeTab }) {
 
   return (
     <div className="TabContent2">
-      {dummyData.map((val, idx) => (
-        <div key={idx}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
+      {data.length === 0 ? (
+        <span>편지 요청 목록이 없어요</span>
+      ) : (
+        data.map((req) => (
+          <div key={req.sendDateTime.join("")}>
             <div
-              className="profileImgDiv"
-              style={{ flex: "none", marginRight: "8px" }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
             >
-              <img
-                src={val.profileImg}
-                alt="profileImg"
-                className="profileImg"
-              />
+              <div
+                className="profileImgDiv"
+                style={{ flex: "none", marginRight: "8px" }}
+              >
+                <img
+                  src={`data:image/;base64,${req.memberImage}`}
+                  alt="profileImg"
+                  className="profileImg"
+                />
+              </div>
+              <div>
+                {req.friendName}님이 편지를 요청했어요! 편지를 쓰러 가볼까요?
+                <br />
+                <span style={{ fontSize: "12px", color: "#bbb" }}>
+                  {`${req.sendDateTime[0]}-${req.sendDateTime[1]}-${req.sendDateTime[2]}`}
+                </span>
+              </div>
             </div>
-            <div>
-              {val.sender} 님이 편지를 요청했어요! 편지를 쓰러 가볼까요?
-              <br />
-              <span style={{ fontSize: "12px", color: "#bbb" }}>
-                {val.date}
-              </span>
-            </div>
+            <hr />
           </div>
-          <hr />
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 }

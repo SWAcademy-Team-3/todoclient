@@ -1,62 +1,38 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
+import axios from "axios";
+import { axios_get } from "../api/api";
+
 import useTimeout from "../hooks/useTimeout";
 import useSlideBack from "../hooks/useSlideBack";
+import useDebounce from "../hooks/useDebounce";
 
 import SearchIcon from "@mui/icons-material/Search";
+import basicProfile from "../assets/images/basic_profile.jpeg";
 
-//지울 것
-import tempImg1 from "../assets/images/kim.jpg";
-import tempImg2 from "../assets/images/yena.jpg";
 import Tile from "../components/Tile";
 import SimpleCalendar from "./HomeComponents/SimpleCalendar";
 import TodoList from "./HomeComponents/TodoList";
 import DateProvider from "../contexts/dateProvider";
-import { v4 } from "uuid";
-const dummyData = [
-  {
-    profileImg: tempImg1,
-    memId: "_chaechae_1",
-    name: "김채원 (CHAEWON)",
-  },
-  {
-    profileImg: tempImg2,
-    memId: "yena",
-    name: "최예나",
-  },
-];
-const dummyToDo = [
-  {
-    todo: "TODO1",
-    limitTime: "17:00",
-    isClear: true,
-    tempId: v4(),
-  },
-  {
-    todo: "TODO2",
-    limitTime: "22:00",
-    isClear: false,
-    tempId: v4(),
-  },
-];
-
-const dummyHabit = [
-  {
-    todo: "HABIT1",
-    limitTime: null,
-    isClear: false,
-    tempId: v4(),
-  },
-];
+import { useUser } from "../contexts/userProvider";
+import { useDate } from "../contexts/dateProvider";
 
 export default function FindFriends() {
   let navigate = useNavigate();
+  const { user } = useUser();
+  const { date, DateToStringFormat } = useDate();
+
+  const [friendsList, setFriendsList] = useState([]);
+  const [friendTodo, setFriendTodo] = useState([]);
+  const [friendHabit, setFriendHabit] = useState([]);
+
   const [typingAnimationEnd, setTypingAnimationEnd] = useState(false);
   const [fadeAnimationEnd, setFadeAnimationEnd] = useState(false);
   const [fadeAnimationEnd2, setFadeAnimationEnd2] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState({
     profileImg: null,
     memId: null,
+    relationId: null,
   });
   const [startX, setStartX] = useState(0);
   const [searchText, setSearchText] = useState("");
@@ -84,11 +60,13 @@ export default function FindFriends() {
     setSearchText(e.target.value);
   };
 
-  const handleSelectFriend = (profileImg, memId) => {
+  const handleSelectFriend = (profileImg, memId, relationId) => {
     setSelectedFriend({
       profileImg,
       memId,
+      relationId,
     });
+    getFriendTodoData(memId);
     fadeAnimation2();
   };
 
@@ -100,8 +78,55 @@ export default function FindFriends() {
         location: "findFriends",
         todo,
         category,
+        todoId,
+        relationId: selectedFriend.relationId,
       },
     });
+  };
+
+  const getFriendTodoData = async (memberId) => {
+    const todoResponse = await axios_get("todo", {
+      memberId,
+      searchDate: DateToStringFormat(date),
+      type: "TODO",
+    });
+    const HabitResponse = await axios_get("habit", {
+      memberId,
+      searchDate: DateToStringFormat(date),
+      type: "HABIT",
+    });
+    setFriendTodo(todoResponse);
+    setFriendHabit(HabitResponse);
+  };
+
+  const getFriendList = async () => {
+    try {
+      const response = await axios.get(
+        `http://49.50.163.197:8080/api/member/friend/list/${user.memberId}`,
+        {
+          memberId: user.memberId,
+        }
+      );
+      const result = [];
+      await response.data.map(async (list) => {
+        const relationId = list.relationId;
+        const res = await axios_get("friendInfo", {
+          relationId,
+        });
+        result.push({
+          name: list.name,
+          memberId: list.memberId,
+          relationId: list.relationId,
+          profileImg:
+            res.image === undefined || res.image === null
+              ? basicProfile
+              : `data:image/;base64,${res.image}`,
+        });
+      });
+      setFriendsList(result);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   useEffect(() => {
@@ -116,7 +141,18 @@ export default function FindFriends() {
 
   useEffect(() => {
     handleAnimation();
+    getFriendList();
   }, []);
+
+  useDebounce(
+    () => {
+      if (selectedFriend.memId !== null) {
+        getFriendTodoData(selectedFriend.memId);
+      }
+    },
+    300,
+    [date]
+  );
 
   return (
     <>
@@ -148,46 +184,50 @@ export default function FindFriends() {
             <SearchIcon />
           </div>
           <hr style={{ margin: 0 }} />
-          {dummyData.map(({ profileImg, memId, name }, index) => (
+          {friendsList.map((friend) => (
             <Tile
-              key={index}
-              profileImg={profileImg}
-              memId={memId}
-              name={name}
+              key={friend.relationId}
+              profileImg={friend.profileImg}
+              memId={friend.memberId}
+              name={friend.name}
               type="check"
-              handleClick={() => handleSelectFriend(profileImg, memId)}
+              handleClick={() =>
+                handleSelectFriend(
+                  friend.profileImg,
+                  friend.memberId,
+                  friend.relationId
+                )
+              }
             />
           ))}
         </div>
       </div>
-      <DateProvider>
-        <div
-          className="fadeInDiv"
-          style={{ display: !fadeAnimationEnd2 ? "none" : "block" }}
-        >
-          <div className="Mainheader">
-            <SimpleCalendar />
-            <hr />
-          </div>
-          <div id="homeContents">
-            <span style={{ fontSize: "18px" }}>
-              <strong>{selectedFriend.memId}</strong> 님의 할일 목록
-            </span>
-            <TodoList
-              category={"TODO"}
-              data={dummyToDo}
-              handleClick={handleMoveWrite}
-              my={false}
-            />
-            <TodoList
-              category={"HABIT"}
-              data={dummyHabit}
-              handleClick={handleMoveWrite}
-              my={false}
-            />
-          </div>
+      <div
+        className="fadeInDiv"
+        style={{ display: !fadeAnimationEnd2 ? "none" : "block" }}
+      >
+        <div className="Mainheader">
+          <SimpleCalendar />
+          <hr />
         </div>
-      </DateProvider>
+        <div id="homeContents">
+          <span style={{ fontSize: "18px" }}>
+            <strong>{selectedFriend.memId}</strong> 님의 할일 목록
+          </span>
+          <TodoList
+            category={"TODO"}
+            data={friendTodo}
+            handleClick={handleMoveWrite}
+            my={false}
+          />
+          <TodoList
+            category={"HABIT"}
+            data={friendHabit}
+            handleClick={handleMoveWrite}
+            my={false}
+          />
+        </div>
+      </div>
     </>
   );
 }

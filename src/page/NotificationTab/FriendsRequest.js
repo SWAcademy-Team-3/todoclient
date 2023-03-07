@@ -6,12 +6,11 @@ import { useUser } from "../../contexts/userProvider";
 import RequestTile from "../FriendsComponents/RequestTile";
 import { axios_post } from "../../api/api";
 
-const dummyData = ["카리나", "윈터", "우기", "민니"];
-
 export default function FriendsRequest({ activeTab }) {
   const [openModal, setOpenModal] = useState(false);
   const [modalText, setModalText] = useState("");
   const [relationId, setRelationId] = useState(0);
+  const [requestList, setRequestList] = useState([]);
   const { user } = useUser();
 
   const handleModalClick = async (type) => {
@@ -21,7 +20,7 @@ export default function FriendsRequest({ activeTab }) {
         accept: modalText === "친구 요청을 수락하시겠습니까?",
         relationId,
       };
-      await axios_post("friend_request_control", data);
+      await axios_post("friend_request_control", data, "json", true);
       getRequestData();
     }
     setOpenModal(false);
@@ -36,7 +35,7 @@ export default function FriendsRequest({ activeTab }) {
         }
       );
       // TODO Tile에 데이터 집어 넣기
-      console.log(response.data);
+      setRequestList(response.data);
     } catch (e) {
       console.error(e);
     }
@@ -58,28 +57,32 @@ export default function FriendsRequest({ activeTab }) {
   };
   return (
     <div className={`TabContent1 ${activeTab === 1 && "reverse"}`}>
-      {dummyData.map((name, index) => {
-        if (index === dummyData.length - 1) {
+      {requestList.length === 0 ? (
+        <span>친구 요청 목록이 없어요</span>
+      ) : (
+        requestList.map((data, index) => {
+          if (index === requestList.length - 1) {
+            return (
+              <RequestTile
+                key={data.memberId}
+                name={data.name}
+                acceptClick={() => handleButton("yes", data.relationId)}
+                deleteClick={() => handleButton("no", data.relationId)}
+                isHr={false}
+              />
+            );
+          }
           return (
             <RequestTile
-              key={index}
-              name={name}
-              acceptClick={() => handleButton("yes", index)}
-              deleteClick={() => handleButton("no", index)}
-              isHr={false}
+              key={data.memberId}
+              name={data.name}
+              acceptClick={() => handleButton("yes", data.relationId)}
+              deleteClick={() => handleButton("no", data.relationId)}
+              isHr={true}
             />
           );
-        }
-        return (
-          <RequestTile
-            key={index}
-            name={name}
-            acceptClick={() => handleButton("yes", index)}
-            deleteClick={() => handleButton("no", index)}
-            isHr={true}
-          />
-        );
-      })}
+        })
+      )}
       {openModal && (
         <Modal type="check" handleModalClick={handleModalClick}>
           <span className="modalMessage">{modalText}</span>

@@ -1,17 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router";
+import { useUser } from "../contexts/userProvider";
 
-// 임시이미지
-import myImg from "../assets/images/chuu.jpg";
+import basic_profile from "../assets/images/basic_profile.jpeg";
 import FlatButton from "../components/FlatButton";
+import { axios_get, axios_post } from "../api/api";
+import Modal from "../components/Modal";
 
 export default function Write() {
   let navigate = useNavigate();
+  const { user, changeUserData } = useUser();
   const { state } = useLocation();
   const titleRef = useRef();
   const contentRef = useRef();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [myProfileImg, setMyProfileImg] = useState(basic_profile);
+
+  const [openModal, setOpenModal] = useState(false);
+  const [modalText, setModalText] = useState("");
 
   const handleTitle = (e) => {
     setTitle(e.target.value);
@@ -20,6 +27,49 @@ export default function Write() {
   const handleContent = (e) => {
     setContent(e.target.value);
   };
+
+  const getMyProfileImg = async () => {
+    const response = await axios_get("myInfo", {
+      memberId: user.memberId,
+    });
+    response.image && setMyProfileImg(`data:image/;base64,${response.image}`);
+  };
+
+  const handleWritePost = async () => {
+    if (title === "" || content === "") {
+      // 빈 내용 입력 방지
+      setModalText("제목, 내용을 작성해 주세요");
+      setOpenModal(true);
+    }
+    const data = {
+      message: content,
+      relationId: state.relationId,
+      title,
+      todoId: state.todoId,
+    };
+    try {
+      await axios_post("letter", data, "json", true);
+      changeUserData({ ...user, coinCount: user.coinCount + 5 });
+      setModalText("편지 쓰기에 성공하였습니다.");
+    } catch (e) {
+      setModalText("편지 쓰기에 실패하였습니다. 다시 시도해주세요");
+    } finally {
+      setOpenModal(true);
+    }
+  };
+
+  const handleModalAlertClick = () => {
+    if (modalText === "편지 쓰기에 성공하였습니다.") {
+      setOpenModal(false);
+      navigate("/post");
+    } else {
+      setOpenModal(false);
+    }
+  };
+
+  useEffect(() => {
+    getMyProfileImg();
+  }, []);
 
   return (
     <div
@@ -38,9 +88,9 @@ export default function Write() {
             className="profileImgDiv"
             style={{ width: "40px", height: "40px" }}
           >
-            <img src={myImg} alt="profileImg" className="profileImg" />
+            <img src={myProfileImg} alt="profileImg" className="profileImg" />
           </div>
-          <span>chuu</span>
+          <span>{user.memberId}</span>
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
           <span>받는이 : </span>
@@ -100,6 +150,7 @@ export default function Write() {
         <FlatButton
           name="편지쓰기"
           style={{ width: "120px", height: "50px", borderRadius: "12px" }}
+          onClick={handleWritePost}
         />
         <FlatButton
           name="편지취소"
@@ -109,6 +160,11 @@ export default function Write() {
           }
         />
       </div>
+      {openModal && (
+        <Modal type="alert" handleModalClick={handleModalAlertClick}>
+          {modalText}
+        </Modal>
+      )}
     </div>
   );
 }

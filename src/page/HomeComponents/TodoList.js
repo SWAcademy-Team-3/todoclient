@@ -14,7 +14,12 @@ export default function TodoList({ category, data, handleClick, my = true }) {
                   <button
                     className="DeleteButton"
                     onClick={() =>
-                      handleClick(val.todoId, "DELETE", category, val.todo)
+                      handleClick(
+                        category === "HABIT" ? val.habitId : val.todoId,
+                        "DELETE",
+                        category,
+                        val.todo
+                      )
                     }
                   >
                     X
@@ -24,13 +29,18 @@ export default function TodoList({ category, data, handleClick, my = true }) {
                 )}
                 <span
                   onClick={() =>
-                    handleClick(val.todoId, "UPDATE", category, val.todo)
+                    handleClick(
+                      val.todoId,
+                      "UPDATE",
+                      category,
+                      val.todo ? val.todo : val.content
+                    )
                   }
                   style={{
                     textDecoration: val.success ? "line-through" : "none",
                   }}
                 >
-                  {val.todo}
+                  {val.todo ? val.todo : val.content}
                 </span>
                 <span
                   style={{

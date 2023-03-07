@@ -1,23 +1,51 @@
 import "../../style/index.scss";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FlatButton from "../../components/FlatButton";
 import ProfileDetail from "../../components/PorfileDetail";
+import { axios_get } from "../../api/api";
 
-//지울 것
-import tempImg from "../../assets/images/yena.jpg";
+import basicProfile from "../../assets/images/basic_profile.jpeg";
 
-export default function FriendsToggle({ user, handleModal }) {
+export default function FriendsToggle({ user, handleModal, relationId }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [info, setInfo] = useState({
+    sendPost: 0,
+    receivePost: 0,
+    dPlus: 0,
+    bio: "한 줄 소개를 입력해주세요",
+    img: basicProfile,
+  });
 
   const handlePostRequest = () => {
-    handleModal("check", `${user}에게 편지를 요청하시겠습니까?`);
+    handleModal(`${user}에게 편지를 요청하시겠습니까?`, relationId);
   };
   const handleOpen = (e) => {
     if (e.target.tagName !== "BUTTON") {
       setIsOpen(!isOpen);
     }
   };
+
+  const getFriendsDetail = async () => {
+    const response = await axios_get("friendInfo", {
+      relationId,
+    });
+    setInfo({
+      sendPost: response.sendLetterCount,
+      receivePost: response.getLetterCount,
+      dPlus: response.dplusCount,
+      bio: response.bio,
+      img:
+        response.image === undefined || response.image === null
+          ? basicProfile
+          : `data:image/;base64,${response.image}`,
+    });
+  };
+
+  useEffect(() => {
+    getFriendsDetail();
+  }, []);
+
   return (
     <>
       <div className="FriendsToggleHead" onClick={(e) => handleOpen(e)}>
@@ -44,7 +72,7 @@ export default function FriendsToggle({ user, handleModal }) {
         </div>
         <button
           className="DeleteButton"
-          onClick={(e) => handleModal("check", `${user} 친구를 삭제할까요?`)}
+          onClick={(e) => handleModal(`${user} 친구를 삭제할까요?`, relationId)}
         >
           X
         </button>
@@ -52,11 +80,11 @@ export default function FriendsToggle({ user, handleModal }) {
 
       <div className={`FriendsToggleBody-${isOpen}`}>
         <ProfileDetail
-          profileImg={tempImg}
-          sendPost={4}
-          receivePost={7}
-          dPlus={34}
-          introduce="친구가 작성 한줄 소개글을 이곳에서 확인할 수 있습니다."
+          profileImg={info.img}
+          sendPost={info.sendPost}
+          receivePost={info.receivePost}
+          dPlus={info.dPlus}
+          introduce={info.bio}
         />
       </div>
     </>

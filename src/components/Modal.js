@@ -6,6 +6,7 @@ export default function Modal({
   children,
   handleModalClick,
   buttonType,
+  banClickAway = false,
   ...props
 }) {
   const popRef = useClickAway((e) => {
@@ -16,7 +17,7 @@ export default function Modal({
         e.target.tagName === "path"
       )
     ) {
-      handleModalClick("no");
+      !banClickAway && handleModalClick("no");
     }
   });
   return (

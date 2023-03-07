@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PostClose from "./PostComponents/PostClose";
 import PostOpen from "./PostComponents/PostOpen";
 import Chip from "../components/Chip";
@@ -9,11 +9,14 @@ import coinEmoji from "../assets/images/coinEmoji.png";
 import postEmoji from "../assets/images/postEmoji.png";
 import { useNavigate } from "react-router";
 import { axios_get } from "../api/api";
+import { useUser } from "../contexts/userProvider";
 
 export default function Post() {
   let navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [unreadPostCount, setUnreadPostCount] = useState(0);
+  const { user } = useUser();
 
   const handlePostClick = () => {
     if (!open) {
@@ -35,10 +38,21 @@ export default function Post() {
     navigate("/receive");
   };
 
-  // const getUnreadPost = async () => {
-  //   const data =
-  //   const response = axios_get("post", )
-  // }
+  const getUnreadPost = async () => {
+    const data = {
+      startDate: null,
+      endDate: null,
+      memberId: user.memberId,
+      open: false,
+      sortType: "DEFAULT",
+    };
+    const response = await axios_get("post", data, "json", true);
+    setUnreadPostCount(response.length);
+  };
+
+  useEffect(() => {
+    getUnreadPost();
+  }, []);
 
   return (
     <>
@@ -48,8 +62,8 @@ export default function Post() {
             이전 편지 읽으러 가기
           </span>
           <div style={{ display: "flex" }}>
-            <Chip number={10} emoji={postEmoji} />
-            <Chip number={100} emoji={coinEmoji} />
+            <Chip number={unreadPostCount} emoji={postEmoji} />
+            <Chip number={user.coinCount} emoji={coinEmoji} />
           </div>
         </div>
       </div>

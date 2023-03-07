@@ -32,6 +32,7 @@ export default function FindFriends() {
   const [selectedFriend, setSelectedFriend] = useState({
     profileImg: null,
     memId: null,
+    relationId: null,
   });
   const [startX, setStartX] = useState(0);
   const [searchText, setSearchText] = useState("");
@@ -59,10 +60,11 @@ export default function FindFriends() {
     setSearchText(e.target.value);
   };
 
-  const handleSelectFriend = (profileImg, memId) => {
+  const handleSelectFriend = (profileImg, memId, relationId) => {
     setSelectedFriend({
       profileImg,
       memId,
+      relationId,
     });
     getFriendTodoData(memId);
     fadeAnimation2();
@@ -76,6 +78,8 @@ export default function FindFriends() {
         location: "findFriends",
         todo,
         category,
+        todoId,
+        relationId: selectedFriend.relationId,
       },
     });
   };
@@ -188,7 +192,11 @@ export default function FindFriends() {
               name={friend.name}
               type="check"
               handleClick={() =>
-                handleSelectFriend(friend.profileImg, friend.memberId)
+                handleSelectFriend(
+                  friend.profileImg,
+                  friend.memberId,
+                  friend.relationId
+                )
               }
             />
           ))}

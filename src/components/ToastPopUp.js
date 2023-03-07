@@ -6,6 +6,7 @@ export default function ToastPopUp({ openClass, handleToast }) {
   const [periodValue, setPeriodValue] = useState("1");
   const [sortValue, setSortValue] = useState("lastest");
   const [startDate, setStartDate] = useState(new Date());
+  const [isOpen, setIsOpen] = useState(true);
   const [endDate, setEndDate] = useState(new Date());
 
   const handleChangePeriod = (value) => {
@@ -23,6 +24,7 @@ export default function ToastPopUp({ openClass, handleToast }) {
             handleToast(
               periodValue,
               sortValue,
+              isOpen,
               periodValue === "custom" ? { startDate, endDate } : null
             )
           }
@@ -94,6 +96,24 @@ export default function ToastPopUp({ openClass, handleToast }) {
             onChange={handleChangeSort}
           >
             오래된 순
+          </Radio>
+        </RadioGroup>
+        <RadioGroup label="종류">
+          <Radio
+            name="type"
+            value={true}
+            checked={isOpen}
+            onChange={() => setIsOpen(true)}
+          >
+            읽은 편지
+          </Radio>
+          <Radio
+            name="type"
+            value={false}
+            checked={!isOpen}
+            onChange={() => setIsOpen(false)}
+          >
+            안 읽은 편지
           </Radio>
         </RadioGroup>
       </div>

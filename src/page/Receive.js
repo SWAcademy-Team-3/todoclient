@@ -10,76 +10,78 @@ import ToastPopUp from "../components/ToastPopUp";
 
 import useSlideBack from "../hooks/useSlideBack";
 import { useUser } from "../contexts/userProvider";
-
-const dummyData = [
-  {
-    title: "test",
-    content: "testcontetnt",
-    sender: "yena",
-    isOpen: false,
-    timestamp: "2023-01-24",
-  },
-  {
-    title: "지우야 사랑해",
-    content:
-      "김지우 지켜츄 김지우 지켜츄 김지우 지켜츄 김지우 지켜츄 김지우 지켜츄",
-    sender: "im_younique",
-    isOpen: true,
-    timestamp: "2023-01-23",
-  },
-  {
-    title: "test3",
-    content: "testcontetntttttttttttttttttttttttttttttttttttasdafsdfsda",
-    sender: "yena",
-    isOpen: true,
-    timestamp: "2023-01-23",
-  },
-  {
-    title: "제목이 길어져볼께ㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔ",
-    content: "testcontetntttttttttttttttttttttttttttttttttttasdafsdfsda",
-    sender: "yena",
-    isOpen: true,
-    timestamp: "2022-12-17",
-  },
-];
+import { axios_get } from "../api/api";
+import { useDate } from "../contexts/dateProvider";
 
 export default function Receive() {
   const [modalOpen, setModalOpen] = useState(false);
   const [postOpen, setPostOpen] = useState(false);
   const [toastOpen, setToastOpen] = useState("");
+  const [letterId, setLetterId] = useState();
   const [selectedData, setSelectedData] = useState({});
   const [period, setPeriod] = useState({
     startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)),
     endDate: new Date(),
   });
+  const [isOpen, setIsOpen] = useState(true);
   const [periodText, setPeriodText] = useState("1개월");
   const [sort, setSort] = useState(true);
+  const [postData, setPostData] = useState([]);
   const [startX, setStartX] = useState(0);
-  const { user } = useUser();
+  const { user, changeUserData } = useUser();
+  const { DateToStringFormat } = useDate();
   let navigate = useNavigate();
 
   useSlideBack("touchmove", startX, () => {
     navigate(-1);
   });
 
-  const handlePostOpen = (isOpen, title, content, sender) => {
+  const handlePostOpen = (
+    isOpen,
+    title,
+    content,
+    sender,
+    cheerDo,
+    date,
+    letterId
+  ) => {
     if (isOpen) {
+      setSelectedData({ title, content, sender, cheerDo, date });
       setPostOpen(true);
-      setSelectedData({ title, content, sender });
     } else {
+      setLetterId(letterId);
       setModalOpen(true);
     }
   };
 
-  const handleNewPostOpen = (state) => {
+  const handleNewPostOpen = async (state) => {
     if (state === "yes") {
       // 코인 수 만큼 차감하고 편지 내용 보여주기
+      try {
+        const response = await axios_get("letter", {
+          letterId,
+        });
+        setSelectedData({
+          title: response.title,
+          content: response.message,
+          sender: response.senderName,
+          cheerDo: response.todoContent,
+          date: response.sendDate,
+        });
+        setPostOpen(true);
+        changeUserData({ ...user, coinCount: user.coinCount - 2 });
+        getAllPosts();
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setModalOpen(false);
+      }
     } else {
       setModalOpen(false);
     }
   };
 
-  const handleToast = (periodValue, sortValue, customDate) => {
+  const handleToast = (periodValue, sortValue, openValue, customDate) => {
     if (toastOpen === "") {
       setToastOpen("toastOpen");
     } else {
@@ -113,13 +115,28 @@ export default function Receive() {
       } else if (sortValue === "oldest") {
         setSort(false);
       }
+      setIsOpen(openValue);
       setToastOpen("");
     }
   };
 
-  const handlePeriod = (value) => {};
-
-  const getAllPosts = async () => {};
+  const getAllPosts = async () => {
+    const data = {
+      startDate:
+        typeof period.startDate === "string"
+          ? period.startDate
+          : DateToStringFormat(period.startDate),
+      endDate:
+        typeof period.endDate === "string"
+          ? period.endDate
+          : DateToStringFormat(period.endDate),
+      memberId: user.memberId,
+      open: isOpen,
+      sortType: sort ? "ASC" : "DESC",
+    };
+    const response = await axios_get("post", data, "json", true);
+    setPostData(response);
+  };
 
   useEffect(() => {
     const handleTouchStart = (e) => {
@@ -131,7 +148,9 @@ export default function Receive() {
     };
   }, [startX]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getAllPosts();
+  }, [period]);
 
   return (
     <>
@@ -139,32 +158,40 @@ export default function Receive() {
         <div className="smallHeader">
           <div onClick={handleToast}>
             <span>
-              {periodText} - {sort ? "최신" : "오래된 순"}
+              {periodText} - {sort ? "최신" : "오래된 순"} -{" "}
+              {isOpen ? "읽은" : "안 읽은"}
             </span>
           </div>
           <Chip emoji={coinEmoji} number={user.coinCount} />
         </div>
         <section>
-          {dummyData
-            .filter((data) => data.isOpen === true)
-            .map((data, index) => (
+          {postData.length === 0 ? (
+            <span>편지가 없습니다.</span>
+          ) : (
+            postData.map((data) => (
               <Card
-                key={index}
-                isOpen={data.isOpen}
+                key={data.letterId}
+                isOpen={isOpen}
                 title={data.title}
-                content={data.content}
-                sender={data.sender}
+                content={data.message}
+                sender={data.senderName}
+                cheerDo={data.todoContent}
+                date={data.sendDate}
                 onClick={handlePostOpen}
+                letterId={data.letterId}
               />
-            ))}
+            ))
+          )}
         </section>
       </div>
       {modalOpen && (
         <Modal
           type="check"
-          message="편지를 열겠습니까? (코인 2개 필요)"
           handleModalClick={handleNewPostOpen}
-        />
+          banClickAway={true}
+        >
+          <span>편지를 열겠습니까? (코인 2개 필요)</span>
+        </Modal>
       )}
       {postOpen && (
         <PostRead
@@ -172,11 +199,7 @@ export default function Receive() {
           onClose={() => setPostOpen(false)}
         />
       )}
-      <ToastPopUp
-        openClass={toastOpen}
-        handleToast={handleToast}
-        handlePeriod={handlePeriod}
-      />
+      <ToastPopUp openClass={toastOpen} handleToast={handleToast} />
     </>
   );
 }

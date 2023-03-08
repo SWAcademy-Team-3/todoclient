@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import Card from "../components/Card";
@@ -122,7 +122,7 @@ export default function Receive() {
     }
   };
 
-  const getAllPosts = async () => {
+  const getAllPosts = useCallback(async () => {
     if (count === 0) {
       state && setIsOpen(false);
     }
@@ -142,7 +142,7 @@ export default function Receive() {
     const response = await axios_get("post", data, "json", true);
     setPostData(response);
     setCount(count + 1);
-  };
+  }, [period, DateToStringFormat, count, isOpen, sort, state, user.memberId]) 
 
   useEffect(() => {
     const handleTouchStart = (e) => {
@@ -156,7 +156,7 @@ export default function Receive() {
 
   useEffect(() => {
     getAllPosts();
-  }, [period]);
+  }, [period, getAllPosts]);
 
   return (
     <>

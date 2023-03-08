@@ -1,6 +1,6 @@
 import "../../style/index.scss";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import FlatButton from "../../components/FlatButton";
 import ProfileDetail from "../../components/PorfileDetail";
 import { axios_get } from "../../api/api";
@@ -28,7 +28,7 @@ export default function FriendsToggle({ user, handleModal, memberId, relationId 
     }
   };
 
-  const getFriendsDetail = async () => {
+  const getFriendsDetail = useCallback(async () => {
     const response = await axios_get("friendInfo", {
       relationId,
     });
@@ -42,7 +42,7 @@ export default function FriendsToggle({ user, handleModal, memberId, relationId 
           ? basicProfile
           : `data:image/;base64,${response.image}`,
     });
-  };
+  }, [relationId]) 
 
   const moveWrite = () => {
     navigate('/find', {
@@ -56,7 +56,7 @@ export default function FriendsToggle({ user, handleModal, memberId, relationId 
 
   useEffect(() => {
     getFriendsDetail();
-  }, []);
+  }, [getFriendsDetail]);
 
   return (
     <>

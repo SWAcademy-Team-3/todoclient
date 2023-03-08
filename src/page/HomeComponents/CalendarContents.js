@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDate } from "../../contexts/dateProvider";
 
 import TextButton from "../../components/TextButton";
@@ -40,15 +40,15 @@ const CalendarContents = ({ selectedDate, setSelectedDate }) => {
     setSelectedDate(new Date(`${year}-${month}-${val}`));
   };
 
-  const calcDay = () => {
+  const calcDay = useCallback(() => {
     let emptyDayLength = new Date(year, month - 1, 1).getDay();
     let monthDay = new Date(year, month, 0).getDate();
     const emptyDayArray = Array.from({ length: emptyDayLength }, () => "");
     const nowDayArray = Array.from({ length: monthDay }, (_, i) => i + 1);
     setDayArr(() => [...emptyDayArray, ...nowDayArray]);
-  };
+  }, [year, month]) 
 
-  const getRateData = async () => {
+  const getRateData = useCallback(async () => {
     const response = await axios_get("calendar", {
       searchYearMonth: `${year}-${month}`,
       memberId: user.memberId,
@@ -58,15 +58,16 @@ const CalendarContents = ({ selectedDate, setSelectedDate }) => {
     response.map((val) => {
       dateArr.push(val.date[2]);
       rateArr.push(val.successRate);
+      return null;
     });
     setHasDay(dateArr);
     setGetRate(rateArr);
-  };
+  }, [year, month, user.memberId]) 
 
   useEffect(() => {
     getRateData();
     calcDay();
-  }, [month]);
+  }, [month, calcDay, getRateData]);
 
   return (
     <>

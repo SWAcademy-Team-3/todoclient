@@ -145,7 +145,7 @@ export default function Home() {
       //TODO 알림 후 로그인으로 갈 수 있게 수정
       navigate("/login");
     }
-  }, []);
+  }, [navigate, user]);
   // 날짜 변경후 0.3초 뒤에 데이터를 불러오는 동작
   useDebounce(
     () => {

@@ -1,6 +1,5 @@
 import useForm from "../hooks/useForm";
 import "../style/form.scss";
-import { axios_post } from "../api/api";
 
 export default function Loginform({ onSubmit }) {
   const { errors, isLoading, handleChange, handleSubmit } = useForm({

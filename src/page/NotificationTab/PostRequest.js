@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useUser } from "../../contexts/userProvider";
 
@@ -20,7 +20,7 @@ export default function PostRequest({ activeTab }) {
     });
   };
 
-  const getPostRequestData = async () => {
+  const getPostRequestData = useCallback(async () => {
     try {
       const response = await axios.get(
         `http://49.50.163.197:8080/api/member/friend/post-requests/${user.memberId}/receive`,
@@ -32,11 +32,11 @@ export default function PostRequest({ activeTab }) {
     } catch (e) {
       console.error(e);
     }
-  };
+  }, [user.memberId]) 
 
   useEffect(() => {
     getPostRequestData();
-  }, []);
+  }, [getPostRequestData]);
 
   return (
     <div className="TabContent2">

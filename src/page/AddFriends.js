@@ -27,7 +27,7 @@ export default function AddFriends() {
   let navigate = useNavigate();
   const inputRef = useRef(null);
 
-  const [toastClose, _] = useTimeout(() => {
+  const [toastClose, ] = useTimeout(() => {
     setOpenToast(false);
   }, 2000);
 

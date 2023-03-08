@@ -19,7 +19,7 @@ export default function ToastPopUp({ openClass, handleToast, open }) {
   return (
     <div className={`${openClass && "modalBackground"}`}>
       <div className={`${openClass} ToastPopUpContainer`}>
-        <a
+        <span
           onClick={() =>
             handleToast(
               periodValue,
@@ -30,7 +30,7 @@ export default function ToastPopUp({ openClass, handleToast, open }) {
           }
         >
           확인
-        </a>
+        </span>
         <RadioGroup label="조회 기간">
           <Radio
             name="period"

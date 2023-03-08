@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import axios from "axios";
 import { axios_get } from "../api/api";
@@ -38,13 +38,13 @@ export default function FindFriends() {
   const [startX, setStartX] = useState(0);
   const [searchText, setSearchText] = useState("");
   const inputRef = useRef();
-  const [typingAnimation, typingClear] = useTimeout(() => {
+  const [typingAnimation, ] = useTimeout(() => {
     setTypingAnimationEnd(true);
   }, 3000);
-  const [fadeAnimation, fadeClear] = useTimeout(() => {
+  const [fadeAnimation, ] = useTimeout(() => {
     setFadeAnimationEnd(true);
   }, 4400);
-  const [fadeAnimation2, fadeClear2] = useTimeout(() => {
+  const [fadeAnimation2, ] = useTimeout(() => {
     setFadeAnimationEnd2(true);
   }, 1000);
 
@@ -52,10 +52,10 @@ export default function FindFriends() {
     navigate(-1);
   });
 
-  const handleAnimation = () => {
+  const handleAnimation = useCallback(() => {
     typingAnimation();
     fadeAnimation();
-  };
+  }, [typingAnimation, fadeAnimation]) 
 
   const handleTextInput = (e) => {
     setSearchText(e.target.value);
@@ -85,7 +85,7 @@ export default function FindFriends() {
     });
   };
 
-  const getFriendTodoData = async (memberId) => {
+  const getFriendTodoData = useCallback(async (memberId) => {
     const todoResponse = await axios_get("todo", {
       memberId,
       searchDate: DateToStringFormat(date),
@@ -98,9 +98,9 @@ export default function FindFriends() {
     });
     setFriendTodo(todoResponse);
     setFriendHabit(HabitResponse);
-  };
+  }, [DateToStringFormat, date]) 
 
-  const getFriendList = async () => {
+  const getFriendList = useCallback(async () => {
     try {
       const response = await axios.get(
         `http://49.50.163.197:8080/api/member/friend/list/${user.memberId}`,
@@ -128,7 +128,7 @@ export default function FindFriends() {
     } catch (e) {
       console.error(e);
     }
-  };
+  }, [user.memberId]) 
 
   useEffect(() => {
     const handleTouchStart = (e) => {
@@ -141,7 +141,7 @@ export default function FindFriends() {
   }, [startX]);
 
   useEffect(() => {
-    if (state.relationId === undefined) {
+    if (state === null) {
       handleAnimation();
       getFriendList();
     } else {
@@ -155,7 +155,7 @@ export default function FindFriends() {
       })
       getFriendTodoData(state.friendId)
     }
-  }, []);
+  }, [getFriendList, getFriendTodoData, handleAnimation, state]);
 
   useDebounce(
     () => {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import PostClose from "./PostComponents/PostClose";
 import PostOpen from "./PostComponents/PostOpen";
 import Chip from "../components/Chip";
@@ -45,7 +45,7 @@ export default function Post() {
     navigate("/receive");
   };
 
-  const getUnreadPost = async () => {
+  const getUnreadPost = useCallback(async () => {
     const data = {
       startDate: null,
       endDate: null,
@@ -55,11 +55,11 @@ export default function Post() {
     };
     const response = await axios_get("post", data, "json", true);
     setUnreadPostCount(response.length);
-  };
+  }, [user.memberId]) 
 
   useEffect(() => {
     getUnreadPost();
-  }, []);
+  }, [getUnreadPost]);
 
   return (
     <>
@@ -84,7 +84,9 @@ export default function Post() {
           </span>
         </Modal>
       ) : null}
-      <div className="floatingButton" onClick={() => navigate("/find")}>
+      <div className="floatingButton" onClick={() => navigate("/find", {
+        state: null
+      })}>
         <EditIcon sx={{ fontSize: 40, marginTop: "18px" }} />
       </div>
     </>

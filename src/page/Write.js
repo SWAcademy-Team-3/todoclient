@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { useUser } from "../contexts/userProvider";
 
@@ -28,12 +28,12 @@ export default function Write() {
     setContent(e.target.value);
   };
 
-  const getMyProfileImg = async () => {
+  const getMyProfileImg = useCallback(async () => {
     const response = await axios_get("myInfo", {
       memberId: user.memberId,
     });
     response.image && setMyProfileImg(`data:image/;base64,${response.image}`);
-  };
+  }, [user.memberId]) 
 
   const handleWritePost = async () => {
     if (title === "" || content === "") {
@@ -69,7 +69,7 @@ export default function Write() {
 
   useEffect(() => {
     getMyProfileImg();
-  }, []);
+  }, [getMyProfileImg]);
 
   return (
     <div

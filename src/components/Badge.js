@@ -1,7 +1,7 @@
-const Badge = ({ children, count, maxCount, onClick }) => {
+const Badge = ({ children, hasAlram, onClick }) => {
   let badge = null;
 
-  if (count < maxCount) {
+  if (hasAlram) {
     badge = <sup className="supDot noti"></sup>;
   }
   return (

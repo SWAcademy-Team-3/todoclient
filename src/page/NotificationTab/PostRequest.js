@@ -10,10 +10,12 @@ export default function PostRequest({ activeTab }) {
   const [data, setData] = useState([]);
   const { user } = useUser();
 
-  const handleGoWrite = (relationId) => {
-    navigate("/", {
+  const handleGoWrite = (relationId, friendId, img) => {
+    navigate("/find", {
       state: {
         relationId,
+        friendId,
+        img
       },
     });
   };
@@ -44,7 +46,9 @@ export default function PostRequest({ activeTab }) {
         data.map((req) => (
           <div
             key={req.sendDateTime.join("")}
-            onClick={() => handleGoWrite(req.relationId)}
+            onClick={() => handleGoWrite(req.relationId, req.friendId, req.memberImage === null
+              ? basicImage
+              : `data:image/;base64,${req.memberImage}`)}
           >
             <div
               style={{

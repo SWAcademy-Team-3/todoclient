@@ -6,8 +6,10 @@ import ProfileDetail from "../../components/PorfileDetail";
 import { axios_get } from "../../api/api";
 
 import basicProfile from "../../assets/images/basic_profile.jpeg";
+import { useNavigate } from "react-router-dom";
 
-export default function FriendsToggle({ user, handleModal, relationId }) {
+export default function FriendsToggle({ user, handleModal, memberId, relationId }) {
+  let navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [info, setInfo] = useState({
     sendPost: 0,
@@ -42,6 +44,16 @@ export default function FriendsToggle({ user, handleModal, relationId }) {
     });
   };
 
+  const moveWrite = () => {
+    navigate('/find', {
+      state: {
+        relationId,
+        friendId : memberId,
+        img: info.img
+      }
+    })
+  }
+
   useEffect(() => {
     getFriendsDetail();
   }, []);
@@ -68,6 +80,7 @@ export default function FriendsToggle({ user, handleModal, relationId }) {
             name="편지 쓰기"
             style={{ borderRadius: "12px" }}
             color="#bb254a"
+            onClick={moveWrite}
           />
         </div>
         <button

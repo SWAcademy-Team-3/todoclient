@@ -141,8 +141,20 @@ export default function FindFriends() {
   }, [startX]);
 
   useEffect(() => {
-    handleAnimation();
-    getFriendList();
+    if (state.relationId === undefined) {
+      handleAnimation();
+      getFriendList();
+    } else {
+      setTypingAnimationEnd(true)
+      setFadeAnimationEnd(true)
+      setFadeAnimationEnd2(true)
+      setSelectedFriend({
+        profileImg: state.img,
+        memId: state.friendId,
+        relationId: state.relationId
+      })
+      getFriendTodoData(state.friendId)
+    }
   }, []);
 
   useDebounce(

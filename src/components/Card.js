@@ -1,37 +1,60 @@
 import tempCardOpen from "../assets/images/tempCardOpen.jpg";
 import tempCardClose from "../assets/images/tempCardClose.png";
 
-export default function Card({ isOpen, title, content, sender, onClick }) {
+export default function Card({
+  isOpen,
+  title,
+  content,
+  sender,
+  cheerDo,
+  date,
+  onClick,
+  letterId,
+}) {
   return (
     <div
       className="cardContainer"
-      onClick={() => onClick(isOpen, title, content, sender)}
+      onClick={() =>
+        onClick(isOpen, title, content, sender, cheerDo, date, letterId)
+      }
     >
       <div className="cardImgDiv">
-        <img className="cardImg" src={isOpen ? tempCardOpen : tempCardClose} />
+        <img className="cardImg" src={isOpen ? tempCardOpen : tempCardClose} alt="cardImg"/>
       </div>
       <div className="cardContents">
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
             margin: "8px",
           }}
         >
           <span
             className="limitText"
-            style={{ fontSize: "22px", fontWeight: "600" }}
+            style={{ fontSize: "22px", fontWeight: "600", flex: 3 }}
           >
             {title}
           </span>
-          <span style={{ fontSize: "16px" }}>{sender}</span>
+          <span style={{ fontSize: "16px", flex: 1, textAlign: "right" }}>
+            {sender}
+          </span>
         </div>
-        <span
-          className="limitText"
-          style={{ fontSize: "16px", marginLeft: "8px" }}
+        <div
+          style={{
+            display: "flex",
+            margin: "8px",
+            alignItems: "center",
+          }}
         >
-          {isOpen ? content : "편지를 확인해야 볼 수 있습니다."}
-        </span>
+          <span
+            className="limitText"
+            style={{ fontSize: "16px", marginLeft: "8px", flex: 5 }}
+          >
+            {isOpen ? content : "편지를 열어주세요."}
+          </span>
+          <span style={{ fontSize: "8px", flex: 2, textAlign: "right" }}>
+            {`${date[0]}-${date[1]}-${date[2]}`}
+          </span>
+        </div>
       </div>
     </div>
   );

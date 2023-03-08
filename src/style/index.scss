@@ -26,45 +26,45 @@ $background-color: #fbf8f3;
     height: 80px;
     padding-top: 12px;
     margin: 0px 8px;
-    //HOME 헤더
-    .SimpleCalendar {
+  }
+  //HOME 헤더
+  .SimpleCalendar {
+    display: flex;
+    flex-direction: row;
+    width: -webkit-fill-available;
+    align-items: baseline;
+
+    & > * {
       display: flex;
-      flex-direction: row;
-      width: -webkit-fill-available;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+    }
+
+    & > :nth-child(1) {
+      font-size: 36px;
+      font-weight: 600;
+      flex: 1;
+    }
+
+    & > :nth-child(2) {
+      flex: 2;
+      justify-content: space-around;
       align-items: baseline;
 
-      & > * {
-        display: flex;
-        flex-wrap: wrap;
-        align-content: center;
-        justify-content: center;
+      & > #selectedDay {
+        background-color: $sub-color;
+        color: white;
+        font-size: 32px;
+        border-radius: 50%;
+        padding: 0px 8px;
       }
+    }
 
-      & > :nth-child(1) {
-        font-size: 36px;
-        font-weight: 600;
-        flex: 1;
-      }
-
-      & > :nth-child(2) {
-        flex: 2;
-        justify-content: space-around;
-        align-items: baseline;
-
-        & > #selectedDay {
-          background-color: $sub-color;
-          color: white;
-          font-size: 32px;
-          border-radius: 50%;
-          padding: 0px 8px;
-        }
-      }
-
-      & > :nth-child(3) {
-        font-size: 18px;
-        font-weight: 600;
-        flex: 1;
-      }
+    & > :nth-child(3) {
+      font-size: 18px;
+      font-weight: 600;
+      flex: 1;
     }
   }
   #homeContents {
@@ -77,7 +77,16 @@ $background-color: #fbf8f3;
       margin-left: 4px;
 
       .element {
+        display: flex;
         margin-left: 8px;
+        align-items: center;
+
+        & > :nth-child(3) {
+          flex: none;
+          margin-left: auto;
+          font-size: 12px;
+          color: #bbb;
+        }
       }
     }
   }
@@ -275,7 +284,7 @@ $background-color: #fbf8f3;
   border-bottom: 1px solid #777;
 }
 .profileImgDiv {
-  border-radius: 100px;
+  border-radius: 50%;
   background-color: #777;
   width: 80px;
   height: 80px;
@@ -368,13 +377,13 @@ $background-color: #fbf8f3;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    background-color: $sub-color;
+    background-color: $main-color;
     width: 80vw;
     height: 70vh;
     word-break: break-all;
     padding: 0 8px;
 
-    & > :nth-child(3) {
+    & > :nth-child(4) {
       position: absolute;
       bottom: 0;
       margin: 8px;
@@ -403,8 +412,8 @@ $background-color: #fbf8f3;
   align-items: center;
   border-radius: 10px;
   background-color: white;
-  width: 250px;
-  height: 250px;
+  width: 80vw;
+  height: 25vh;
 
   .modalMessage {
     position: fixed;
@@ -431,8 +440,12 @@ $background-color: #fbf8f3;
 }
 
 .TextButton {
+  outline: none;
+  border: none;
+  background-color: transparent;
   width: 40px;
   height: 20px;
+  text-align: center;
   color: $main-color;
   cursor: pointer;
 }
@@ -501,28 +514,29 @@ $background-color: #fbf8f3;
     align-self: flex-end;
     font-weight: 600;
   }
-  .customfieldset {
-    border: none;
-    text-align: center;
-    margin: 8px 0;
-    .none_input {
-      display: none;
-    }
-    .customRadio {
-      border: 1px solid #777;
-      padding: 4px 8px;
-      background-color: #ccc;
+}
 
-      &:active {
-        background-color: #777;
-        transition: all 0.2s;
-      }
+.customfieldset {
+  border: none;
+  text-align: center;
+  margin: 8px 0;
+  .none_input {
+    display: none;
+  }
+  .customRadio {
+    border: 1px solid #777;
+    padding: 4px 8px;
+    background-color: #ccc;
+
+    &:active {
+      background-color: $main-color;
+      transition: all 0.2s;
     }
-    .radioCheck {
-      background-color: white;
-      border: 1px solid black;
-      transition: all 0.3s;
-    }
+  }
+  .radioCheck {
+    background-color: $main-color;
+    border: 1px solid black;
+    transition: all 0.3s;
   }
 }
 
@@ -539,15 +553,15 @@ $background-color: #fbf8f3;
   background-color: white;
   display: inline-flex;
   padding: 8px 8px;
+}
 
-  .blankInput {
-    border: none;
-    background: transparent;
-    flex: 6;
-    font-family: inherit;
-    &:focus {
-      outline: none;
-    }
+.blankInput {
+  border: none;
+  background: transparent;
+  flex: 6;
+  font-family: inherit;
+  &:focus {
+    outline: none;
   }
 }
 
@@ -581,5 +595,232 @@ $background-color: #fbf8f3;
       height: 10px;
       border-radius: 50%;
     }
+  }
+}
+
+.CalendarGridDay {
+  width: inherit;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.CalendarGrid {
+  width: inherit;
+  overflow-y: scroll;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 5px;
+}
+
+.floatingButton {
+  position: absolute;
+  display: inline-block;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background-color: $sub-color;
+  bottom: 20px;
+  right: 15px;
+  text-align: center;
+}
+
+.TabHeader {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 12px 0;
+
+  .tab {
+    margin-right: 15px;
+    font-size: 18px;
+    font-weight: 700;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.4);
+    transition: all ease-in-out 0.2s;
+
+    &.select {
+      color: black;
+    }
+
+    &.select:after {
+      margin-top: 5px;
+      transition: all ease-in-out 0.5s;
+      background: none repeat scroll 0 0 $sub-color;
+      content: "";
+      display: block;
+      height: 2px;
+      width: 100%;
+    }
+  }
+  .tab:after {
+    margin-top: 5px;
+    transition: all ease-in-out 0.5s;
+    background: none repeat scroll 0 0 $sub-color;
+    content: "";
+    display: block;
+    height: 2px;
+    width: 0;
+  }
+  .tab:hover:after {
+    width: 100%;
+  }
+}
+
+.TabContent1 {
+  animation: move-tabContent-left-to-right 0.5s ease-in-out;
+}
+
+.TabContent2 {
+  animation: move-tabContent-right-to-left 0.5s ease-in-out;
+}
+
+@keyframes move-tabContent-left-to-right {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes move-tabContent-right-to-left {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.BorderBox {
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.DropDownContainer {
+  display: flex;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 35%;
+  height: 150px;
+  z-index: 10000;
+  position: fixed;
+  background-color: white;
+}
+
+.DropDownScrollDiv {
+  height: inherit;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.none-list {
+  list-style: none;
+  padding-left: 10px;
+}
+
+.loadingDiv {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.clearDiv {
+  animation: interval-fade-out 1.5s;
+}
+
+.fadeInDiv {
+  animation: interval-fade-in 2.5s;
+}
+
+@keyframes interval-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes interval-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.typewriter {
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: 0.15em; /* Adjust as needed */
+  animation: typing 2.5s steps(40, end);
+}
+
+/* The typing effect */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.profileBadge {
+  position: relative;
+  display: block;
+  border-radius: 50%;
+  background-color: #777;
+  width: 60vw;
+  height: 60vw;
+
+  .profileImg {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.underlineInput {
+  border: none;
+  background-color: transparent;
+  border-bottom: 1px solid black;
+  outline: none;
+  margin: 16px 0;
+}
+
+.ToastDiv {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  bottom: 10%;
+  right: 50%;
+  transform: translate(50%, 0);
+  border: 1px solid transparent;
+  width: 80%;
+  height: 32px;
+  border-radius: 20px;
+  background-color: lightgreen;
+  padding: 8px;
+
+  & > :nth-child(1) {
+    flex: 1;
+  }
+
+  & > :nth-child(2) {
+    flex: 6;
   }
 }

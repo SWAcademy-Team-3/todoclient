@@ -2,9 +2,12 @@ import Radio from "./Radio";
 import RadioGroup from "./RadioGroup";
 import { useState } from "react";
 
-export default function ToastPopUp({ openClass, handleToast }) {
+export default function ToastPopUp({ openClass, handleToast, open }) {
   const [periodValue, setPeriodValue] = useState("1");
   const [sortValue, setSortValue] = useState("lastest");
+  const [startDate, setStartDate] = useState(new Date());
+  const [isOpen, setIsOpen] = useState(open);
+  const [endDate, setEndDate] = useState(new Date());
 
   const handleChangePeriod = (value) => {
     setPeriodValue(value);
@@ -16,7 +19,18 @@ export default function ToastPopUp({ openClass, handleToast }) {
   return (
     <div className={`${openClass && "modalBackground"}`}>
       <div className={`${openClass} ToastPopUpContainer`}>
-        <a onClick={handleToast}>확인</a>
+        <span
+          onClick={() =>
+            handleToast(
+              periodValue,
+              sortValue,
+              isOpen,
+              periodValue === "custom" ? { startDate, endDate } : null
+            )
+          }
+        >
+          확인
+        </span>
         <RadioGroup label="조회 기간">
           <Radio
             name="period"
@@ -52,9 +66,17 @@ export default function ToastPopUp({ openClass, handleToast }) {
           </Radio>
           {periodValue === "custom" && (
             <div style={{ marginTop: "12px" }}>
-              <input type="date" />
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
               <span>~</span>
-              <input type="date" />
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
             </div>
           )}
         </RadioGroup>
@@ -74,6 +96,24 @@ export default function ToastPopUp({ openClass, handleToast }) {
             onChange={handleChangeSort}
           >
             오래된 순
+          </Radio>
+        </RadioGroup>
+        <RadioGroup label="종류">
+          <Radio
+            name="type"
+            value={true}
+            checked={isOpen}
+            onChange={() => setIsOpen(true)}
+          >
+            읽은 편지
+          </Radio>
+          <Radio
+            name="type"
+            value={false}
+            checked={!isOpen}
+            onChange={() => setIsOpen(false)}
+          >
+            안 읽은 편지
           </Radio>
         </RadioGroup>
       </div>

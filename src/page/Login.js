@@ -1,11 +1,50 @@
 import Loginform from "../components/LoginForm";
 import "../style/form.scss";
 import { useNavigate } from "react-router-dom";
+import { axios_post } from "../api/api";
+import { setCookie } from "../service/Cookie";
+import { useUser } from "../contexts/userProvider";
 
 export default function Login() {
   const navigate = useNavigate();
-  const onSubmit = () => {
+  const { changeUserData } = useUser();
+  const onSubmit = async (values) => {
     //TODO 데이터 전송 지정하기
+    const data = {
+      memberId: values.id,
+      password: values.password,
+    };
+    const response = await axios_post("login", JSON.stringify(data), "json");
+    if (response === undefined || response === "") {
+      alert("올바르지 않은 회원 정보 입니다.");
+    } else {
+      // TODO username도 넣어두기
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          memberName: response.memberName,
+          memberId: response.memberId,
+          newLetterCount: response.newLetterCount,
+          coinCount: response.coinCount,
+        })
+      );
+      setCookie(
+        "access_token",
+        response.access_token,
+        {
+          path: "/",
+          secure: true,
+        },
+        1
+      );
+      changeUserData({
+        memberName: response.memberName,
+        memberId: response.memberId,
+        newLetterCount: response.newLetterCount,
+        coinCount: response.coinCount,
+      });
+      navigate("/");
+    }
   };
   return (
     <div className="FormContainer">

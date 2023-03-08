@@ -4,13 +4,13 @@ import "../style/form.scss";
 export default function Loginform({ onSubmit }) {
   const { errors, isLoading, handleChange, handleSubmit } = useForm({
     initialState: {
-      name: "",
+      id: "",
       password: "",
     },
     onSubmit,
-    validate: ({ name, password }) => {
+    validate: ({ id, password }) => {
       const newErrors = {};
-      if (!name) newErrors.name = "이름을 입력해주세요";
+      if (!id) newErrors.id = "아이디를 입력해주세요";
       if (!password) newErrors.password = "비밀번호를 입력해주세요";
       return newErrors;
     },
@@ -21,12 +21,12 @@ export default function Loginform({ onSubmit }) {
       <h1 className="title">Login</h1>
       <input
         type="text"
-        name="name"
-        placeholder="name"
+        name="id"
+        placeholder="id"
         onChange={handleChange}
         className="FormInput"
       />
-      {errors.name && <span className="ErrorText">{errors.name}</span>}
+      {errors.id && <span className="ErrorText">{errors.id}</span>}
       <input
         type="password"
         name="password"

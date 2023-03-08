@@ -1,3 +1,7 @@
+$main-color: #e5a8a6;
+$sub-color: #bb254a;
+$background-color: #fbf8f3;
+
 .FormContainer {
   margin: auto 0;
 }
@@ -5,20 +9,20 @@
 .submitButton {
   display: block;
   height: 32px;
-  background-color: black;
+  background-color: $sub-color;
   color: white;
   border: none;
   outline: none;
   border-radius: 4px;
   box-sizing: border-box;
   padding: 8px 6px;
-  width: 95%;
+  width: 85%;
   margin: 0 auto;
   cursor: pointer;
   margin-top: 16px;
 
   &:hover {
-    background-color: #111;
+    background-color: $sub-color;
   }
 
   &:active {
@@ -38,8 +42,20 @@
 
 .Cardform {
   width: 90%;
-  //box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
   margin: 0 auto;
+}
+
+.FormDiv {
+  display: flex;
+  align-items: center;
+
+  & > :nth-child(1) {
+    flex: 0.5;
+  }
+
+  & > :nth-child(2) {
+    flex: 2;
+  }
 }
 
 .FormInput {
@@ -50,7 +66,7 @@
   border-radius: 4px;
   border: 2px solid #333;
   display: block;
-  width: 90%;
+  width: 80%;
   margin: 8px auto;
 }
 

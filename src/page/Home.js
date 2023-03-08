@@ -16,6 +16,7 @@ import { useDate } from "../contexts/dateProvider";
 import useDebounce from "../hooks/useDebounce";
 import useLoading from "../hooks/useLoading";
 import Modal from "../components/Modal";
+import { getCookie } from "../service/Cookie";
 
 export default function Home() {
   let navigate = useNavigate();
@@ -129,9 +130,9 @@ export default function Home() {
     };
     let res1 = await axios_get("todo", data);
     let res2 = await axios_get("habit", { ...data, type: "HABIT" });
-    if (res1.error !== undefined || res2.error !== undefined) {
+    if (res1 === "" || res2.error === "") {
       // TODO 불러오기 실패시 오류 처리
-      console.error(res1.message);
+      window.location.reload();
     } else {
       setTodos(res1);
       setHabits(res2);
@@ -141,7 +142,9 @@ export default function Home() {
   useEffect(() => {
     // TODO access TOKEN 확인해서 만료시 로그인으로 갈 수 있도록 수정
     // login check 통신 시 401라면 로그인화면으로 갈 수 있도록 변경
-    if (user === null) {
+    if (getCookie("access_token") === undefined) {
+      console.log(user.memberId);
+      console.log(getCookie("access_token"));
       //TODO 알림 후 로그인으로 갈 수 있게 수정
       navigate("/login");
     }

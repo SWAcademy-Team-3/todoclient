@@ -10,7 +10,7 @@ import { useUser } from "../contexts/userProvider";
 import { removeCookie } from "../service/Cookie";
 //지울 것
 import basicImage from "../assets/images/basic_profile.jpeg";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { axios_get } from "../api/api";
 
 export default function My() {
@@ -39,7 +39,7 @@ export default function My() {
     navigate("/login");
   };
 
-  const getUserData = async () => {
+  const getUserData = useCallback(async () => {
     const response = await axios_get("myInfo", {
       memberId: user.memberId,
     });
@@ -48,12 +48,12 @@ export default function My() {
     setReceivePost(response.receivePostCount);
     setSendPost(response.sendPostCount);
     response.image && setProfileImg(`data:image/;base64,${response.image}`);
-  };
+  }, [user.memberId]) 
 
   useEffect(() => {
     //TODO user 정보를 토대로 bio, 주고받은 편지 등 정보 받아오기
     getUserData();
-  }, []);
+  }, [getUserData]);
   return (
     <div className="marginDiv">
       <Header left={user.memberName} right={coinChip} />

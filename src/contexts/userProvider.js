@@ -20,7 +20,7 @@ const UserProvider = ({ children }) => {
 
   const changeUserData = useCallback((value) => {
     setUser(value);
-  });
+  }, []);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("userData")));

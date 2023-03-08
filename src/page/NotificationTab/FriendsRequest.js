@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 import Modal from "../../components/Modal";
@@ -26,7 +26,7 @@ export default function FriendsRequest({ activeTab }) {
     setOpenModal(false);
   };
 
-  const getRequestData = async () => {
+  const getRequestData = useCallback(async () => {
     try {
       const response = await axios.get(
         `http://49.50.163.197:8080/api/member/friend/requests/${user.memberId}/receive`,
@@ -39,11 +39,11 @@ export default function FriendsRequest({ activeTab }) {
     } catch (e) {
       console.error(e);
     }
-  };
+  }, [user.memberId]) 
 
   useEffect(() => {
     getRequestData();
-  }, []);
+  }, [getRequestData]);
 
   const handleButton = (value, id) => {
     setRelationId(id);

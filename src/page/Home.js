@@ -57,7 +57,6 @@ export default function Home() {
         startDate: time.startDate,
         endDate: time.endDate,
       };
-      console.log(data);
       await axios_post("habit", data, "json", true);
       getData();
     }
@@ -146,7 +145,7 @@ export default function Home() {
       //TODO 알림 후 로그인으로 갈 수 있게 수정
       navigate("/login");
     }
-  }, []);
+  }, [navigate, user]);
   // 날짜 변경후 0.3초 뒤에 데이터를 불러오는 동작
   useDebounce(
     () => {
@@ -180,7 +179,11 @@ export default function Home() {
       )}
       {loading && loadingComponent()}
       {openModal && (
-        <Modal type="check" handleModalClick={handleHabitDelete}>
+        <Modal
+          type="check"
+          handleModalClick={handleHabitDelete}
+          banClickAway={true}
+        >
           <span>습관을 삭제하시겠습니까?</span>
           <br />
           <span style={{ color: "red" }}>

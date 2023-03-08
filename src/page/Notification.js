@@ -39,11 +39,13 @@ export default function Notification() {
           편지 요청 목록
         </button>
       </div>
-      {activeTab === 0 ? (
-        <FriendsRequest activeTab={activeTab} />
-      ) : (
-        <PostRequest activeTab={activeTab} />
-      )}
+      <div style={{ overflow: "scroll", maxHeight: "calc(100vh - 140px)" }}>
+        {activeTab === 0 ? (
+          <FriendsRequest activeTab={activeTab} />
+        ) : (
+          <PostRequest activeTab={activeTab} />
+        )}
+      </div>
     </div>
   );
 }

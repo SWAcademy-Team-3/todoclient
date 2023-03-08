@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import PostClose from "./PostComponents/PostClose";
 import PostOpen from "./PostComponents/PostOpen";
 import Chip from "../components/Chip";
@@ -19,10 +19,17 @@ export default function Post() {
   const { user } = useUser();
 
   const handlePostClick = () => {
-    if (!open) {
-      setOpen(!open);
+    if (open === false) {
+      setOpen(true);
       setTimeout(() => {
-        setModalOpen(!modalOpen);
+        // unread가 있으면 unread의 recevie로 이동
+        if (unreadPostCount === 0) {
+          setModalOpen(true);
+        } else {
+          navigate("/receive", {
+            state: 1,
+          });
+        }
       }, 300);
     } else {
       setOpen(false);
@@ -38,7 +45,7 @@ export default function Post() {
     navigate("/receive");
   };
 
-  const getUnreadPost = async () => {
+  const getUnreadPost = useCallback(async () => {
     const data = {
       startDate: null,
       endDate: null,
@@ -48,11 +55,11 @@ export default function Post() {
     };
     const response = await axios_get("post", data, "json", true);
     setUnreadPostCount(response.length);
-  };
+  }, [user.memberId]) 
 
   useEffect(() => {
     getUnreadPost();
-  }, []);
+  }, [getUnreadPost]);
 
   return (
     <>
@@ -77,7 +84,9 @@ export default function Post() {
           </span>
         </Modal>
       ) : null}
-      <div className="floatingButton" onClick={() => navigate("/find")}>
+      <div className="floatingButton" onClick={() => navigate("/find", {
+        state: null
+      })}>
         <EditIcon sx={{ fontSize: 40, marginTop: "18px" }} />
       </div>
     </>

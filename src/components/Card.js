@@ -19,7 +19,7 @@ export default function Card({
       }
     >
       <div className="cardImgDiv">
-        <img className="cardImg" src={isOpen ? tempCardOpen : tempCardClose} />
+        <img className="cardImg" src={isOpen ? tempCardOpen : tempCardClose} alt="cardImg"/>
       </div>
       <div className="cardContents">
         <div

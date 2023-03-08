@@ -1,12 +1,12 @@
 import Radio from "./Radio";
 import RadioGroup from "./RadioGroup";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
-export default function ToastPopUp({ openClass, handleToast }) {
+export default function ToastPopUp({ openClass, handleToast, open }) {
   const [periodValue, setPeriodValue] = useState("1");
   const [sortValue, setSortValue] = useState("lastest");
   const [startDate, setStartDate] = useState(new Date());
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(open);
   const [endDate, setEndDate] = useState(new Date());
 
   const handleChangePeriod = (value) => {
@@ -19,7 +19,7 @@ export default function ToastPopUp({ openClass, handleToast }) {
   return (
     <div className={`${openClass && "modalBackground"}`}>
       <div className={`${openClass} ToastPopUpContainer`}>
-        <a
+        <span
           onClick={() =>
             handleToast(
               periodValue,
@@ -30,7 +30,7 @@ export default function ToastPopUp({ openClass, handleToast }) {
           }
         >
           확인
-        </a>
+        </span>
         <RadioGroup label="조회 기간">
           <Radio
             name="period"

@@ -9,7 +9,7 @@ const DateProvider = ({ children }) => {
 
   const changeDate = useCallback((value) => {
     setDate(new Date(value));
-  });
+  }, []);
 
   const DateToStringFormat = (date) => {
     const year = date.getFullYear();

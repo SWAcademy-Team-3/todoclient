@@ -3,7 +3,7 @@ import Badge from "../components/Badge";
 import AddIcon from "@mui/icons-material/Add";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import FriendsToggle from "./FriendsComponents/FriendsToggle";
@@ -22,7 +22,8 @@ export default function Friends() {
   const [relationId, setRelationId] = useState();
   const [toastMessage, setToastMessage] = useState("");
   const [openToast, setOpenToast] = useState(false);
-  const [toastClose, _] = useTimeout(() => {
+  const [hasAlram, setHasAlram] = useState(false);
+  const [toastClose, ] = useTimeout(() => {
     setOpenToast(false);
   }, 2000);
   const handleModalClick = async (type) => {
@@ -76,7 +77,7 @@ export default function Friends() {
   };
   let navigate = useNavigate();
 
-  const getFriendList = async () => {
+  const getFriendList = useCallback(async () => {
     try {
       const response = await axios.get(
         `http://49.50.163.197:8080/api/member/friend/list/${user.memberId}`,
@@ -88,16 +89,31 @@ export default function Friends() {
     } catch (e) {
       console.error(e);
     }
-  };
+  }, [user.memberId]) 
+
+  const getNotificationInfo = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        `http://49.50.163.197:8080/api/member/friend/requests/${user.memberId}/receive`,
+        {
+          memberId: user.memberId,
+        }
+      );
+      response.data.length !== 0 && setHasAlram(true) 
+    } catch (e) {
+      console.error(e)
+    }
+  }, [user.memberId]) 
 
   useEffect(() => {
     getFriendList();
-  }, []);
+    getNotificationInfo()
+  }, [getFriendList, getNotificationInfo]);
 
   const HeaderLeft = <span>나의 친구</span>;
   const HeaderRight = (
     <>
-      <Badge count={2} maxCount={3} onClick={() => navigate("/notification")}>
+      <Badge hasAlram={hasAlram} onClick={() => navigate("/notification")}>
         <NotificationsIcon />
       </Badge>
       <AddIcon onClick={() => navigate("/addFriends")} />
@@ -108,12 +124,13 @@ export default function Friends() {
       <Header left={HeaderLeft} right={HeaderRight} isHr={true} />
       <div id="friendsContents">
         {friendsList.length === 0 ? (
-          <span>아직은 친구가 없어요, 친구를 찾아보세요!</span>
+          <span style={{ marginTop: "8px"}}>아직은 친구가 없어요, 친구를 찾아보세요!</span>
         ) : (
           friendsList.map((friend) => (
             <FriendsToggle
               key={friend.memberId}
               user={friend.name}
+              memberId={friend.memberId}
               relationId={friend.relationId}
               handleModal={handleModal}
             />

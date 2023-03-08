@@ -1,13 +1,15 @@
 import "../../style/index.scss";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import FlatButton from "../../components/FlatButton";
 import ProfileDetail from "../../components/PorfileDetail";
 import { axios_get } from "../../api/api";
 
 import basicProfile from "../../assets/images/basic_profile.jpeg";
+import { useNavigate } from "react-router-dom";
 
-export default function FriendsToggle({ user, handleModal, relationId }) {
+export default function FriendsToggle({ user, handleModal, memberId, relationId }) {
+  let navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [info, setInfo] = useState({
     sendPost: 0,
@@ -26,7 +28,7 @@ export default function FriendsToggle({ user, handleModal, relationId }) {
     }
   };
 
-  const getFriendsDetail = async () => {
+  const getFriendsDetail = useCallback(async () => {
     const response = await axios_get("friendInfo", {
       relationId,
     });
@@ -40,11 +42,21 @@ export default function FriendsToggle({ user, handleModal, relationId }) {
           ? basicProfile
           : `data:image/;base64,${response.image}`,
     });
-  };
+  }, [relationId]) 
+
+  const moveWrite = () => {
+    navigate('/find', {
+      state: {
+        relationId,
+        friendId : memberId,
+        img: info.img
+      }
+    })
+  }
 
   useEffect(() => {
     getFriendsDetail();
-  }, []);
+  }, [getFriendsDetail]);
 
   return (
     <>
@@ -68,6 +80,7 @@ export default function FriendsToggle({ user, handleModal, relationId }) {
             name="편지 쓰기"
             style={{ borderRadius: "12px" }}
             color="#bb254a"
+            onClick={moveWrite}
           />
         </div>
         <button

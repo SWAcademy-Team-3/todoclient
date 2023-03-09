@@ -3,11 +3,13 @@ import SignUpForm from "../components/SignUpForm";
 import "../style/form.scss";
 import { useNavigate } from "react-router-dom";
 import Modal from "../components/Modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useSlideBack from "../hooks/useSlideBack";
 
 export default function Register() {
   const [openModal, setOpenModal] = useState(false);
   const [message, setMessage] = useState("");
+  const [startX, setStartX] = useState(0);
   const navigate = useNavigate();
 
   const handleModalClick = () => {
@@ -37,6 +39,20 @@ export default function Register() {
       setOpenModal(true);
     }
   };
+
+  useSlideBack("touchmove", startX, () => {
+    navigate(-1);
+  });
+  useEffect(() => {
+    const handleTouchStart = (e) => {
+      setStartX(e.targetTouches[0].screenX);
+    };
+    window.addEventListener("touchstart", (e) => handleTouchStart(e));
+    return () => {
+      window.removeEventListener("touchstart", (e) => handleTouchStart(e));
+    };
+  }, [startX]);
+
   return (
     <div className="FormContainer">
       <SignUpForm onSubmit={onSubmit} />

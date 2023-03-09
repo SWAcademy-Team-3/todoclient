@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getCookie } from "../service/Cookie";
 
-const END_POINT = "http://49.50.163.197:8080";
+const END_POINT = "https://49.50.163.197:8080";
 // const END_POINT = "http://10.188.191.201:8088";
 const subUrl = {
   login: "/api/login",
@@ -24,10 +24,8 @@ const contentType = {
   form: "multipart/form-data",
 };
 
-const token = getCookie("access_token");
-
 export const axios_get = async (url, params) => {
-  // TODO 로그인 후에 데이터를 잘 못불러오는 버그가 있음
+  const token = getCookie("access_token");
   axios.defaults.headers.get["Authorization"] = `Bearer ${token}`;
   try {
     const response = await axios.get(`${END_POINT}${subUrl[url]}`, {
@@ -45,6 +43,7 @@ export const axios_get = async (url, params) => {
 };
 
 export const axios_post = async (url, sendData, type = "json", auth) => {
+  const token = getCookie("access_token");
   const headers = auth
     ? {
         Authorization: `Bearer ${token}`,
@@ -69,6 +68,8 @@ export const axios_post = async (url, sendData, type = "json", auth) => {
 };
 
 export const axios_put = async (url, params, sendData = null) => {
+
+const token = getCookie("access_token");
   axios.defaults.headers.put["Authorization"] = `Bearer ${token}`;
   try {
     const response = await axios.put(`${END_POINT}${subUrl[url]}`, sendData, {
@@ -86,6 +87,7 @@ export const axios_put = async (url, params, sendData = null) => {
 };
 
 export const axios_delete = async (url, params) => {
+  const token = getCookie("access_token");
   axios.defaults.headers.delete["Authorization"] = `Bearer ${token}`;
   try {
     const response = await axios.delete(`${END_POINT}${subUrl[url]}`, {

@@ -7,10 +7,13 @@ import FlatButton from "../components/FlatButton";
 import ColumnText from "../components/ColumnText";
 import Modal from "../components/Modal";
 import { axios_post } from "../api/api";
+import { useUser } from "../contexts/userProvider";
 
 const EditProfile = () => {
   let navigate = useNavigate();
   const { state } = useLocation();
+  const { user, changeUserData } = useUser();
+
   const [startX, setStartX] = useState(0);
   const [name, setName] = useState(state.name);
   const [bio, setBio] = useState(state.bio);
@@ -67,8 +70,8 @@ const EditProfile = () => {
             updateName: name,
             uploadImage: uploadImg,
           };
-          console.log(data);
           await axios_post("info", data, "form", true);
+          changeUserData({...user, memberName: name})
           setModalText("프로필 업데이트에 성공하였습니다.");
           flag = true;
         } catch (e) {

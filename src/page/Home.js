@@ -23,6 +23,7 @@ export default function Home() {
   const [todos, setTodos] = useState([]);
   const [habits, setHabits] = useState([]);
   const [habitId, setHabitId] = useState(0);
+  const [errorCount, setErrorCount] = useState(0);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openTimePicker, setOpenTimePicker] = useState(false);
   const { user } = useUser();
@@ -123,16 +124,18 @@ export default function Home() {
     const data = {
       searchDate: DateToStringFormat(date),
       type: "TODO",
-      memberId:
-        user.memberId === null
-          ? JSON.parse(localStorage.getItem("userData")).memberId
-          : user.memberId,
+      memberId: user.memberId
     };
     let res1 = await axios_get("todo", data);
     let res2 = await axios_get("habit", { ...data, type: "HABIT" });
-    if (res1 === "" || res2.error === "") {
+    if (res1 === "" || res2 === "") {
       // TODO 불러오기 실패시 오류 처리
-      window.location.reload();
+      console.error("데이터 요청 실패")
+      if (errorCount > 3) {
+        navigate("/login")
+      }
+      setErrorCount(errorCount+1)
+      getData();
     } else {
       setTodos(res1);
       setHabits(res2);
@@ -143,8 +146,6 @@ export default function Home() {
     // TODO access TOKEN 확인해서 만료시 로그인으로 갈 수 있도록 수정
     // login check 통신 시 401라면 로그인화면으로 갈 수 있도록 변경
     if (getCookie("access_token") === undefined) {
-      console.log(user.memberId);
-      console.log(getCookie("access_token"));
       //TODO 알림 후 로그인으로 갈 수 있게 수정
       navigate("/login");
     }

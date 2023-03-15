@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getCookie } from "../service/Cookie";
 
-const END_POINT = "https://49.50.163.197:8080";
+const END_POINT = "https://www.cheerdo.o-r.kr";
 // const END_POINT = "http://10.188.191.201:8088";
 const subUrl = {
   login: "/api/login",

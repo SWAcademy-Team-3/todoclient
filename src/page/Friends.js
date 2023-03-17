@@ -23,7 +23,7 @@ export default function Friends() {
   const [toastMessage, setToastMessage] = useState("");
   const [openToast, setOpenToast] = useState(false);
   const [hasAlram, setHasAlram] = useState(false);
-  const [toastClose, ] = useTimeout(() => {
+  const [toastClose] = useTimeout(() => {
     setOpenToast(false);
   }, 2000);
   const handleModalClick = async (type) => {
@@ -53,7 +53,7 @@ export default function Friends() {
             "access_token"
           )}`;
           await axios.delete(
-            `http://49.50.163.197:8080/api/member/friend/relation/${relationId}`,
+            `https://www.cheerdo.o-r.kr/api/member/friend/relation/${relationId}`,
             {
               relationId,
             }
@@ -80,7 +80,7 @@ export default function Friends() {
   const getFriendList = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://49.50.163.197:8080/api/member/friend/list/${user.memberId}`,
+        `https://www.cheerdo.o-r.kr/api/member/friend/list/${user.memberId}`,
         {
           memberId: user.memberId,
         }
@@ -89,25 +89,25 @@ export default function Friends() {
     } catch (e) {
       console.error(e);
     }
-  }, [user.memberId]) 
+  }, [user.memberId]);
 
   const getNotificationInfo = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://49.50.163.197:8080/api/member/friend/requests/${user.memberId}/receive`,
+        `https://www.cheerdo.o-r.kr/api/member/friend/requests/${user.memberId}/receive`,
         {
           memberId: user.memberId,
         }
       );
-      response.data.length !== 0 && setHasAlram(true) 
+      response.data.length !== 0 && setHasAlram(true);
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
-  }, [user.memberId]) 
+  }, [user.memberId]);
 
   useEffect(() => {
     getFriendList();
-    getNotificationInfo()
+    getNotificationInfo();
   }, [getFriendList, getNotificationInfo]);
 
   const HeaderLeft = <span>나의 친구</span>;
@@ -124,7 +124,9 @@ export default function Friends() {
       <Header left={HeaderLeft} right={HeaderRight} isHr={true} />
       <div id="friendsContents">
         {friendsList.length === 0 ? (
-          <span style={{ marginTop: "8px"}}>아직은 친구가 없어요, 친구를 찾아보세요!</span>
+          <span style={{ marginTop: "8px" }}>
+            아직은 친구가 없어요, 친구를 찾아보세요!
+          </span>
         ) : (
           friendsList.map((friend) => (
             <FriendsToggle

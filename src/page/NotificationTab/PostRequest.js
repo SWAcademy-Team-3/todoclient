@@ -15,7 +15,7 @@ export default function PostRequest({ activeTab }) {
       state: {
         relationId,
         friendId,
-        img
+        img,
       },
     });
   };
@@ -23,7 +23,7 @@ export default function PostRequest({ activeTab }) {
   const getPostRequestData = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://49.50.163.197:8080/api/member/friend/post-requests/${user.memberId}/receive`,
+        `https://www.cheerdo.o-r.kr/api/member/friend/post-requests/${user.memberId}/receive`,
         {
           memberId: user.memberId,
         }
@@ -32,7 +32,7 @@ export default function PostRequest({ activeTab }) {
     } catch (e) {
       console.error(e);
     }
-  }, [user.memberId]) 
+  }, [user.memberId]);
 
   useEffect(() => {
     getPostRequestData();
@@ -46,9 +46,15 @@ export default function PostRequest({ activeTab }) {
         data.map((req) => (
           <div
             key={req.sendDateTime.join("")}
-            onClick={() => handleGoWrite(req.relationId, req.friendId, req.memberImage === null
-              ? basicImage
-              : `data:image/;base64,${req.memberImage}`)}
+            onClick={() =>
+              handleGoWrite(
+                req.relationId,
+                req.friendId,
+                req.memberImage === null
+                  ? basicImage
+                  : `data:image/;base64,${req.memberImage}`
+              )
+            }
           >
             <div
               style={{

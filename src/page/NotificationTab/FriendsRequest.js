@@ -29,7 +29,7 @@ export default function FriendsRequest({ activeTab }) {
   const getRequestData = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://49.50.163.197:8080/api/member/friend/requests/${user.memberId}/receive`,
+        `https://www.cheerdo.o-r.kr/api/member/friend/requests/${user.memberId}/receive`,
         {
           memberId: user.memberId,
         }
@@ -39,7 +39,7 @@ export default function FriendsRequest({ activeTab }) {
     } catch (e) {
       console.error(e);
     }
-  }, [user.memberId]) 
+  }, [user.memberId]);
 
   useEffect(() => {
     getRequestData();

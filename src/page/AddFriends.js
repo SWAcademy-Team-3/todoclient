@@ -27,7 +27,7 @@ export default function AddFriends() {
   let navigate = useNavigate();
   const inputRef = useRef(null);
 
-  const [toastClose, ] = useTimeout(() => {
+  const [toastClose] = useTimeout(() => {
     setOpenToast(false);
   }, 2000);
 
@@ -60,7 +60,7 @@ export default function AddFriends() {
   const handleSearchFriends = async () => {
     try {
       const response = await axios.get(
-        `http://49.50.163.197:8080/api/member/friend/search/${searchText}`,
+        `https://www.cheerdo.o-r.kr/api/member/friend/search/${searchText}`,
         {
           searchStr: searchText,
         }

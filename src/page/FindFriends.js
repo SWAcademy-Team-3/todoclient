@@ -38,13 +38,13 @@ export default function FindFriends() {
   const [startX, setStartX] = useState(0);
   const [searchText, setSearchText] = useState("");
   const inputRef = useRef();
-  const [typingAnimation, ] = useTimeout(() => {
+  const [typingAnimation] = useTimeout(() => {
     setTypingAnimationEnd(true);
   }, 3000);
-  const [fadeAnimation, ] = useTimeout(() => {
+  const [fadeAnimation] = useTimeout(() => {
     setFadeAnimationEnd(true);
   }, 4400);
-  const [fadeAnimation2, ] = useTimeout(() => {
+  const [fadeAnimation2] = useTimeout(() => {
     setFadeAnimationEnd2(true);
   }, 1000);
 
@@ -55,7 +55,7 @@ export default function FindFriends() {
   const handleAnimation = useCallback(() => {
     typingAnimation();
     fadeAnimation();
-  }, [typingAnimation, fadeAnimation]) 
+  }, [typingAnimation, fadeAnimation]);
 
   const handleTextInput = (e) => {
     setSearchText(e.target.value);
@@ -85,25 +85,28 @@ export default function FindFriends() {
     });
   };
 
-  const getFriendTodoData = useCallback(async (memberId) => {
-    const todoResponse = await axios_get("todo", {
-      memberId,
-      searchDate: DateToStringFormat(date),
-      type: "TODO",
-    });
-    const HabitResponse = await axios_get("habit", {
-      memberId,
-      searchDate: DateToStringFormat(date),
-      type: "HABIT",
-    });
-    setFriendTodo(todoResponse);
-    setFriendHabit(HabitResponse);
-  }, [DateToStringFormat, date]) 
+  const getFriendTodoData = useCallback(
+    async (memberId) => {
+      const todoResponse = await axios_get("todo", {
+        memberId,
+        searchDate: DateToStringFormat(date),
+        type: "TODO",
+      });
+      const HabitResponse = await axios_get("habit", {
+        memberId,
+        searchDate: DateToStringFormat(date),
+        type: "HABIT",
+      });
+      setFriendTodo(todoResponse);
+      setFriendHabit(HabitResponse);
+    },
+    [DateToStringFormat, date]
+  );
 
   const getFriendList = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://49.50.163.197:8080/api/member/friend/list/${user.memberId}`,
+        `https://www.cheerdo.o-r.kr/api/member/friend/list/${user.memberId}`,
         {
           memberId: user.memberId,
         }
@@ -128,7 +131,7 @@ export default function FindFriends() {
     } catch (e) {
       console.error(e);
     }
-  }, [user.memberId]) 
+  }, [user.memberId]);
 
   useEffect(() => {
     const handleTouchStart = (e) => {
@@ -145,15 +148,15 @@ export default function FindFriends() {
       handleAnimation();
       getFriendList();
     } else {
-      setTypingAnimationEnd(true)
-      setFadeAnimationEnd(true)
-      setFadeAnimationEnd2(true)
+      setTypingAnimationEnd(true);
+      setFadeAnimationEnd(true);
+      setFadeAnimationEnd2(true);
       setSelectedFriend({
         profileImg: state.img,
         memId: state.friendId,
-        relationId: state.relationId
-      })
-      getFriendTodoData(state.friendId)
+        relationId: state.relationId,
+      });
+      getFriendTodoData(state.friendId);
     }
   }, [getFriendList, getFriendTodoData, handleAnimation, state]);
 
